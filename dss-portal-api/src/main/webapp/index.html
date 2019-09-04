@@ -1,0 +1,243 @@
+<!--
+  ~ Copyright 2019 Infosys Ltd.
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+-->
+<!DOCTYPE html>
+<html lang="en" ng-app="PortalApp">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>Portal</title>
+<!-- Bootstrap core CSS-->
+<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- Custom fonts for this template-->
+<link href="vendor/font-awesome/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css">
+<!-- Custom styles for this template-->
+<link href="css/sb-admin.css" rel="stylesheet">
+
+<link href="fonts/css/font-awesome.min.css" rel="stylesheet">
+<link href="css/animate.min.css" rel="stylesheet">
+
+<link href="fonts/css/font-awesome.min.css" rel="stylesheet">
+<link href="css/animate.min.css" rel="stylesheet">
+<link href="css/ngDialog-theme-default.css" rel="stylesheet">
+<link href="css/ngDialog.css" rel="stylesheet">
+<link href="css/ngDialog.min.css" rel="stylesheet">
+<link href="css/ngDialog-theme-success.css" rel="stylesheet">
+<link href="css/ngDialog-theme-error.css" rel="stylesheet">
+</head>
+
+<body class="fixed-nav sticky-footer bg-dark" id="page-top"
+	ng-controller="PortalCtrl">
+	<!-- Navigation-->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
+		id="mainNav"
+		style="line-height: 14px; background: #2c3f52 !important;">
+		<a class="navbar-brand"
+			style="font-size: 25px; color: white; font-weight: bold"><img
+			src="img/tmp1.png" alt=".."> {{portalName}}</a>
+		<button class="navbar-toggler navbar-toggler-right" type="button"
+			data-toggle="collapse" data-target="#navbarResponsive"
+			aria-controls="navbarResponsive" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarResponsive">
+			<ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+
+				<li class="nav-item" data-toggle="tooltip" data-placement="right"
+					title="Components" ng-repeat="dashboard in existingDashboards"
+					style="line-height: 20px;"><a id="dashboardToggle"
+					class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
+					ng-click="dashboardClick(dashboard.dashboardId,dashboard.strDashboardlName)"
+					href="#{{dashboard.dashboardId}}" data-parent="#exampleAccordion"
+					style="font-size: 15px; font-weight: bold;"> <!-- <i class="fa fa-fw fa-dashboard"></i> -->
+						<span class="nav-link-text">{{dashboard.strDashboardlName}}</span>
+				</a>
+					<ul class="sidenav-second-level collapse"
+						id="{{dashboard.dashboardId}}"
+						style="font-size: 13px; font-weight: bold;">
+						<li ng-repeat="category in existingCategoriesList"
+							ng-init="categoryIndex = $index"
+							style="padding-left: 40px; color: rgb(31, 29, 29);">{{category.strCategoryName}}
+							<ul ng-if="category.kpis" style="padding-left: 30px;">
+								<li ng-repeat="kpi in category.kpis" ng-init="kpiIndex = $index">{{
+									kpi.strKpiName }}
+									<ul ng-if="kpi.visualizations" style="padding-left: 20px;">
+										<li class=""
+											ng-class="{selectedVisual : activeMenu === visualization}"
+											ng-repeat="visualization in kpi.visualizations"
+											style="padding-right: 50px;">
+											{{visualization.strVisualizeName}} <input id="checkbox"
+											type="checkbox" ng-click="viewVisualization(visualization)"
+											ng-model="visualization.selected">
+										</li>
+										<!-- <button id="viewBtn" type="button" class="btn btn-info btn-simple btn-xs" ng-click = "viewVisualization(visualization)">
+                                                    view</button> -->
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul></li>
+
+			</ul>
+			<ul class="navbar-nav sidenav-toggler">
+				<li class="nav-item"><a class="nav-link text-center"
+					id="sidenavToggler"> <i class="fa fa-fw fa-angle-left"></i>
+				</a></li>
+			</ul>
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle mr-lg-2" id="alertsDropdown"
+					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="fa fa-id-badge"></i> {{selectedRole}}</a> 
+					<div class="dropdown-menu" aria-labelledby="alertsDropdown"
+						style="right: 0; left: auto;">
+						<a class="dropdown-item" data-toggle="modal" data-target="#logoutModal"> <span class="text-danger"> <strong> 
+						<i class="fa fa-fw fa-sign-out"></i> Logout</strong> </span></a>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<div class="content-wrapper"
+		style="padding-top: 5px; background: #d8d9da;">
+		<div class="container-fluid"
+			style="padding-left: 5px; padding-right: 5px;">
+			<!-- Breadcrumbs-->
+			<ol class="breadcrumb"
+				style="padding: 0px; background: none; margin-bottom: 1px; line-height: 0px;">
+				<li id="dashboardName" class="breadcrumb-item active"><i
+					class="fa fa-fw fa-dashboard" style="font-size: 20px;"></i>
+					{{dashboardName}}</li>
+			</ol>
+			<!-- Area Chart Example-->
+			<div id="resizemove" class="card mb-3"
+				ng-repeat="vis in visualizationDisplayList"
+				style="margin-bottom: 0px !important;">
+				<div id="visualHeader" class="card-header">
+					<i class="fa fa-area-chart"></i> {{vis.name}}
+				</div>
+				<div class="card-body" style="padding: 0px; padding-bottom: 5px;">
+					<div id="myAreaChart" width="100%" height="40">
+						<div class="embed-responsive embed-responsive-16by9"
+							style="height: 100%">
+							<iframe width="100%" height="100%" ng-src="{{trustSrc(vis.url)}}"fullscreen;>
+								<p>Your browser does not support iframes.</p>
+							</iframe>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /.container-fluid-->
+		<!-- /.content-wrapper-->
+		<footer class="sticky-footer">
+			<div class="container">
+				<div class="text-center">
+					<small>Copyright © 2017</small>
+				</div>
+			</div>
+		</footer>
+		<!-- Scroll to Top Button-->
+		<a class="scroll-to-top rounded" href="#page-top"> <i
+			class="fa fa-angle-up"></i>
+		</a>
+		<!-- Logout Modal-->
+		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header" style="padding: 5px 15px;">
+						<h5 class="modal-title" id="exampleModalLabel">Ready to
+							Leave?</h5>
+						<button class="close" type="button" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">Select "Logout" below if you are
+						ready to end your current session.</div>
+					<div class="modal-footer" style="padding: 5px 15px;">
+						<button class="btn btn-secondary btn-sm" type="button"
+							data-dismiss="modal">Cancel</button>
+						<button class="btn btn-primary btn-sm" ng-click="logout()">Logout</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Bootstrap core JavaScript-->
+		<script src="vendor/jquery/jquery.min.js"></script>
+		<script src="vendor/popper/popper.min.js"></script>
+		<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+		<!-- Core plugin JavaScript-->
+		<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+		<!-- Page level plugin JavaScript-->
+		<script src="vendor/chart.js/Chart.min.js"></script>
+		<!-- Custom scripts for all pages-->
+		<script src="js/sb-admin.min.js"></script>
+		<!-- Custom scripts for this page-->
+		<script src="js/sb-admin-charts.min.js"></script>
+
+		<script src="js/progressbar/bootstrap-progressbar.min.js"></script>
+		<script src="js/nicescroll/jquery.nicescroll.min.js"></script>
+		<!-- icheck -->
+		<script src="js/icheck/icheck.min.js"></script>
+
+		<script src="js/custom.js"></script>
+
+		
+
+		<!-- pace -->
+		<script src="js/pace/pace.min.js"></script>
+
+		<script src="js/angular.js"></script>
+		<script src="js/angular-route.js"></script>
+		<script src="js/angular-animate.js"></script>
+		<script src="js/angular-sanitize.js"></script>
+		<script src="js/ui-grid.js"></script>
+		<script src="js/ngDialog.min.js"></script>
+		<script src="js/ngDialog.js"></script>
+
+		<script src="js/bootstrap-select.min.js"></script>
+		<script src="js/select.js"></script>
+		<script src="js/ui-bootstrap-tpls-0.14.3.js"></script>
+
+		<!-- Modules/Controllers/Services JS Files -->
+		<script src="app/app.js"></script>
+		<script src="app/app-config.js"></script>
+		<script src="app/ui-properties.js"></script>
+
+		<script src="app/controllers/main.js"></script>
+		<script src="app/controllers/portal.js"></script>
+		<script src="app/factory/main-factory.js"></script>
+		<script src="app/services/main-service.js"></script>
+		<!-- Template for confirm dialog box for login -->
+		<script type="text/ng-template" id="modalDialogLogin">
+		<div class="ngdialog-message">
+			<p>You are not logged in. Click <a ng-click="confirm(true)" style="color: #1983f5;cursor: pointer;">here </a> to login again.</p>			
+		</div>		
+	</script>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,106 @@
+<!--
+  ~ Copyright 2019 Infosys Ltd.
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+-->
+<!-- Begin page content -->
+<div style="min-height: calc(100vh - 62px);">
+	
+		<div class="modal-header headerStyle"
+			style="border-bottom: 1px solid #000000; color: rgba(21, 31, 42, 0.89); background-color: #f7f7f7;">
+			<h4 class="modal-title" id="modal-title">
+				<span class="glyphicon glyphicon-save"></span> <span> Pipeline</span><i
+					class="fa fa-times pull-right" ng-click="cancelWFPopup(savePipelinePopup)"
+					style="cursor: pointer;"></i>
+			</h4>
+		</div>
+	<form class="form-horizontal" name="workflowForm" id="workflowForm"
+		data-parsley-validate
+		ng-submit="workflowForm.$valid &&  saveDataFlowPipeline(pipelineName)">
+		<div class="modal-body" id="modal-body"
+			style="font-size: 13px; padding-top: 0px; padding-bottom: 0px; height: calc(100vh - 170px); overflow-y: scroll;">
+			<div class="clearfix"></div>
+			</br>
+
+			<div id="saveWorkflow">
+
+				<div class=" wf-popup container-fluid">
+
+							<div class="form-group">
+								<label class="control-label col-md-3 col-sm-3 col-xs-12">
+									Pipeline Name <span class="required">*</span>
+								</label>
+
+						<div class="col-md-6 col-sm-6 col-xs-12">
+							<input type="text" name="pipelineName" id="workflow-name"
+								ng-model="pipelineName" class="form-control col-md-7 col-xs-12"
+								ng-required="true" placeholder="Enter Pipeline Name"
+								style="text-align: left;" maxlength=100
+								ng-pattern="/^[a-zA-Z0-9-_\s]*$/" /><span class="error"
+								ng-messages="workflowForm.pipelineName.$error"
+								style="color: red"> <span ng-message="required"
+								ng-show="workflowForm.pipelineName.$error.required && editform.kpiName.$dirty">First
+									name should not be empty</span> <span ng-message="pattern"
+								ng-show="workflowForm.pipelineName.$error.pattern">Only
+									alphabets allowed</span>
+							</span>
+
+						</div>
+
+					</div>
+					<img alt="Processing..." id="loader1" src="img/loader.gif"
+						style="position: absolute; top: 30%; left: 40%; z-index: 2; visibility: hidden">
+
+				</div>
+			</div>
+
+
+		</div>
+		<div class="modal-footer"
+			style="background-color: #f7f7f7; padding: 0px;">
+			<div class="row">
+				<div class="col-md-12 col-xs-12 col-sm-12" style="margin-top: 7px;">
+					<div class="col-md-6 col-lg-6 col-sm-6 pull-left">
+						<div id="stepMessageSection"
+							style="padding: 3px; font-weight: bold; visibility: hidden">
+						</div>
+					</div>
+					<div class="col-md-6 col-lg-6 col-sm-6 pull-right"
+						id="savePipelineBtn">
+
+							<!-- <button type="submit" class="btn btn-primary"
+										style="margin-right: 0px !important">Save</button> -->
+						<button type="submit" class="btn btn-success btn-sm pull-right"
+							data-dismiss="poppanel" style="margin-left: 3px;">
+							<i class="fa fa-download"></i> <span
+								ng-show="pipelineAction=='add'">Save Pipeline</span> <span
+								ng-show="pipelineAction=='edit'">Update Pipeline</span>
+						</button>
+						<!-- <button type="submit" class="btn btn-success btn-sm pull-right"
+							data-dismiss="poppanel" style="margin-left: 3px;"
+							ng-show="pipelineAction=='edit'">
+							<i class="fa fa-download"></i> Update Pipeline
+						</button> -->
+						<button type="button" class="btn btn-success btn-sm pull-right"
+							ng-click="cancelWFPopup(savePipelinePopup)">
+							<i class="fa fa-times"></i> Cancel
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+</div>

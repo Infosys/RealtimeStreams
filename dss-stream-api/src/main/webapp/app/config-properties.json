@@ -1,0 +1,168 @@
+/*
+ * Copyright 2019 Infosys Ltd.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/** 
+ * Description : Additional/ Advanced Configuration properties
+ */
+
+var addlParams = {  
+  "source":{  
+    "kafka":[  
+      {  
+        "key":"",
+        "value":""
+      }
+    ],
+    "flume":[
+      {
+      "key":"",
+      "value":""
+      }
+    ],
+    "socket":[  
+      {  
+        "key":"",
+        "value":""
+      }
+    ]
+  },
+  "process":{  
+    "sparkstreaming":[  
+      {  
+        "key":"spark.driver.memory",
+        "value":"4g"
+      },
+      {  
+        "key":"spark.executor.memory",
+        "value":"8g"
+      },
+      {  
+        "key":"spark.cores.max",
+        "value":"10"
+      },
+      {  
+        "key":"spark.executor.cores",
+        "value":"5"
+      },
+      {  
+        "key":"spark.streaming.stopGracefullyOnShutdown",
+        "value":"true"
+      },
+      {  
+        "key":"spark.cassandra.output.concurrent.writes",
+        "value":"200"
+      },
+      {  
+        "key":"output.batch.grouping.buffer.size",
+        "value":"2000"
+      },
+      {  
+        "key":"spark.streaming.concurrentJobs",
+        "value":"20"
+      },
+      {  
+        "key":"spark.streaming.receiver.maxRate",
+        "value":"500"
+      },
+      {  
+        "key":"spark.scheduler.mode",
+        "value":"FAIR"
+      },
+      {  
+        "key":"spark.serializer",
+        "value":"org.apache.spark.serializer.KryoSerializer"
+      },
+      {  
+        "key":"spark.streaming.receiver.writeAheadLog.enable",
+        "value":"true"
+      },
+      {  
+        "key":"spark.streaming.backpressure.enabled",
+        "value":"true"
+      },
+      {  
+        "key":"spark.logConf",
+        "value":"true"
+      },
+      {  
+        "key":"spark.streaming.backpressure.initialRate",
+        "value":"500"
+      },
+      {  
+        "key":"spark.streaming.kafka.maxRatePerPartition",
+        "value":"25"
+      },
+      {  
+        "key":"spark.driver.extraJavaOptions",
+        "value":"-XX:+UseG1GC"
+      },
+      {  
+        "key":"spark.executor.extraJavaOptions",
+        "value":"-XX:+UseG1GC"
+      },
+      {  
+        "key":"spark.executor.logs.rolling.strategy",
+        "value":"time"
+      },
+      {  
+        "key":"spark.executor.logs.rolling.time.interval",
+        "value":"daily"
+      },
+      {  
+        "key":"spark.executor.logs.rolling.maxRetainedFiles",
+        "value":"10"
+      },
+      {  
+        "key":"spark.streaming.unpersist",
+        "value":"true"
+      },
+      {  
+        "key":"spark.cleaner.ttl",
+        "value":"3600"
+      },
+      {  
+        "key":"spark.executor.instances",
+        "value":"5"
+      },
+      {  
+        "key":"spark.yarn.executor.memoryOverhead",
+        "value":"8192"
+      }
+    ],
+    "flink":[  
+      {  
+        "key":"",
+        "value":""
+      }
+    ]
+  },
+  "sink":{  
+    "elassandra":[  
+      {  
+        "key":"",
+        "value":""
+      }
+    ],
+    "opentsdb":[  
+      {  
+        "key":"",
+        "value":""
+      }
+    ]
+  }
+}

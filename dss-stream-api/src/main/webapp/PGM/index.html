@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AngularJS-FlowChart</title>
+
+<link rel="stylesheet" href="flowchart.css" type="text/css">
+<link rel="stylesheet" href="onedatastyle.css" type="text/css">
+<link rel="stylesheet" href="bootstrap.min.css" type="text/css">
+<link href="font-awesome.min.css" rel="stylesheet">
+</head>
+<body id="flowchart" class="" ng-app="flowchart-app" ng-controller="AppCtrl"
+	ng-keydown="keyDown($event)" ng-keyup="keyUp($event)">
+	<div class="row">
+		<div class="bg-img col-md-12" style="height: 350px;">
+
+			<fc-canvas model="model" selected-objects="flowchartselected" 
+				edge-style="line" callbacks="callbacks" automatic-resize="false" style="height: 100%;"></fc-canvas>
+		</div>
+	</div>
+	<script src="angular.js"></script>
+	<!-- <script src="vendor.js"></script> -->
+	<script src="ngFlowchart.js"></script>
+	<!-- App code. -->
+	<script src="app.js" type="text/javascript"></script>
+</body>
+</html>

@@ -1,0 +1,473 @@
+<!--
+  ~ Copyright 2019 Infosys Ltd.
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+-->
+<!--
+ - @desc  Configuration page
+ -->
+<div>
+	<div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12"
+		style="margin-bottom: 20px;">
+		<ul class="nav nav-pills nav-justified">
+			<div class="row col-lg-8 col-md-6 col-sm-12 pull-left"
+				style="padding-right: 30px; padding-left: 10px; border-right: 5px solid #239b9b;">
+				<div class="title_left" style="margin-bottom:20px;">
+					<h3>Pipeline Configuration</h3>
+				</div>
+				<div>
+				<div class="row">
+				<div class="col-lg-3 col-md-5 col-sm-6 col-xs-12">
+					<a data-toggle="pill" data-target="#sourceTarget"
+						ng-click="tileOnClick('Source')">
+						<div id="configBox"
+							class="animated flipInY col-lg-12 col-md-12 col-sm-12 col-xs-12"
+							style="padding: 0px;">
+							<div class="tile-stats"
+								ng-class="{active : activeMenu === 'Source'}">
+								<div class="icon">
+									<i class="fa fa-plug"></i>
+								</div>
+								<div class="count">Source</div>
+								<br>
+
+								<p>Get Connected to Stream Providers</p>
+							</div>
+						</div>
+					</a><div ng-show="modulesMain.configuration.editEnabled" class="configBtn" ng-class="{active : activeBtn === 'Source'}" style="visibility: hidden;">
+							<button class="addBtn" ng-click="addNewConfig('source')"><i class="fa fa-plus"></i> </button>
+						</div>
+				</div>
+				<div class="col-lg-3 col-md-5 col-sm-6 col-xs-12">
+					<a data-toggle="pill" data-target="#processTarget"
+						ng-click="tileOnClick('Process')">
+						<div id="processBox"
+							class="animated flipInY col-lg-12 col-md-12 col-sm-12 col-xs-12"
+							style="padding: 0px;">
+
+							<div class="tile-stats" style="padding-right: 6px;"
+								ng-class="{active : activeMenu === 'Process'}">
+								<div class="icon">
+									<i class="fa fa-sort-amount-desc"></i>
+								</div>
+								<div class="count">Process</div>
+								<br>
+								<p>Analyze streaming data from the Internet of Things</p>
+							</div>
+						</div>
+					</a><div ng-show="modulesMain.configuration.editEnabled" class="configBtn" ng-class="{active : activeBtn === 'Process'}" style="visibility: hidden;">
+							<button class="addBtn" ng-click="addNewConfig('process')"><i class="fa fa-plus"></i></button>
+						</div>
+				</div>
+				<div class="col-lg-3 col-md-5 col-sm-6 col-xs-12">
+					<a data-toggle="pill" data-target="#sinkTarget"
+						ng-click="tileOnClick('Sink')">
+						<div id="sinkBox"
+							class="animated flipInY col-lg-12 col-md-12 col-sm-12 col-xs-12"
+							style="padding: 0px;">
+
+							<div class="tile-stats"
+								ng-class="{active : activeMenu === 'Sink'}">
+								<div class="icon">
+									<i class="fa fa-archive"></i>
+								</div>
+								<div class="count">Sink</div>
+								<br />
+								<p style="padding-right: 15px;">Persist to Fast Storages</p>
+							</div>
+
+						</div>
+					</a><div ng-show="modulesMain.configuration.editEnabled" class="configBtn" ng-class="{active : activeBtn === 'Sink'}" style="visibility: hidden;">
+							<button class="addBtn" ng-click="addNewConfig('sink')"><i class="fa fa-plus"></i> </button>
+						</div>
+				</div>
+				<div class="col-lg-3 col-md-5 col-sm-6 col-xs-12">
+					<a data-toggle="pill" data-target="#lookupTarget"
+						ng-click="tileOnClick('Lookup')">
+						<div id="lookupBox"
+							class="animated flipInY col-lg-12 col-md-12 col-sm-12 col-xs-12"
+							style="padding: 0px;">
+
+							<div class="tile-stats" ng-class=""
+								style="pointer-events: none; background: #ededed;">
+								<div class="icon" style="color: #5a738e;">
+									<i class="fa fa-cube"></i>
+								</div>
+								<div class="count">Lookup</div>
+								<br />
+								<p>Dynamic & Unconnected Lookup for given Input</p>
+							</div>
+						</div>
+					</a><div ng-show="modulesMain.configuration.editEnabled" class="configBtn" ng-class="{active : activeBtn === 'Lookup'}" style="visibility: hidden !important;">
+							<button class="addBtn" ng-click="addNewConfig('lookup')"><i class="fa fa-plus"></i> </button>
+						</div>
+				</div>
+				<br>
+				</div>
+
+
+				<div class="row">
+				<div class="col-lg-3 col-md-5 col-sm-6 col-xs-12 pull-left">
+
+					<a data-toggle="pill" data-target="#udfTarget"
+						ng-click="tileOnClick('Udf')">
+						<div id="udfBox"
+							class="animated flipInY col-lg-12 col-md-12 col-sm-12 col-xs-12"
+							style="padding: 0px;">
+
+							<div class="tile-stats"
+								ng-class="{active : activeMenu === 'Udf'}">
+								<div class="icon">
+									<i class="fa fa-star-o"></i>
+								</div>
+								<div class="count">UDF</div>
+								<br />
+								<p style="padding-right: 15px;">Configure and Create Spark UDF</p>
+							</div>
+
+						</div>
+					</a><div ng-show="modulesMain.configuration.editEnabled" class="configBtn" ng-class="{active : activeBtn === 'Udf'}" style="visibility: hidden;">
+							<button class="addBtn" ng-click="addNewConfig('udf')"><i class="fa fa-plus"></i> </button>
+						</div>
+				</div>
+				</div>
+			</div>
+			</div>
+			<div class="col-lg-4 col-md-5 col-sm-12 pull-right"
+				style="padding-right: 10px;">
+				<div class="title_left" style="margin-bottom:20px;">
+					<h3>Classifications</h3>
+				</div>
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+					<a data-toggle="pill" data-target="#categoryTarget"
+						ng-click="tileOnClick('Category')">
+						<div
+							class="animated flipInY col-lg-12 col-md-12 col-sm-12 col-xs-12"
+							style="padding-left: 1px;">
+
+							<div class="tile-stats"
+								ng-class="{active : activeMenu === 'Category'}">
+								<div class="icon">
+									<i class="fa fa-share-alt"></i>
+								</div>
+								<div class="count">Category</div>
+								<br>
+								<p>Manage and Define Business Categories</p>
+							</div>
+
+						</div>
+					</a><div ng-show="modulesMain.configuration.editEnabled" class="configBtn" ng-class="{active : activeBtn === 'Category'}" style="visibility: hidden;">
+							<button class="addBtn" ng-click="addNewConfig('category')"><i class="fa fa-plus"></i> </button>
+						</div>
+				</div>
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+					<a data-toggle="pill" data-target="#kpiTarget"
+						ng-click="tileOnClick('KPI')">
+						<div
+							class="animated flipInY col-lg-12 col-md-12 col-sm-12 col-xs-12"
+							style="padding-left: 1px;">
+
+							<div class="tile-stats"
+								ng-class="{active : activeMenu === 'KPI'}">
+								<div class="icon">
+									<i class="fa fa-navicon"></i>
+								</div>
+								<div class="count">KPI</div>
+								<br>
+								<p>Define KPI for Business Categories</p>
+							</div>
+						</div>
+					</a><div ng-show="modulesMain.configuration.editEnabled" class="configBtn" ng-class="{active : activeBtn === 'KPI'}" style="visibility: hidden;">
+							<button class="addBtn" ng-click="addNewConfig('kpi')"><i class="fa fa-plus"></i> </button>
+						</div>
+				</div>
+			</div>
+		</ul>
+	</div>
+	<div class="tab-content innerBoxShadow">
+		<div id="sourceTarget" class="tab-pane fade">
+			<table class="table table-striped projects">
+				<thead>
+					<tr>
+						<th style="width: 2%">#</th>
+						<th style="width: 25%">Source Configuration Name</th>
+						<th style="width: 28%">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					<tr ng-repeat="sources in existingSources">
+						<td>#</td>
+						<td>{{sources.name}} <br /> <small> <!-- Created
+								{{sources.strDateCreated}} -->
+						</small>
+						</td>
+						<td><a class="btn btn-primary btn-xs"
+							ng-click="editSelectedConfig('view','source', sources)"
+							ng-show="modulesMain.configuration.viewEnabled"><i
+								class="fa fa-folder"></i> View </a> <a class="btn btn-info btn-xs"
+							ng-click="editSelectedConfig('edit','source', sources)"
+							ng-show="modulesMain.configuration.editEnabled"><i
+								class="fa fa-pencil"></i> Edit </a> <a class="btn btn-danger btn-xs"
+							ng-click="openConfirm('source',sources,deleteSelectedConfig)"
+							ng-show="modulesMain.configuration.deleteEnabled"><i
+								class="fa fa-trash-o"></i> Delete </a></td>
+					</tr>
+					<tr ng-if="existingSources.length == 0 ">
+						<td></td>
+						<td>No Records Exists</td>
+						<td></td>
+
+					</tr>
+
+				</tbody>
+			</table>
+		</div>
+		<div id="processTarget" class="tab-pane fade">
+			<table class="table table-striped projects">
+				<thead>
+					<tr>
+						<th style="width: 2%">#</th>
+						<th style="width: 25%">Process Configuration Name</th>
+						<th style="width: 28%">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					<tr ng-repeat="process in existingProcess">
+						<td>#</td>
+						<td>{{process.name}} <br /> <small> </small>
+						</td>
+						<td><a class="btn btn-primary btn-xs"
+							ng-click="editSelectedConfig('view','process', process)"
+							ng-show="modulesMain.configuration.viewEnabled"><i
+								class="fa fa-folder"></i> View </a> <a class="btn btn-info btn-xs"
+							ng-click="editSelectedConfig('edit','process', process)"
+							ng-show="modulesMain.configuration.editEnabled"><i
+								class="fa fa-pencil"></i> Edit </a> <a class="btn btn-danger btn-xs"
+							ng-click="openConfirm('process', process,deleteSelectedConfig)"
+							ng-show="modulesMain.configuration.deleteEnabled"><i
+								class="fa fa-trash-o"></i> Delete </a></td>
+					</tr>
+					<tr ng-if="existingProcess.length == 0 ">
+						<td></td>
+						<td>No Records Exists</td>
+						<td></td>
+
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div id="sinkTarget" class="tab-pane fade">
+			<table class="table table-striped projects">
+				<thead>
+					<tr>
+						<th style="width: 2%">#</th>
+						<th style="width: 25%">Sink Configuration Name</th>
+						<th style="width: 28%">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					<tr ng-repeat="sink in existingSink">
+						<td>#</td>
+						<td>{{sink.name}} <br /> <small> <!-- Created
+								{{sink.strDateCreated}} -->
+						</small>
+						</td>
+						<td><a class="btn btn-primary btn-xs"
+							ng-click="editSelectedConfig('view','sink',sink)"
+							ng-show="modulesMain.configuration.viewEnabled"><i
+								class="fa fa-folder"></i> View </a> <a class="btn btn-info btn-xs"
+							ng-click="editSelectedConfig('edit','sink',sink)"
+							ng-show="modulesMain.configuration.editEnabled"><i
+								class="fa fa-pencil"></i> Edit </a> <a class="btn btn-danger btn-xs"
+							ng-click="openConfirm('sink',sink,deleteSelectedConfig)"
+							ng-show="modulesMain.configuration.deleteEnabled"><i
+								class="fa fa-trash-o"></i> Delete </a></td>
+					</tr>
+					<tr ng-if="existingSink.length == 0 ">
+						<td></td>
+						<td>No Records Exists</td>
+						<td></td>
+
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div id="udfTarget" class="tab-pane fade">
+			<table class="table table-striped projects">
+				<thead>
+					<tr>
+						<th style="width: 2%">#</th>
+						<th style="width: 25%">Function Name</th>
+						<th style="width: 28%">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					<tr ng-repeat="udf in existingUdf">
+						<td>#</td>
+						<td>{{udf.name}} <br /> <small> <!-- Created
+								{{sink.strDateCreated}} -->
+						</small>
+						</td>
+						<td><a class="btn btn-primary btn-xs"
+							ng-click="editSelectedConfig('view','udf',udf)"
+							ng-show="modulesMain.configuration.viewEnabled"><i
+								class="fa fa-folder"></i> View </a> <a class="btn btn-info btn-xs"
+							ng-click="editSelectedConfig('edit','udf',udf)"
+							ng-show="modulesMain.configuration.editEnabled"><i
+								class="fa fa-pencil"></i> Edit </a> <a class="btn btn-danger btn-xs"
+							ng-click="openConfirm('udf',udf,deleteSelectedConfig)"
+							ng-show="modulesMain.configuration.deleteEnabled"><i
+								class="fa fa-trash-o"></i> Delete </a></td>
+					</tr>
+					<tr ng-if="existingUdf.length == 0 ">
+						<td></td>
+						<td>No Records Exists</td>
+						<td></td>
+
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div id="categoryTarget" class="tab-pane fade">
+			<table class="table table-striped projects">
+				<thead>
+					<tr>
+						<th style="width: 2%">#</th>
+						<th style="width: 25%">Category Configuration Name</th>
+						<th style="width: 28%">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					<tr ng-repeat="category in existingCategory">
+						<td>#</td>
+						<td>{{category.name}} <br /> <small> <!-- Created
+								{{category.strDateCreated}} -->
+						</small>
+						</td>
+						<td><a class="btn btn-primary btn-xs"
+							ng-click="editSelectedConfig('view','category',category)"
+							ng-show="modulesMain.configuration.viewEnabled"><i
+								class="fa fa-folder"></i> View </a> <a class="btn btn-info btn-xs"
+							ng-click="editSelectedConfig('edit','category',category)"
+							ng-show="modulesMain.configuration.editEnabled"><i
+								class="fa fa-pencil"></i> Edit </a> <a class="btn btn-danger btn-xs"
+							ng-click="openConfirm('category',category,deleteSelectedConfig)"
+							ng-show="modulesMain.configuration.deleteEnabled"><i
+								class="fa fa-trash-o"></i> Delete </a></td>
+					</tr>
+					<tr ng-if="existingCategory.length == 0 ">
+						<td></td>
+						<td>No Records Exists</td>
+						<td></td>
+
+					</tr>
+
+				</tbody>
+			</table>
+		</div>
+		<div id="kpiTarget" class="tab-pane fade">
+			<table class="table table-striped projects">
+				<thead>
+					<tr>
+						<th style="width: 2%">#</th>
+						<th style="width: 25%">KPI Configuration Name</th>
+						<th style="width: 28%">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					<tr ng-repeat="kpi in existingKPI">
+						<td>#</td>
+						<td>{{kpi.name}} <br /> <small> <!-- Created
+								{{kpi.strDateCreated}} -->
+						</small>
+						</td>
+						<td><a class="btn btn-primary btn-xs"
+							ng-click="editSelectedConfig('view','kpi',kpi)"
+							ng-show="modulesMain.configuration.viewEnabled"><i
+								class="fa fa-folder"></i> View </a> <a class="btn btn-info btn-xs"
+							ng-click="editSelectedConfig('edit','kpi',kpi)"
+							ng-show="modulesMain.configuration.editEnabled"><i
+								class="fa fa-pencil"></i> Edit </a> <a class="btn btn-danger btn-xs"
+							ng-click="openConfirm('kpi',kpi,deleteSelectedConfig)"
+							ng-show="modulesMain.configuration.deleteEnabled"><i
+								class="fa fa-trash-o"></i> Delete </a></td>
+					</tr>
+					<tr ng-if="existingKPI.length == 0 ">
+						<td></td>
+						<td>No Records Exists</td>
+						<td></td>
+
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div id="lookupTarget" class="tab-pane fade">
+			<!--
+				<div class="title_right">
+					<br>
+					<div class="col-md-4 col-sm-4 col-xs-12 form-group pull-right ">
+						<button type="button" class="btn btn-success btn-lg"
+					ng-click="openNewConfig()">Create Pipeline</button>
+						<a class="btn btn-app" ng-click="addNewConfig('')"> <i
+							class="fa fa-plus"></i> Add
+						</a>
+					</div>
+
+				</div>
+			</div>
+			<table class="table table-striped projects">
+				<thead>
+					<tr>
+						<th style="width: 2%">#</th>
+						<th style="width: 25%">Lookup Configuration Name</th>
+						<th style="width: 28%">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					<tr ng-repeat="kpi in existingKPI">
+						<td>#</td>
+						<td>{{kpi.name}} <br /> <small> Created
+								{{kpi.strDateCreated}}
+						</small>
+						</td>
+						<td><a class="btn btn-primary btn-xs"
+							ng-click="editSelectedConfig('view','kpi',kpi)"><i
+								class="fa fa-folder"></i> View </a> <a class="btn btn-info btn-xs"
+							ng-click="editSelectedConfig('edit','kpi',kpi)"><i
+								class="fa fa-pencil"></i> Edit </a> <a class="btn btn-danger btn-xs"
+							ng-click="openConfirm('kpi',kpi,deleteSelectedConfig)"><i
+								class="fa fa-trash-o"></i> Delete </a></td>
+					</tr>
+					<tr ng-if="existingKPI.length == 0 ">
+						<td></td>
+						<td>No Records Exists</td>
+						<td></td>
+
+					</tr>
+				</tbody>
+			</table> -->
+		</div>
+
+	</div>
+
+
+</div>

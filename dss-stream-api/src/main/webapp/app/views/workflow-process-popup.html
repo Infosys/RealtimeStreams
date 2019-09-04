@@ -1,0 +1,700 @@
+<!--
+  ~ Copyright 2019 Infosys Ltd.
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+-->
+<!--
+ - @desc  Process popup page
+ -->
+<div style="min-height: calc(100vh - 62px);" ng-controller="WFPopupCtrl">
+
+	<div class="modal-header headerStyle"
+		style="border-bottom: 1px solid #000000; color: rgba(21, 31, 42, 0.89); background-color: #f7f7f7;">
+		<h4 class="modal-title" id="modal-title">
+			<span class="glyphicon glyphicon-share-alt"></span> <span>
+				Process</span><i class="fa fa-times pull-right"
+				ng-click="cancelWFPopup(processPopUp)" style="cursor: pointer;"></i>
+		</h4>
+	</div>
+	<form id="processform" name="processform" data-parsley-validate
+		class="form-horizontal form-label-left" data-parsley-validate
+		ng-submit="processform.$valid && confirmAddQuery()">
+		<div class="modal-body" id="modal-body"
+			style="font-size: 13px; padding-top: 0px; padding-bottom: 0px; height: calc(100vh - 170px); overflow-y: scroll;">
+			<div class="container-fluid">
+				<br>
+				<div class="row">
+					<fieldset class="col-md-12 col-sm-12 col-xs-12"
+						style="background-color: #f9f9f9;">
+						<legend
+							style="background-color: #f9f9f9; border: 1px solid #f6f2f2;">Select
+							created process configuration</legend>
+						<div class="form-group col-md-12 col-sm-12 col-xs-12">
+							<label class="control-label col-md-2 col-sm-2 col-xs-12"
+								for="source-name" style="text-align: left;"> Process
+								Type <span class="required">*</span>
+							</label>
+							<div class="col-md-6 col-sm-6 col-xs-11">
+								<div class="col-md-6 col-sm-6 col-xs-12 ">
+
+									<div class="form-group" style="">
+										<label class="radio-inline control-label" for="gen1"
+											style="font-weight: bold;"> <input type="radio"
+											ng-class="{inputView : pipelineAction === 'view'}" id="gen1"
+											ng-model="sparkProcessType" ng-value="true"
+											ng-change="processTypeOnChange(true)"> Spark
+											Streaming
+										</label>
+									</div>
+								</div>
+								<!-- <div class="col-md-6 col-sm-6 col-xs-12">
+									<div class="form-group" style="">
+										<label class="radio-inline control-label" for="gen2"
+											style="font-weight: bold;"> <input type="radio"
+											id="gen2" ng-model="sparkProcessType" ng-value="false"
+											ng-change="processTypeOnChange(false)"> Flink
+										</label>
+									</div>
+								</div> -->
+							</div>
+						</div>
+						<div class="form-group col-md-6 col-sm-6 col-xs-12">
+							<label
+								class="control-label col-md-4 col-sm-4 col-xs-12
+								for="
+								source-name" style="text-align: left;"> Configuration
+								Name <span class="required">*</span>
+							</label>
+							<div class="col-md-8 col-sm-8 col-xs-12">
+								<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+									<select id="selectedConfig" class="form-control"
+										ng-class="{inputView : pipelineAction === 'view'}"
+										style="width: 100%;" ng-model="existingProcess.selected"
+										ng-options="process as process.name for process in existingProcess | filter:{type:changedProcessType}"
+										ng-change="processOnSelect(existingProcess.selected)"
+										ng-required="true" style="height: 25px;">
+										<option value="" disabled selected hidden>Select Process Configuraton</option>
+									</select>
+
+									<!-- <ui-select ng-model="existingProcess.selected"
+										theme="selectize" style="width: 100%;" id="child_inline"
+										ng-required="true"
+										on-select="processOnSelect($select.selected)"> <ui-select-match
+										placeholder="Select or search Process name...">{{$select.selected.name}}</ui-select-match>
+									<ui-select-choices
+										repeat="process in existingProcess | filter : type = changedProcessType |filter: $select.search">
+									<span ng-bind-html="process.name | highlight: $select.search"></span>
+									</ui-select-choices> </ui-select> -->
+								</div>
+							</div>
+						</div>
+						<div class="form-group col-md-6 col-sm-6 col-xs-12">
+							<label class="control-label col-md-4  col-sm-4  col-xs-12"
+								for="source-name" style="text-align: left;"> Minibatch
+								Interval(sec)<span class="required">*</span>
+							</label>
+
+							<div class="col-md-8 col-sm-8 col-xs-12">
+								<input type="int" id="miniBatch" name="miniBatch" size=40
+									class="form-control"
+									ng-class="{inputView : pipelineAction === 'view'}"
+									ng-model="processRecordW.formatDetails.nBatchInterval"
+									ng-pattern="/^[0-9]*$/" ng-required="true"><span
+									class="error" ng-messages="processform.miniBatch.$error"
+									style="color: red"> <span ng-message="required"
+									ng-show="processform.miniBatch.$error.required && processform.miniBatch.$dirty">
+										Value cannot be empty</span> <span ng-message="pattern"
+									ng-show="processform.miniBatch.$error.pattern">Only
+										digits allowed </span>
+								</span>
+							</div>
+						</div>
+					</fieldset>
+					<fieldset class="col-md-12 col-sm-12 col-xs-12"
+						style="margin-top: 5px; background-color: #f9f9f9;"
+						ng-show="showQuerySection">
+						<legend
+							style="background-color: #f9f9f9; border: 1px solid #f6f2f2;">Realtime
+							Rule Builder</legend>
+						<div id="fieldset-process">
+							<div class="col-md-6 col-sm-6 col-xs-12"
+								style="padding: 0px 0px;">
+								<fieldset class="box"
+									style="margin-top: 5px; background-color: white;">
+									<legend style="border: 1px solid #f9f6f6">Advanced
+										Config</legend>
+									<div class="form-group">
+										<label class="control-label col-md-4 col-sm-4  col-xs-12"
+											style="text-align: left;">Sequence: </label> <input
+											class="col-md-8 col-sm-8 col-xs-12" type="text"
+											ng-class="{inputView : pipelineAction === 'view'}"
+											id="identifier" ng-model="identifier" disabled
+											style="font-weight: bold;">
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-4 col-sm-4  col-xs-12"
+											style="text-align: left;">Business Rule Name <span
+											class="required">*</span></label> <input
+											class="col-md-8 col-sm-8 col-xs-12" type="text"
+											ng-class="{inputView : pipelineAction === 'view'}"
+											ng-required="true" id="businessRule" ng-model="businessRule">
+									</div>
+									<div
+										ng-class="{smallborder : selectWindowName.name != 'NoWindow' }">
+										<div class="form-group">
+											<label class="control-label col-md-4 col-sm-4  col-xs-12"
+												style="text-align: left;">Window <span
+												class="required">*</span></label> <select id="selectWindowName"
+												class="col-md-8 col-sm-8 col-xs-12"
+												ng-class="{inputView : pipelineAction === 'view'}"
+												ng-change="windowNameChange()" ng-model="selectWindowName"
+												ng-required="true" style="height: 25px;"
+												ng-options="windowName as windowName.name for windowName in windowOptions">
+												<option value="" disabled selected hidden>Select Window Name</option>
+											</select>
+										</div>
+										<div class="form-group"
+											ng-show="selectWindowName.name == 'New Window' ">
+											<label class="control-label col-md-4 col-sm-4  col-xs-12"
+												style="text-align: left;">Window Name <span
+												class="required">*</span></label> <input
+												class="col-md-8 col-sm-8 col-xs-12"
+												ng-class="{inputView : pipelineAction === 'view'}" type="text"
+												ng-required="selectWindowName.name == 'New Window'"
+												id="windowName" name="windowName" ng-model="windowName"
+												ng-pattern="/^[a-zA-Z0-9-_\s]*$/"><span
+												class="error" ng-messages="processform.windowName.$error"
+												style="color: red"> <span ng-message="pattern"
+												ng-show="processform.windowName.$error.pattern">Special
+													characters are not allowed allowed </span>
+											</span>
+										</div>
+										<!-- <br ng-show="selectWindowName.name == 'New Window' "> -->
+										<div class="form-group"
+											ng-show="selectWindowName.name != 'NoWindow' ">
+											<label class="control-label col-md-4 col-sm-4  col-xs-12"
+												style="text-align: left;">Window Length <span
+												class="required">*</span></label> <input
+												class="col-md-8 col-sm-8 col-xs-12" type="text"
+												maxlength="5"
+												ng-class="{inputView : pipelineAction === 'view'}"
+												ng-required="selectWindowName.name != 'NoWindow'"
+												id="windowPeriod" name="windowPeriod"
+												ng-change="windowDataChange()" ng-model="windowPeriod"
+												ng-pattern="/^[0-9]*$/"><span class="error"
+												ng-messages="processform.windowPeriod.$error"
+												style="color: red"> <span ng-message="pattern"
+												ng-show="processform.windowPeriod.$error.pattern">Only
+													digits allowed </span>
+											</span>
+										</div>
+										<div ng-show="selectWindowName.name != 'NoWindow' "></div>
+										<div class="form-group"
+											ng-show="selectWindowName.name != 'NoWindow' ">
+											<label class="control-label col-md-4 col-sm-4  col-xs-12"
+												style="text-align: left;">Sliding Interval <span
+												class="required">*</span></label> <input
+												class="col-md-8 col-sm-8 col-xs-12" type="text"
+												maxlength="5"
+												ng-class="{inputView : pipelineAction === 'view'}"
+												ng-required="selectWindowName.name != 'NoWindow'"
+												id="slidingInterval" name="slidingInterval"
+												ng-change="windowDataChange()" ng-model="slidingInterval"
+												ng-pattern="/^[0-9]*$/"><span class="error"
+												ng-messages="processform.slidingInterval.$error"
+												style="color: red"> <span ng-message="pattern"
+												ng-show="processform.slidingInterval.$error.pattern">Only
+													digits allowed </span> <span
+												ng-show="processform.slidingInterval.$dirty && processform.slidingInterval.$error.windowValidity">Sliding
+													Interval cannot be greater than Window Length</span>
+											</span>
+										</div>
+									</div>
+									<br ng-show="selectWindowName.name != 'NoWindow' ">
+									<div ng-show="selectWindowName.name != 'NoWindow' "></div>
+									<div class="form-group">
+										<label class="control-label col-md-4 col-sm-4  col-xs-12"
+											style="text-align: left;">Predecessor <span
+											class="required">*</span></label> <select id="predecessor"
+											class="col-md-8 col-sm-8 col-xs-12" ng-required="true"
+											ng-model="predecessor"
+											ng-class="{inputView : pipelineAction === 'view'}"
+											ng-init="predecessor = predecessors[0]" style="height: 25px;"
+											ng-options="predecessor as predecessor for predecessor in predecessors">
+											<option value="" disabled selected hidden>Select predecessor</option>
+										</select>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label col-md-4 col-sm-4  col-xs-12"
+											style="text-align: left;">Output Table Name <span
+											class="required">*</span></label> <input
+											class="col-md-8 col-sm-8 col-xs-12" type="text"
+											ng-class="{inputView : pipelineAction === 'view'}"
+											ng-required="true" id="targetTable" name="targetTable"
+											ng-model="targetTable" ng-pattern="/^[a-zA-Z0-9-_\s]*$/"><span
+											class="error" ng-messages="processform.targetTable.$error"
+											style="color: red"> <span ng-message="pattern"
+											ng-show="processform.targetTable.$error.pattern">Special
+												characters are not allowed </span>
+										</span>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-4 col-sm-4  col-xs-12"
+											style="text-align: left;">Persist </label> <input
+											type="checkbox" id="persistEnabled"
+											ng-class="{inputView : pipelineAction === 'view'}"
+											ng-model="persistEnabled">
+									</div>
+									<div class="form-group" ng-show="persistEnabled">
+										<label class="control-label col-md-4 col-sm-4  col-xs-12"
+											style="text-align: left;">Save to Sink <span
+											class="required">*</span></label> <select
+											class="col-md-8 col-sm-8 col-xs-12" id="strPersitTo"
+											ng-class="{inputView : pipelineAction === 'view'}"
+											ng-required="persistEnabled" ng-model="strPersitTo"
+											style="height: 25px;" ng-change="saveToSink(strPersitTo)"
+											ng-options="persist as persist.name for persist in persistLocations">
+											<option value="" disabled selected hidden>Select Sink</option>
+										</select>
+									</div>
+									<div class="form-group"
+										ng-show="persistEnabled && (strPersitTo.name == 'Cassandra' || strPersitTo.name == 'Elassandra' || strPersitTo.name == 'HBase')">
+										<label class="control-label col-md-4 col-sm-4  col-xs-12"
+											style="text-align: left;">Sink Configuration <span
+											class="required">*</span></label> <select id="selectedSink"
+											class="col-md-8 col-sm-8 col-xs-12"
+											ng-class="{inputView : pipelineAction === 'view'}"
+											ng-model="selectedSink"
+											ng-required="persistEnabled && (strPersitTo.name == 'Cassandra' || strPersitTo.name == 'Elassandra' || strPersitTo.name == 'HBase')"
+											ng-options="sink as sink.name for sink in existingSink | filter : type = (strPersitTo.name | lowercase)"
+											ng-change="sinkInProcessOnSelect(selectedSink)"
+											style="height: 25px;">
+											<option value="" disabled selected hidden>Select Sink Configuration</option>
+										</select>
+									</div>
+									<div class="form-group"
+										ng-show="persistEnabled && (strPersitTo.name == 'Cassandra' || strPersitTo.name == 'Elassandra') && selectedSink">
+										<label class="control-label col-md-4 col-sm-4  col-xs-12"
+											style="text-align: left;"> Keyspace <span
+											class="required">*</span></label> <input
+											class="col-md-8 col-sm-8 col-xs-12" type="text"
+											ng-class="{inputView : pipelineAction === 'view'}"
+											ng-required="persistEnabled && (strPersitTo.name == 'Cassandra' || strPersitTo.name == 'Elassandra') && selectedSink"
+											id="processKeyspace" name="processKeyspace"
+											ng-model="processKeyspace" ng-pattern="/^[a-zA-Z0-9-_]*$/"><span
+											class="error"
+											ng-messages="processform.processKeyspace.$error"
+											style="color: red"> <span ng-message="pattern"
+											ng-show="processform.processKeyspace.$error.pattern">Special
+												characters and spaces are not allowed</span>
+										</span>
+									</div>
+									<div class="form-group"
+										ng-show="persistEnabled && (strPersitTo.name == 'Cassandra' || strPersitTo.name == 'Elassandra') && selectedSink">
+										<label class="control-label col-md-4 col-sm-4  col-xs-12"
+											style="text-align: left;">Primary Key <span
+											class="required">*</span></label> <input ng-disabled="disableQuery"
+											ng-required="persistEnabled && (strPersitTo.name == 'Cassandra' || strPersitTo.name == 'Elassandra') && selectedSink"
+											class="col-md-8 col-sm-8 col-xs-12" type="text"
+											ng-class="{inputView : pipelineAction === 'view'}"
+											id="primaryKey" name="primaryKey" ng-model="primaryKey"
+											ng-change="keyChange()" ng-pattern="/^[a-zA-Z0-9-,_]*$/"><span
+											class="error" ng-messages="processform.primaryKey.$error"
+											style="color: red"> <span ng-message="pattern"
+											ng-show="processform.primaryKey.$error.pattern">Special
+												characters and spaces are not allowed</span>
+										</span>
+									</div>
+									<div class="form-group"
+										ng-show="persistEnabled && (strPersitTo.name == 'Cassandra' || strPersitTo.name == 'Elassandra') && selectedSink">
+										<label class="control-label col-md-4 col-sm-4  col-xs-12"
+											style="text-align: left;">Index Key <span
+											class="required">*</span></label> <input ng-disabled="disableQuery"
+											ng-required="persistEnabled && (strPersitTo.name == 'Cassandra' || strPersitTo.name == 'Elassandra') && selectedSink"
+											class="col-md-8 col-sm-8 col-xs-12" type="text" id="indexKey"
+											ng-class="{inputView : pipelineAction === 'view'}"
+											ng-model="indexKey" name="indexKey" ng-change="keyChange()"
+											ng-pattern="/^[a-zA-Z0-9-,_]*$/"><span class="error"
+											ng-messages="processform.indexKey.$error" style="color: red">
+											<span ng-message="pattern"
+											ng-show="processform.indexKey.$error.pattern">Special
+												characters and spaces are not allowed</span><span
+											ng-show="processform.indexKey.$dirty && processform.indexKey.$error.keyValidity">
+												Index Key and Primary Key cannot be same</span>
+										</span>
+									</div>
+									<div class="form-group"
+										ng-show="persistEnabled && (strPersitTo.name == 'Cassandra' || strPersitTo.name == 'Elassandra') && selectedSink">
+										<label class="control-label col-md-4 col-sm-4  col-xs-12"
+											style="text-align: left;">Time To Live <span
+											class="required">*</span></label> <input
+											ng-required="persistEnabled && (strPersitTo.name == 'Cassandra' || strPersitTo.name == 'Elassandra') && selectedSink"
+											class="col-md-8 col-sm-8 col-xs-12" type="text" id="ttl"
+											ng-class="{inputView : pipelineAction === 'view'}"
+											ng-model="ttl" name="ttl" ng-pattern="/^[0-9]*$/"
+											maxlength=10><span class="error"
+											ng-messages="processform.ttl.$error" style="color: red">
+											<span ng-message="pattern"
+											ng-show="processform.ttl.$error.pattern">Only digits
+												allowed </span>
+										</span>
+									</div>
+
+									<div class="form-group"
+										ng-show="persistEnabled && strPersitTo.name == 'HDFS'">
+										<label class="control-label col-md-4 col-sm-4  col-xs-12"
+											style="text-align: left;">File Type <span
+											class="required">*</span></label> <select id="HDFSfile"
+											class="col-md-8 col-sm-8 col-xs-12" ng-model="HDFSfile"
+											ng-class="{inputView : pipelineAction === 'view'}"
+											ng-required="persistEnabled && strPersitTo.name == 'HDFS'"
+											ng-options="HDFSfile as HDFSfile.name for HDFSfile in HDFSfiles"
+											style="height: 25px;">
+											<option value="" disabled selected hidden>Select File Type</option>
+										</select>
+									</div>
+
+
+
+								</fieldset>
+							</div>
+							<div class="col-md-6 col-sm-6 col-xs-12"
+								style="padding-right: 0px;">
+								<fieldset class="box"
+									style="margin-top: 5px; background-color: white;">
+									<legend style="border: 1px solid #f9f6f6">SQL</legend>
+									<div class="form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12"
+											style="text-align: left;">Query <span
+											class="required">*</span></label>
+										<textarea ng-disabled="disableQuery"
+											ng-class="{inputView : pipelineAction === 'view'}"
+											class="col-md-9 col-sm-9 col-xs-12" rows="18" cols="50"
+											id="field" class="form-control" id="query" ng-model="query"
+											placeholder="select * from {{initialTableName}}"
+											style="font-size: 13px; resize: vertical;"></textarea>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3 col-sm-3  col-xs-12"
+											style="text-align: left;"></label>
+										<div class="col-md-9 col-sm-9 col-xs-12" style="padding: 0;">
+											<button type="button" class="btn btn-info btn-xs" disabled
+												ng-click="validateQuery(query,sparkProcessType)">
+												<i class="glyphicon glyphicon-ok-circle"></i> Validate Query
+											</button>
+											<button type="button" class="btn btn-info btn-xs"
+												ng-class="{inputView : pipelineAction === 'view'}"
+												ng-click="openSchemaBox()">
+												<i class="glyphicon glyphicon-edit"></i> View/Update Source
+												Schema
+											</button>
+										</div>
+									</div>
+								</fieldset>
+
+							</div>
+						</div>
+						<div class="col-md-12 col-sm-12 col-xs-12">
+							<br>
+							<button type="submit" class="btn btn-success btn-sm "
+								ng-hide="pipelineAction === 'view'"
+								style="float: right; margin-bottom: 8px;">
+								<i class="fa fa-download"></i> Save
+							</button>
+							<button type="button" class="btn btn-success btn-sm "
+								ng-click="cancelQuery()"
+								style="float: right; margin-bottom: 8px;">
+								<i class="fa fa-times"></i> Cancel
+							</button>
+							<button type="button" class="btn btn-success btn-sm "
+								ng-hide="pipelineAction === 'view'" ng-click="clearQuery()"
+								style="float: right; margin-bottom: 8px;">
+								<i class="fa fa-minus-circle"></i> Clear
+							</button>
+						</div>
+					</fieldset>
+					<!-- </div> -->
+					<div class="form-group col-md-12 col-sm-12 col-xs-12"
+						style="margin-top: 5px;">
+						<div class="row" ng-show="queryAdded">
+							<!-- <div
+								class="col-md-11 col-sm-11 col-sm-offset-1 col-md-offset-1 col-xs-12"> -->
+							<div style="overflow-x: auto !important;" id="process-table">
+								<table class="table table-bordered table-striped"
+									style="text-align: left; overflow-x: auto; width: 100%;">
+									<thead style="background: #818992; color: white">
+										<tr>
+											<th>Sequence</th>
+											<th>Window Name</th>
+											<th>Business Rule</th>
+											<th>Query</th>
+											<th>Persisted to</th>
+											<th>Predecessor</th>
+											<th>Actions</th>
+										</tr>
+									</thead>
+									<!-- <tbody style="color: black; background: #d2d4d6;"> -->
+									<tbody>
+										<tr ng-repeat="query1 in queries"
+											ng-class="{'selected':$index == selectedRow}"
+											ng-click="setClickedRow($index)">
+											<td>{{query1.id}}</td>
+											<td>{{query1.windowName}}</td>
+											<td>{{query1.businessRule}}</td>
+											<td>
+												<button type="button" class="btn btn-info btn-xs"
+													ng-click="openQueryBox(query1.query)">
+													<i class="fa fa-search-plus"></i> View Query
+												</button>
+											</td>
+											<td><div ng-if="query1.persistEnabled == true">{{query1.querySinkDetails.strPersitTo}}</div>
+												<div ng-if="query1.persistEnabled == false">Not
+													Persisted</div></td>
+											<td>{{query1.predecessor}}</td>
+											<td>
+												<button class="btn btn-info btn-xs" type="button"
+													ng-click="editQueryRow(query1)">
+													<span style="line-height: 0px;"
+														ng-if="pipelineAction !== 'view'"> <i
+														class="glyphicon glyphicon-edit"></i> Edit
+													</span> <span style="line-height: 0px;"
+														ng-if="pipelineAction === 'view'"> <i
+														class="glyphicon glyphicon-folder-open"></i> View
+													</span>
+												</button>
+												<button class="btn btn-danger btn-xs" type="button"
+													ng-click="remove($index)" ng-hide="pipelineAction === 'view'">
+													<i class="glyphicon glyphicon-trash"></i>Delete
+												</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div>
+								<div class="col-md-1 col-sm-1 col-xs-1" style=""></div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group col-md-12 col-sm-12 col-xs-12">
+						<div class="row" ng-hide="pipelineAction == 'view'">
+							<div
+								class="col-md-11 col-sm-11 col-sm-offset-1 col-md-offset-1 col-xs-12"
+								ng-show="queryAdded">
+								<div ng-show="!showQuerySection">
+									<button type="button" class="btn btn-success btn-sm"
+										style="float: right;" ng-click="showAddQuery()">
+										<i class="fa fa-check-square-o"></i> Save Queries
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<input id="stepId" type="hidden" value="" />
+				</div>
+			</div>
+
+		</div>
+		<div class="modal-footer"
+			style="background-color: #f7f7f7; padding: 0px;">
+			<div class="row">
+				<div class="col-md-12 col-xs-12 col-sm-12" style="margin-top: 7px;">
+					<div class="col-md-6 col-lg-6 col-sm-6 pull-left">
+						<div id="stepMessageSection"
+							style="padding: 3px; font-weight: bold; visibility: hidden">
+						</div>
+					</div>
+					<div class="col-md-6 col-lg-6 col-sm-6 pull-right"
+						id="savePipelineBtn">
+
+						<!-- <button type="submit" class="btn btn-primary"
+										style="margin-right: 0px !important">Save</button> -->
+						<button type="button" class="btn btn-success btn-sm pull-right"
+							style="margin-left: 3px;" ng-click="savePopUpPipeline('process')"
+							ng-disabled="disableSave"
+							ng-show="pipelineAction=='add' || pipelineAction=='edit'">
+							<i class="fa fa-download"></i> {{stepAddEdit}}
+						</button>
+						<button type="button" class="btn btn-success btn-sm pull-right"
+							ng-show="pipelineAction=='add' || pipelineAction=='edit'"
+							ng-click="closeWFPopUp('process')">
+							<i class="fa fa-times"></i> Cancel
+						</button>
+						<button type="button" class="btn btn-success btn-sm pull-right"
+							ng-show="pipelineAction=='view'"
+							ng-click="closeWFPopUp('process')">
+							<i class="fa fa-times"></i> Close
+						</button>
+						<button type="button" class="btn btn-success btn-sm pull-right"
+							ng-show="pipelineAction=='add' || pipelineAction=='edit'"
+							ng-click="clearWFProcessPopUp('process')"
+							style="margin-right: 3px;">
+							<i class="fa fa-minus-circle"></i> Clear
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/ng-template" id="workflow-query-modal.html">
+<div>
+	<div class="">
+		<div class="modal-header">
+			<button type="button" class="close"  ng-click="cancel(queryPopup)">&times;</button>
+			<h4 class="modal-title">Query</h4>
+		</div>
+		<div class="modal-body" style="padding: 0px !important;height: 400px;">
+			<iframe id="queryIframe" height="100%" width="100%"
+								src="query-iframe.html" fullscreen onLoad="loadedSqlIframe();" style="background: #f0f0f0;"></iframe>
+		</div>
+		<div class="modal-footer" style="padding: 5px 5px 0 0;">
+			<button type="button" class="btn btn-default" ng-click="cancel(queryPopup)">Close</button>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/ng-template" id="modalDialogId">
+		<div class="ngdialog-message">
+			<p>Are you sure want to delete?</p>
+		</div>
+		<div class="ngdialog-buttons">
+			<button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(true)">Confirm</button>
+			<button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog('button')">Cancel</button>
+		</div>
+</script>
+<script type="text/ng-template" id="enterQuery">
+        <div id="target" >
+          Enter a Query to Add
+        </div>
+</script>
+<script type="text/ng-template" id="workflow-schema-modal.html">
+<div>
+	<div class="">
+		<div class="modal-header">
+			<button type="button" class="close" ng-click="closeSourceSchemaInProcess()">&times;</button>
+			<h4 class="modal-title">Schema Details</h4>
+		</div>
+		<div class="modal-body" style="padding: 5px 15px;">
+			<div ng-if="!disableQuery">
+				<div ng-show="!columnAddition" class="row" style="margin-left:0"><button type="button" class="btn btn-success btn-sm" ng-click="ShowAddColumnInSchema()">Add Column</button></div>
+				<form id="schemaform" data-parsley-validate ng-submit="addColumnInSchema(newSchemaName,newSchemaType) && schemaform.$valid">
+					<div class="row" style="margin-bottom:5px;margin-top:5px"  ng-show="columnAddition">
+							<label class="control-label col-md-2 col-sm-2  col-xs-2"
+								style="text-align: left; margin-top:2px">Column Name</label>
+							<input id="newSchemaName" class="col-md-4 col-sm-4 col-xs-4" type="text" ng-model="newSchemaName" ng-required="true">
+
+							<label class="control-label col-md-2 col-sm-2  col-xs-2"
+								style="text-align: left;margin-top:2px">Column Type</label>
+							<select id="newSchemaType" class="col-md-2 col-sm-2  col-xs-2" style="padding: 2.5px 8px;"
+															ng-model="newSchemaType"
+															ng-options="schemaTyp as schemaTyp for schemaTyp in schemaTypes"
+															ng-required="true">
+															<option value="" disabled selected hidden>
+															</option>
+														</select>
+							<div class="col-md-1 col-sm-1  col-xs-1">
+								<button type="submit" class="btn btn-success btn-xs"><i class="fa fa-plus" aria-hidden="true"></i> Add</button>
+							</div>
+					</div>
+				</form>
+				<div class="row" style="font-size: 13px;height: calc(100vh - 350px);overflow-y: scroll;">
+					<div class="col-md-12 col-sm-12 col-xs-11">
+						<table id="datatable" class="table table-striped table-bordered">
+							<thead style="background: #818992; color: white">
+								<tr>
+									<th style="width:6%"><input type="checkbox" ng-model="selectedAllRows" ng-click="selectAllRows()"></th>
+									<th style="width:37%">Initial Column Name</th>
+									<th style="width:37%">Name</th>
+									<th style="width:20%">Column Type</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="schema in sourceSchemaInProcess">
+									<td><input type="checkbox" ng-change="selectSchemaRow($index)" ng-model="schema.selected"/></td>
+									<td style="word-break:break-word">{{schema.initialName}}</td>
+									<td><input type="text" ng-model="schema.name" value="{{schema.name}}" style="width: 100%;height: 32px;"></td>
+									<td><select class="form-control"
+										ng-model="schema.type"
+										ng-options="schemaTyp as schemaTyp for schemaTyp in schemaTypes" style="padding: 6px 8px 6px 8px;">
+										</select>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div ng-if="disableQuery">
+				<div class="row" style="font-size: 13px;height: calc(100vh - 350px);overflow-y: scroll;">
+					<div class="col-md-12 col-sm-12 col-xs-11">
+						<table id="datatable" class="table table-striped table-bordered">
+							<thead style="background: #818992; color: white">
+								<tr>
+									<th style="width:6%"><input type="checkbox" ng-model="selectedAllRows" ng-click="selectAllRows()" ng-init="selectedAllRows=true" style="pointer-events:none"></th>
+									<th style="width:37%">Initial Column Name</th>
+									<th style="width:37%">Name</th>
+									<th style="width:20%">Column Type</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="schema in sourceSchemaInProcess">
+									<td><input type="checkbox" ng-change="selectSchemaRow($index)" ng-model="schema.selected" ng-init="schema.selected=true" style="pointer-events:none"/></td>
+									<td style="word-break:break-word">{{schema.initialName}}</td>
+									<td style="word-break:break-word">{{schema.name}}</td>
+									<td><select class="form-control"
+										ng-model="schema.type"
+										ng-options="schemaTyp as schemaTyp for schemaTyp in schemaTypes" style="padding: 6px 8px 6px 8px;">
+										</select>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer" style="padding: 5px 15px 5px 0;">
+			<button type="button" class="btn btn-default" ng-click="updateSourceSchemaInProcess(sourceSchemaInProcess)" style="margin: 0;">Update</button>
+			<button type="button" class="btn btn-default" ng-click="closeSourceSchemaInProcess()">Close</button>
+		</div>
+	</div>
+</div>
+
+</script>
+<script type="text/ng-template" id="queryValidationModal">
+		<div class="ngdialog-message">
+			<p><code class="ng-binding" style="background: none;font-size: 18px;color: white;">Query validation failed</code><p>
+		</div>
+</script>
+
+<script type="text/ng-template" id="selectSchema">
+		<div class="ngdialog-message">
+			<p>Please select atleast one column from source schema to save the query<p>
+		</div>
+</script>
+
+<script type="text/ng-template" id="addQuery">
+		<div class="ngdialog-message">
+			<p>Query is not validated</p>
+			<p>Do you want to save without validation</p>
+		</div>
+		<div class="ngdialog-buttons">
+			<button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog('button')" style="background: #4689b1;color: white;">Cancel</button>
+			<button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(true)" style="background: #af3a36;color: white;">Save</button>
+		</div>
+</script>

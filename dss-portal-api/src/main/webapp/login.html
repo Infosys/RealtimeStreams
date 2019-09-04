@@ -1,0 +1,119 @@
+<!--
+  ~ Copyright 2019 Infosys Ltd.
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+-->
+<!DOCTYPE html>
+<html lang="en" ng-app="LoginApp">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title></title>
+  <!-- Bootstrap core CSS-->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom fonts for this template-->
+  <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin.css" rel="stylesheet">
+</head>
+
+<body class="" ng-controller="LoginCtrl">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <div class="navbar-brand"><i class="fa fa-desktop" aria-hidden="true"></i> Stream Studio</div>
+  </nav>
+  <div class="container" style="position: absolute;top: 10%;right:0;left:0;">
+    <div class="card card-login mx-auto mt-5">
+      <div class="card-header" style="background: #343a40;color: white;"><i class="fa fa-user-circle-o" aria-hidden="true"></i> User Login</div>
+      <div class="card-body" style="background: #f8f9fa;">
+        <form>
+          <div class="form-group">
+            <label for="exampleInputEmail1"><i class="fa fa-user" aria-hidden="true"></i> User Name</label>
+            <input class="form-control" id="exampleInputEmail1"  ng-model="userName" placeholder="Enter User Name">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1"><i class="fa fa-key" aria-hidden="true"></i> Password</label>
+            <input class="form-control" id="exampleInputPassword1" ng-model="password" type="password" placeholder="Enter Password">
+          </div>
+          <br>
+          <!-- <div class="form-group">
+            <div class="form-check">
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox"> Remember Password</label>
+            </div>
+          </div> -->
+          <button class="btn btn-block" ng-click="authenticateUser()" style="background: #47a985;color: #f8f9fa;">Login</button>
+        </form>
+        <!-- <div class="text-center">
+          <a class="d-block small mt-3" href="register.html">Register an Account</a>
+          <a class="d-block small" href="forgot-password.html">Forgot Password?</a>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  <footer class="sticky-footer" style="width: 100%;">
+      <div class="container">
+        <div class="text-center">
+          <small>Copyright � 2017</small>
+        </div>
+      </div>
+    </footer>
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/popper/popper.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  
+  <script src="js/progressbar/bootstrap-progressbar.min.js"></script>
+	<script src="js/nicescroll/jquery.nicescroll.min.js"></script>
+	<!-- icheck -->
+	<script src="js/icheck/icheck.min.js"></script>
+
+	<script src="js/custom.js"></script>
+	
+	
+	
+	<!-- pace -->
+	<script src="js/pace/pace.min.js"></script>
+
+	<script src="js/angular.js"></script>
+	<script src="js/angular-route.js"></script>
+	<script src="js/angular-animate.js"></script>
+	<script src="js/angular-sanitize.js"></script>
+	<script src="js/ui-grid.js"></script>
+	<script src="js/ngDialog.min.js"></script>
+	<script src="js/ngDialog.js"></script>
+
+	<script src="js/bootstrap-select.min.js"></script>
+	<script src="js/select.js"></script>
+	<script src="js/ui-bootstrap-tpls-0.14.3.js"></script>
+
+	<!-- Modules/Controllers/Services JS Files -->
+	<script src="app/app.js"></script>
+	<script src="app/app-config.js"></script>
+	<script src="app/ui-properties.js"></script>
+
+		
+	  <!-- Controller -->
+	  <script src="app/controllers/login.js"></script>
+	  <!-- Service -->
+	  <script src="app/services/login-service.js"></script>
+</body>
+
+</html>

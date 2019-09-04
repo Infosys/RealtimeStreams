@@ -1,0 +1,575 @@
+<!--
+  ~ Copyright 2019 Infosys Ltd.
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+-->
+<!-- Begin page content -->
+<div class="">
+	<div>
+		<div class="modal-header headerStyle"
+			style="border-bottom: 1px solid #000000; color: white; background-color: rgba(21, 31, 42, 0.89);">
+
+			<h4 class="modal-title" id="modal-title">
+				<i class="fa fa-plug" style="font-size: 25px;"></i> New Source
+				Adapter Configuration <i class="fa fa-times pull-right"
+					ng-click="cancel(openSourcePopUp,'source')"
+					style="cursor: pointer;"></i>
+			</h4>
+			<!-- <h4 class="modal-title" id="modal-title" style="text-align: left;">
+				Source Configuration</h4> -->
+		</div>
+		<div class="modal-body-small" id="modal-body" style="font-size: 13px;">
+
+			<div class="clearfix"></div>
+			<div role="tabpanel">
+				<ul class="nav nav-tabs" style="background-color: #f7f7f7;">
+					<li class="active" style="padding-left: 2px"><a
+						data-target="#basic" name="basic" data-toggle="tab">Basic
+							Configuration</a></li>
+					<li><a data-target="#advanced" name="advanced"
+						data-toggle="tab">Advanced Options</a></li>
+				</ul>
+				<div class="row">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<form id="editform" name="editform" class="form-horizontal "
+							data-parsley-validate
+							ng-submit="editform.$valid && saveConfig('source',offset,$event)">
+							<div class="tab-content">
+								<div role="tabpanel" class="tab-pane active" id="basic">
+									<div style="height: 450px; overflow-y: scroll; overflow-x: hidden; padding-top:20px;">
+										<div class="row">
+											<div
+												class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+												<label class="control-label col-md-3 col-sm-3 col-xs-12"
+													style="padding-top: 6px; text-align: left; text-align: left; text-align: left;">Source
+													Config Name <span class="required">*</span>
+												</label>
+												<div class="col-md-8 col-sm-8 col-xs-12">
+													<input type="string" required="" id="sourceConfigName"
+														name="sourceConfigName" class="form-control"
+														ng-model="sourceConfigName" placeholder="eg. KafkaConfig"
+														ng-required="true" maxlength=100
+														ng-pattern="/^[a-zA-Z0-9-_\s]*$/" ng-trim="false"><span
+														class="error"
+														ng-messages="editform.sourceConfigName.$error"
+														style="color: red"> <span ng-message="required"
+														ng-show="editform.sourceConfigName.$error.required && editform.sourceConfigName.$dirty">
+															Name cannot be empty</span> <span ng-message="pattern"
+														ng-show="editform.sourceConfigName.$error.pattern">Special
+															characters are not allowed</span>
+													</span>
+												</div>
+											</div>
+										</div>
+										<br>
+										<div class="row">
+											<div
+												class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+
+												<label class="control-label col-md-3 col-sm-3 col-xs-12"
+													style="padding-top: 6px; text-align: left; text-align: left; text-align: left;">Source
+													Type <span class="required">*</span>
+												</label>
+
+												<div class="col-md-8 col-sm-8 col-xs-12">
+													<select class="form-control"
+														ng-model="sourceTypes.selected"
+														ng-options="sources as sources.name for sources in
+										sourceTypes"
+														ng-change="select('source',sourceTypes.selected)"
+														ng-required="true">
+														<option value="" disabled selected hidden>Select
+															Source Type</option>
+													</select>
+
+												</div>
+
+											</div>
+										</div>
+										<br>
+										<div ng-show="sourceTypes.selected.name == 'kafka'">
+											<div class="row">
+												<div
+													class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+													<label class="control-label col-md-3 col-sm-3 col-xs-12"
+														style="padding-top: 6px; text-align: left; text-align: left; text-align: left;">
+														Group Name <span class="required">*</span>
+													</label>
+
+													<div class="col-md-8 col-sm-8 col-xs-12">
+														<input type="string" id="groupName" name="groupName" class="form-control"
+															ng-model="groupName" placeholder="eg. GroupName" ng-pattern="/^[a-zA-Z0-9-_]*$/"
+															ng-required="sourceTypes.selected.name == 'kafka'" maxlength=100><span
+															class="error" ng-messages="editform.groupName.$error"
+															style="color: red"> <span ng-message="required"
+																					  ng-show="editform.groupName.$error.required && editform.groupName.$dirty">
+																Value cannot be empty</span><span ng-message="pattern"
+																								  ng-show="editform.groupName.$error.pattern">Special
+															characters are not allowed</span>
+														</span>
+
+													</div>
+												</div>
+											</div>
+											<br>
+											<div class="row">
+												<div
+													class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+													<label class="control-label col-md-3 col-sm-3 col-xs-12"
+														style="padding-top: 6px; text-align: left; text-align: left; text-align: left;">
+														Topic Name <span class="required">*</span>
+													</label>
+
+													<div class="col-md-8 col-sm-8 col-xs-12">
+														<input type="string" id="topicName" name="topicName" class="form-control"
+															ng-model="topicName" placeholder="eg. TopicName"
+															ng-required="sourceTypes.selected.name == 'kafka'" maxlength=100 ng-pattern="/^[a-zA-Z0-9-_]*$/"><span
+															class="error" ng-messages="editform.topicName.$error"
+															style="color: red"> <span ng-message="required"
+																					  ng-show="editform.topicName.$error.required && editform.topicName.$dirty">
+																Value cannot be empty</span><span ng-message="pattern"
+																								  ng-show="editform.topicName.$error.pattern">Special
+															characters are not allowed</span>
+															</span>
+
+													</div>
+												</div>
+											</div>
+											<br>
+											<div class="row">
+												<div
+													class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+													<label class="control-label col-md-3 col-sm-3 col-xs-12"
+														style="padding-top: 6px; text-align: left; text-align: left; text-align: left;">ZooKeeper
+														Connect <span class="required">*</span>
+													</label>
+
+													<div class="col-md-8 col-sm-8 col-xs-12">
+														<input type="string" id="zookeepr" name="zookeepr"
+															class="form-control" ng-model="zookeepr"
+															placeholder="eg. 10.199.0.1:2181,10.199.0.2:2181"
+															ng-required="sourceTypes.selected.name == 'kafka'"
+															maxlength=100 ng-pattern="/^[a-zA-Z0-9-_,.:\s]*$/"><span
+															class="error" ng-messages="editform.zookeepr.$error"
+															style="color: red"> <span ng-message="required"
+															ng-show="editform.zookeepr.$error.required && editform.zookeepr.$dirty">
+																Value cannot be empty</span> <span ng-message="pattern"
+															ng-show="editform.zookeepr.$error.pattern">Special
+																characters are not allowed </span>
+														</span>
+
+													</div>
+												</div>
+											</div>
+											<br>
+											<div class="row">
+												<div
+													class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+													<label class="control-label col-md-3 col-sm-3 col-xs-12"
+														style="padding-top: 6px; text-align: left; text-align: left; text-align: left;">
+														Offset <span class="required">*</span>
+													</label>
+
+													<div class="col-md-8 col-sm-8 col-xs-12">
+														<label class="radio-inline"> <input type="radio"
+															ng-model='offset' id="offset" value="Largest"
+															checked="true"
+															ng-required="!offset && sourceTypes.selected.name == 'kafka'">Largest
+														</label> <label class="radio-inline"> <input type="radio"
+															ng-model='offset' id="offset" value="Smallest"
+															ng-required="!offset && sourceTypes.selected.name == 'kafka'">Smallest
+														</label>
+													</div>
+												</div>
+											</div>
+											<br>
+
+											<div class="row">
+												<div
+													class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+													<label class="control-label col-md-3 col-sm-3 col-xs-12"
+														style="padding-top: 6px; text-align: left; text-align: left;">
+														Key Serializer  <span class="required">*</span> 
+													</label>
+
+													<div class="col-md-8 col-sm-8 col-xs-12">
+														<input type="string" id="keySr" name="keySr" size="40"
+															class="form-control" ng-model="keySr"
+															placeholder="eg. org.apache.kafka.common.serialization.StringSerializer"
+															ng-required="sourceTypes.selected.name == 'kafka'"
+															ng-pattern="/^[a-zA-Z0-9-_,.:\s]*$/"><span
+															class="error" ng-messages="editform.keySr.$error"
+															style="color: red"> <span ng-message="required"
+															ng-show="editform.keySr.$error.required && editform.keySr.$dirty">
+																Value cannot be empty</span> <span ng-message="pattern"
+															ng-show="editform.keySr.$error.pattern">Special
+																characters are not allowed </span>
+														</span>
+													</div>
+												</div>
+											</div>
+											<br>
+											<div class="row">
+												<div
+													class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+													<label class="control-label col-md-3 col-sm-3 col-xs-12"
+														style="padding-top: 6px; text-align: left; text-align: left;">
+														Value Serializer <span class="required">*</span>
+													</label>
+
+													<div class="col-md-8 col-sm-8 col-xs-12">
+														<input type="string" id="valSr" name="valSr" size="40"
+															class="form-control" ng-model="valSr"
+															placeholder="eg. org.apache.kafka.common.serialization.StringSerializer"
+															ng-required="sourceTypes.selected.name == 'kafka'"
+															ng-pattern="/^[a-zA-Z0-9-_,.:\s]*$/"><span
+															class="error" ng-messages="editform.valSr.$error"
+															style="color: red"> <span ng-message="required"
+															ng-show="editform.valSr.$error.required && editform.valSr.$dirty">
+																Value cannot be empty</span> <span ng-message="pattern"
+															ng-show="editform.valSr.$error.pattern">Special
+																characters are not allowed </span>
+														</span>
+
+													</div>
+												</div>
+											</div>
+											<br>
+
+
+										</div>
+										<br>
+										<div ng-show="sourceTypes.selected.name == 'flume'">
+										<!-- 	<fieldset class="col-md-9 col-sm-9 col-sm-offset-1 col-md-offset-1 col-xs-12" style="margin-bottom: 10px;">   
+												<legend>Agent Source Details</legend>
+												<div class="row"> 
+													<label
+														class="control-label col-md-4  col-sm-4  col-xs-12 "
+														for="source-name" style="text-align: left;">
+														Connection Type <span class="required">*</span>
+													</label>
+													
+													<div class="col-md-8 col-sm-8 col-xs-12">
+														<select class="form-control"
+															ng-model="flumeConnectionTypes.selected"
+															ng-options="connectionType as connectionType.name for connectionType in flumeConnectionTypes"
+															
+															ng-required="sourceTypes.selected.name == 'flume'">
+															<option value="" disabled selected hidden>Select
+															Connection Type</option>
+														</select>
+													</div>
+												</div>
+												<br>
+												<div ng-show="flumeConnectionTypes.selected.name == 'remote'" >
+													<div class="row">	
+														<label
+															class="control-label col-md-4  col-sm-4  col-xs-12 "
+															for="source-name" style="text-align: left;">
+															Source Host <span class="required">*</span>
+														</label>
+														
+														<div class="col-md-8 col-sm-8 col-xs-12">
+															<input type="string" id="flumeSourceHost" class="form-control"
+																ng-model="flumeSourceHost"
+																placeholder="eg. 10.199.0.1:2181"
+																ng-required="sourceTypes.selected.name == 'flume' && flumeConnectionTypes.selected.name == 'remote'"   >
+	
+														</div>
+													</div>
+													<br>
+													<div class="row">	
+														<label
+															class="control-label col-md-4  col-sm-4  col-xs-12 "
+															for="source-name" style="text-align: left;">
+															Host User <span class="required">*</span>
+														</label>
+														
+														<div class="col-md-8 col-sm-8 col-xs-12">
+															<input type="string" id="hostUser" class="form-control"
+																ng-model="hostUser"
+																placeholder="eg. user name"
+																ng-required="sourceTypes.selected.name == 'flume' && flumeConnectionTypes.selected.name == 'remote'" >
+	
+														</div>
+													</div>
+													<br>
+													<div class="row">	
+														<label
+															class="control-label col-md-4  col-sm-4  col-xs-12 "
+															for="source-name" style="text-align: left;">
+															Host Password <span class="required">*</span>
+														</label>
+														
+														<div class="col-md-8 col-sm-8 col-xs-12">
+															<input type="password" id="hostPassword" class="form-control"
+																ng-model="hostPassword"
+																placeholder="eg. password"
+																ng-required="sourceTypes.selected.name == 'flume' && flumeConnectionTypes.selected.name == 'remote'" >
+	
+														</div>
+													</div>
+													<div class="row">	
+														<button id="save" type="button" class="btn btn-success btn-sm pull-right" style="margin: 10px;">
+															<i class="fa fa-check-square-o"></i> Test Connection
+														</button>
+													</div>
+												</div>
+												<div class="row">
+													<label
+															class="control-label col-md-4  col-sm-4  col-xs-12 "
+															for="source-name" style="text-align: left;">
+															Source File Path <span class="required">*</span>
+														</label>
+														
+														<div class="col-md-8 col-sm-8 col-xs-12">
+															<input type="string" id="sourceFilePath" class="form-control"
+																ng-model="sourceFilePath"
+																placeholder="eg. sourceFilePath"
+																ng-required="sourceTypes.selected.name == 'flume'">
+														</div>
+												</div>
+												<br>
+												<div class="row">
+														<label
+															class="control-label col-md-4 col-sm-4 col-xs-12"
+															style="padding-top: 6px; text-align: left; text-align: left; text-align: left;">Additional
+															Params</label>
+														<div class="col-md-8 col-sm-8 col-xs-12">
+															<table class="table table-striped table-bordered">
+																<tbody>
+																	<tr ng-repeat="paramRec in addnParamsFlumeSource">
+																		<td><input type="text" class="form-control"
+																			ng-model="paramRec.paramname" placeholder="Param Name" /></td>
+																		<td><input type="text" class="form-control"
+																			ng-model="paramRec.paramvalue"
+																			placeholder="Param Value" /></td>
+																		<td>
+																			<button type="button" class="btn"
+																				ng-click="addNewParam('flume')">
+																				<i class="fa fa-plus"></i>
+																			</button>
+																			<button type="button" class="btn"
+																				ng-click="removeParam('flume',$index)"
+																				ng-show="addnParamsFlumeSource.length>1">
+																				<i class="fa fa-minus"></i>
+																			</button>
+																		</td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+													
+												</div>
+											</fieldset> -->
+											
+											<fieldset class="col-md-9 col-sm-9 col-sm-offset-1 col-md-offset-1 col-xs-12" style="margin-bottom: 10px;">    
+												<legend>Agent Details</legend>
+												<div class="row"> 
+													<label
+														class="control-label col-md-4  col-sm-4  col-xs-12 "
+														for="source-name" style="text-align: left;">
+														Destination Host <span class="required">*</span>
+													</label>
+													
+													<div class="col-md-8 col-sm-8 col-xs-12">
+														<input type="string" id="flumeDestinationHost" class="form-control"
+																ng-model="flumeDestinationHost"
+																placeholder="eg. 10.199.0.1:2181"
+																ng-required="sourceTypes.selected.name == 'flume'" maxlength=100>
+													</div>
+												</div>
+												<br>
+												<div class="row"> 
+													<label
+														class="control-label col-md-4  col-sm-4  col-xs-12 "
+														for="source-name" style="text-align: left;">
+														Destination Port <span class="required">*</span>
+													</label>
+													
+													<div class="col-md-8 col-sm-8 col-xs-12">
+														<input type="string" id="flumeDestinationPort" class="form-control"
+																ng-model="flumeDestinationPort"
+																placeholder="eg. 41414"
+																ng-required="sourceTypes.selected.name == 'flume'" maxlength=100>
+													</div>
+												</div>
+												<div class="row">	
+	    											<div class="col-md-12 col-sm-12 col-xs-12" style="padding-right: 5px;">
+														<button id="save" type="button" class="btn btn-success btn-sm pull-right" ng-click="testFlumeConnection()" style="margin-top: 15px;">
+															<i class="fa fa-check-square-o"></i> Test Connection
+														</button>
+	    											</div>
+												</div>
+											</fieldset>
+										</div>
+
+
+									</div>
+								</div>
+
+								<div role="tabpanel" class="tab-pane" id="advanced">
+									<div
+										style="height: 450px; overflow-y: scroll; overflow-x: hidden; padding-top:20px;">
+
+										<div class="row"
+											ng-show="sourceTypes.selected.name == 'kafka'">
+											<br>
+											<div
+												class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+												<label class="control-label col-md-3 col-sm-3 col-xs-12"
+													style="padding-top: 6px; text-align: left; text-align: left; text-align: left;">Read
+													Threads </label>
+												<div class="col-md-8 col-sm-8 col-xs-12">
+													<input type="text" id="readThreads" class="form-control"
+														value="1" placeholder="eg. 1"
+														ng-required="sourceTypes.selected.name == 'kafka'" maxlength=100>
+												</div>
+											</div>
+										</div>
+										
+										<div class="row"
+											ng-show="sourceTypes.selected.name == 'kafka'">
+											<br>
+											<div
+												class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+												<label class="control-label col-md-3 col-sm-3 col-xs-12"
+													style="padding-top: 6px; text-align: left; text-align: left; text-align: left;">Partition
+													Details </label>
+												<div class="col-md-8 col-sm-8 col-xs-12">
+													<input type="text" id="partitionDetails"
+														class="form-control" ng-model="partitionDetails"
+														placeholder="" maxlength=100>
+												</div>
+											</div>
+										</div>
+										
+										<div class="row" ng-show="sourceTypes.selected.name == 'kafka'">
+											<div
+												class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+												<br> <label
+													class="control-label col-md-3 col-sm-3 col-xs-12"
+													style="padding-top: 6px; text-align: left; text-align: left;">
+													Custom Serializer <!-- <span class="required">*</span> -->
+												</label>
+
+												<div class="col-md-8 col-sm-8 col-xs-12">
+													<input type="string" id="CustSr" size="40"
+														class="form-control" value="">
+
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div
+												class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+												<br> <label
+													class="control-label col-md-3 col-sm-3 col-xs-12"
+													style="padding-top: 6px; text-align: left; text-align: left; text-align: left;">Additional
+													Params</label>
+												<div class="col-md-8 col-sm-8 col-xs-12">
+													<div>
+														<table class="table table-striped table-bordered">
+															<tbody>
+																<tr ng-repeat="paramRec in addnParamsSource">
+																	<td><input type="text" class="form-control"
+																		ng-model="paramRec.key" placeholder="Param Name" maxlength=100/></td>
+																	<td><input type="text" class="form-control"
+																		ng-model="paramRec.value"
+																		placeholder="Param Value" maxlength=100/></td>
+																	<td>
+																		<!-- <a class="btn" ng-click="addNewParam()"> <i
+																				class="fa fa-plus"></i>
+																		</a> -->
+																		<button type="button" class="btn"
+																			ng-click="addNewParam('source')">
+																			<i class="fa fa-plus"></i>
+																		</button>
+																		<button type="button" class="btn"
+																			ng-click="removeParam('source',$index)"
+																			ng-show="addnParamsSource.length>1">
+																			<i class="fa fa-minus"></i>
+																		</button>
+																	</td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+
+								<!--  <div class="ln_solid"></div> -->
+								<div class="form-group"
+									style="background-color: #f7f7f7; margin-bottom: 1px;">
+									<div class="col-md-12 col-xs-12 col-sm-12"
+										style="margin-top: 7px;">
+										<div ng-if="success == true" id="saveSuccessRes"
+											class="col-md-6 col-lg-6 col-sm-6 pull-left"
+											" ng-show="saved">
+											<span ng-if=id="connresponse" ><i
+												class="fa fa-check-square-o" aria-hidden="true"></i>
+												{{saveMessage}}</span>
+										</div>
+										<div ng-if="success != true" id="saveErrorRes"
+											class="col-md-6 col-lg-6 col-sm-6 pull-left"
+											" ng-show="saved">
+											<span ng-if=id="connresponse" ><i class="fa fa-times"
+												aria-hidden="true"></i> {{saveMessage}}</span>
+										</div>
+										<div class="col-md-6 col-lg-6 col-sm-6 pull-right">
+											<!-- <button type="submit" class="btn btn-primary"
+												style="margin-right: 0px !important">Save</button> -->
+											<button id="next" type="submit"
+												class="btn btn-success btn-md pull-right">
+												<i class="fa fa-share-square-o"></i> Save and Next
+											</button>
+											<button id="save" type="submit"
+												class="btn btn-success btn-md pull-right">
+												<i class="fa fa-download"></i> Save
+											</button>
+											<button type="button"
+												class="btn btn-success btn-md pull-right"
+												ng-click="clearConfig('source','new')" ng-disabled="editform.$pristine">
+												<i class="fa fa-minus-circle"></i> Clear 
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+</div>

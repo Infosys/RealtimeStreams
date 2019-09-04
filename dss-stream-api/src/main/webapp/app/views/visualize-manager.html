@@ -1,0 +1,212 @@
+<!--
+  ~ Copyright 2019 Infosys Ltd.
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+-->
+<div>
+	<div class="page-title">
+		<div class="title_left">
+			<h3>
+				Stream Studio
+			</h3>
+		</div>
+
+		<div class="title_right">
+		</div>
+	</div>
+	<div class="clearfix"></div>
+			<div role="tabpanel">
+				<ul id="myTab" class="nav nav-tabs" style="background-color: #f7f7f7;">
+					<li id="1" ng-class="activeclass" style="padding-left: 2px; pointer-events: none;"><a data-target="#portalInput">
+					<i class="fa fa-television"></i> Portal
+							List</a></li>
+					<li id="2" ng-class="notActiveClass" style="pointer-events: none;"><a data-target="#DandV"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard and Visualization</a></li>
+					<!-- <li><a data-target="#portalSave" name="advanced"
+						data-toggle="tab">Portal Save</a></li> -->
+				</ul>
+				</br>
+				<div class="row">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<form id="editform" data-parsley-validate class="form-horizontal ">
+							<div class="tab-content">
+								<div role="tabpanel" class="tab-pane" ng-class="activeclass" id="portalInput">
+									<div class="title_right">
+										<div class="col-md-4 col-sm-4 col-xs-12 form-group pull-right ">
+											<button type="button" class="btn btn-success btn-lg"
+												ng-click="addNewPortal()" style="float: right;" ng-show="modulesMain.studio.editEnabled"> <i
+												class="fa fa-plus-square-o"></i> Add Portal</button>
+										</div>
+									</div>
+									
+									<table class="table table-striped projects">
+										<thead>
+											<tr>
+												<th style="width: 5%"></th>
+												<th style="width: 12.5%">Portal Name</th>
+												<th style="width: 12.5%">Portal Title</th>
+												<th style="width: 20%">Portal URL</th>
+												<th style="width: 15%">Created Date</th>
+												<th style="width: 15%">Created User</th>
+												<th style="width: 20%">Actions</th>
+											</tr>
+										</thead>
+										<tbody>
+											<div>
+												<tr ng-repeat="portal in existingPortals">
+													<td>
+											       	 <input type="checkbox" ng-model="portal.selected" ng-click="updateSelection($index, existingPortals)" />
+											      	</td>
+													<td>{{portal.strPortalName}}</td>
+													<td>{{portal.strPortalTitle}}</td>
+													<td>{{portal.strPortalUrl}}</td>
+													<td>{{portal.createdDate}}</td>
+													<td>{{portal.strCreatedUser}}</td>
+													<td>
+														<a class="btn btn-primary btn-xs" ng-click="editPortal('view',portal.portalId)" ng-show="modulesMain.studio.viewEnabled"><i class="fa fa-folder"></i> View </a>
+														<a class="btn btn-info btn-xs" ng-click="editPortal('edit',portal.portalId)" ng-show="modulesMain.studio.editEnabled"><i class="fa fa-pencil"></i> Edit </a>
+													 	<a class="btn btn-danger btn-xs" ng-click="confirmDeletePortal(portal.portalId,deletePortal)" ng-show="modulesMain.studio.deleteEnabled"><i class="fa fa-trash-o"></i> Delete </a>
+													 </td>
+												</tr>
+												<tr ng-if="existingPortals.length == 0 || !existingPortals">
+													<td></td>
+													<td>No Records Exists</td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+												</tr>
+											</div>
+										</tbody>
+									</table>
+									<div class="form-group"
+									style="margin-bottom: 1px;">
+									<div class="col-md-12 col-xs-12 col-sm-12"
+										style="margin-top: 7px;">
+										
+										<div class="col-md-6 col-lg-6 col-sm-6 pull-right">
+											<button type="button" id="portalNextButton" ng-disabled = "portalSelection"
+												class="btn btn-success btn-md pull-right"
+												ng-click="getDashboardList(selectedPortalId)">
+												<i class="fa fa-forward"></i>Next
+											</button>
+										</div>
+									</div>
+								</div>
+								</div>
+								<div role="tabpanel" class="tab-pane" ng-class="notActiveClass" id="DandV">
+									<div class="title_right">
+										<div class="col-md-6 col-sm-6 col-xs-12 form-group pull-left ">
+											<div class="row">
+												<div class="col-md-10 col-sm-10 col-xs-12" style="padding: 0px;">
+													<label class="control-label col-md-3 col-sm-3 col-xs-12"
+														style="padding-top: 6px; text-align: left;">Portal Name
+													</label>
+				
+													<div class="col-md-8 col-sm-8 col-xs-12">
+														<input type="string" id="portalName" ng-disabled= "true" class="form-control"
+															ng-model="selectedPortalName" placeholder="" maxlength=100>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-4 col-sm-4 col-xs-12 form-group pull-right ">
+											<button type="button" class="btn btn-success btn-lg"
+												ng-click="addNewDashboard()" style="float: right;" ng-show="modulesMain.studio.editEnabled"> <i
+												class="fa fa-plus-square-o"></i> Add Dashboard</button>
+										</div>
+									</div>
+									
+									<table class="table table-striped projects">
+										<thead>
+											<tr>
+												<th style="width: 25%">Dashboard Name</th>
+												<th style="width: 25%">Created Date</th>
+												<th style="width: 25%">Created User</th>
+												<th style="width: 25%">Actions</th>
+											</tr>
+										</thead>
+										<tbody>
+											<div>
+												<tr ng-repeat="dashboard in existingDashboards">
+													<td>{{dashboard.strDashboardlName}}</td>
+													<td>{{dashboard.createdDate}}</td>
+													<td>{{dashboard.strCreatedUser}}</td>
+													<td>
+														<a class="btn btn-primary btn-xs" ng-click="editDashboard('view',dashboard.dashboardId)" ng-show="modulesMain.studio.viewEnabled"><i class="fa fa-folder"></i> View </a>
+														<a class="btn btn-info btn-xs" ng-click="editDashboard('edit',dashboard.dashboardId)"  ng-show="modulesMain.studio.editEnabled"><i class="fa fa-pencil"></i> Edit </a>
+													 	<a class="btn btn-danger btn-xs" ng-click="confirmDeleteDashboard(dashboard.dashboardId,deleteDashboard)"  ng-show="modulesMain.studio.deleteEnabled"><i class="fa fa-trash-o"></i> Delete </a>
+													 </td>
+												</tr>
+												<tr ng-if="existingDashboards.length == 0 || !existingDashboards">
+													<td>No Records Exists</td>
+													<td></td>
+													<td></td>
+													<td></td>
+												</tr>
+											</div>
+										</tbody>
+									</table>
+									<div class="form-group"
+									style="margin-bottom: 1px;">
+										<div class="col-md-12 col-xs-12 col-sm-12"
+											style="margin-top: 7px;">
+											
+											<div class="col-md-6 col-lg-6 col-sm-6">
+												<button type="button" id=""
+													class="btn btn-success btn-md"
+													ng-click="goToPortal()">
+													<i class="fa fa-backward"></i> Previous
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- <div role="tabpanel" class="tab-pane" id="portalSave">
+									<div>
+										<div>
+											<div class="row">
+												<div class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+													<label class="control-label col-md-3 col-sm-3 col-xs-12"
+														style="padding-top: 6px; text-align: left;">Portal Name
+													</label>
+													<div class="col-md-7 col-sm-7 col-xs-12">
+														<input type="int" id="portalName" ng-model="portalName" size=40
+															class="form-control" value="5">
+													</div>
+												</div>
+											</div>
+											<br>
+											<div class="row">
+												<div class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+													<label class="control-label col-md-3 col-sm-3 col-xs-12"
+														style="padding-top: 6px; text-align: left;">Portal Title
+													</label>
+													<div class="col-md-7 col-sm-7 col-xs-12">
+														<input type="int" id="portalTitle" ng-model="portalTitle" size=40
+															class="form-control" value="5">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div> -->
+							</div>
+						</form>
+
+					</div>
+				</div>
+			</div>
+</div>

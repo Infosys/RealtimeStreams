@@ -1,0 +1,340 @@
+<!--
+  ~ Copyright 2019 Infosys Ltd.
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+-->
+<!-- Begin page content -->
+<div class="">
+	<div>
+		<div class="modal-header headerStyle"
+			style="border-bottom: 1px solid #bcbcbc; color: black">
+			<h4 class="modal-title" id="modal-title">
+				Execute Pipeline<i class="fa fa-times pull-right"
+					ng-click="cancel(exePipelinePopUp)" style="cursor: pointer;"></i>
+			</h4>
+			<!-- <h4 class="modal-title" id="modal-title" style="text-align: left;">
+				Source Configuration</h4> -->
+		</div>
+		<div class="modal-body-small" id="modal-body" style="font-size: 13px;">
+
+			<div class="clearfix"></div>
+			</br>
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+
+					<form id="editform" data-parsley-validate class="form-horizontal ">
+						<div
+							style="height: 450px; overflow-y: scroll; overflow-x: hidden;">
+
+							<div class="row">
+								<div
+									class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+									<label class="control-label col-md-4 col-sm-4 col-xs-12"
+										style="padding-top: 6px;">Schedule <!-- <span class="required">*</span> -->
+									</label>
+									<div class="col-md-8 col-sm-8 col-xs-12">
+										<input type="string" id="sourceConfigName"
+											class="form-control" ng-model="sourceConfigName"
+											placeholder="eg. KafkaConfigOne">
+									</div>
+								</div>
+							</div>
+							<br>
+							<!-- <h3>Page1</h3>   -->
+							<div class="row">
+								<div
+									class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+									<div class="form-group">
+
+										<label class="control-label col-md-4 col-sm-4 col-xs-12"
+											style="padding-top: 6px;">Source Type <!-- <span class="required">*</span> -->
+										</label>
+
+										<div class="col-md-8 col-sm-8 col-xs-12">
+											<select class="form-control" ng-model="sourceTypes.selected"
+												ng-options="sources as sources.name for sources in
+								sourceTypes"
+												ng-change="select(sourceTypes.selected)">
+												<option value="" disabled selected hidden>Select
+													Source</option>
+											</select>
+
+										</div>
+									</div>
+								</div>
+							</div>
+							<br>
+							<div ng-show="sourceTypes.selected.name == 'KAFKA'">
+								<div class="row">
+									<div
+										class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+										<label class="control-label col-md-4 col-sm-4 col-xs-12"
+											style="padding-top: 6px;">Kafka ClientId <!-- <span class="required">*</span> -->
+										</label>
+
+										<div class="col-md-8 col-sm-8 col-xs-12">
+											<input type="string" id="clientId" class="form-control"
+												ng-model="clientId" placeholder="eg. KafkaClient1">
+
+										</div>
+									</div>
+								</div>
+								<br>
+								<div class="row">
+									<div
+										class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+										<label class="control-label col-md-4 col-sm-4 col-xs-12"
+											style="padding-top: 6px;">Kafka TopicName <!-- <span class="required">*</span> -->
+										</label>
+
+										<div class="col-md-8 col-sm-8 col-xs-12">
+											<input type="string" id="topicName" class="form-control"
+												ng-model="topicName" placeholder="eg. MyTopicName">
+
+										</div>
+									</div>
+								</div>
+								<br>
+								<div class="row">
+									<div
+										class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+										<label class="control-label col-md-4 col-sm-4 col-xs-12"
+											style="padding-top: 6px;">Kafka Brokers <!-- <span class="required">*</span> -->
+										</label>
+
+										<div class="col-md-8 col-sm-8 col-xs-12">
+											<input type="string" id="broker" class="form-control"
+												ng-model="broker"
+												placeholder="eg. 10.0.0.1:9098,10.0.0.2:9098">
+
+										</div>
+									</div>
+								</div>
+								<br>
+
+								<div class="row">
+									<div
+										class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+										<label class="control-label col-md-4 col-sm-4 col-xs-12"
+											style="padding-top: 6px;">ZooKeepers <!-- <span class="required">*</span> -->
+										</label>
+
+										<div class="col-md-8 col-sm-8 col-xs-12">
+											<input type="string" id="zookeepr" class="form-control"
+												ng-model="zookeepr"
+												placeholder="eg. 10.199.0.1:2181,10.199.0.2:2181">
+
+										</div>
+									</div>
+								</div>
+								<br>
+								<div class="row">
+									<div
+										class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+										<label class="control-label col-md-4 col-sm-4 col-xs-12"
+											style="padding-top: 6px;">Kafka Offset <!-- <span class="required">*</span> -->
+										</label>
+
+										<div class="col-md-8 col-sm-8 col-xs-12">
+											<label class="radio-inline"> <input type="radio"
+												ng-model="offset" value="Largest" id="offset"
+												ng-checked="true">Largest
+											</label> <label class="radio-inline"> <input type="radio"
+												ng-model="offset" id="offset" value="Smallest">Smallest
+											</label>
+
+										</div>
+									</div>
+								</div>
+								<br>
+
+								<div class="row">
+									<div
+										class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+										<label class="control-label col-md-4 col-sm-4 col-xs-12"
+											style="padding-top: 6px;">Kafka Key Serializer <!-- <span class="required">*</span> -->
+										</label>
+
+										<div class="col-md-8 col-sm-8 col-xs-12">
+											<input type="string" id="keySr" size="40"
+												class="form-control"
+												value="org.apache.kafka.common.serialization.StringSerializer">
+										</div>
+									</div>
+								</div>
+								<br>
+								<div class="row">
+									<div
+										class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+										<label class="control-label col-md-4 col-sm-4 col-xs-12"
+											style="padding-top: 6px;">Kafka Value Serializer <!-- <span class="required">*</span> -->
+										</label>
+
+										<div class="col-md-8 col-sm-8 col-xs-12">
+											<input type="string" id="valSr" size="40"
+												class="form-control"
+												value="org.apache.kafka.common.serialization.StringSerializer">
+
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div
+										class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+										<label class="control-label col-md-4 col-sm-4 col-xs-12"
+											style="padding-top: 6px;">Kafka Session Timeout(ms) <!-- <span class="required">*</span> -->
+										</label>
+
+										<div class="col-md-8 col-sm-8 col-xs-12">
+											<input type="int" id="sTimeout" class="form-control"
+												value="15000">
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div
+										class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+										<label class="control-label col-md-4 col-sm-4 col-xs-12"
+											style="padding-top: 6px;">Kafka Connection
+											Timeout(ms) <!-- <span class="required">*</span> -->
+										</label>
+
+										<div class="col-md-8 col-sm-8 col-xs-12">
+											<input type="int" id="cTimeout" class="form-control"
+												value="10000">
+
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div ng-show="sourceTypes.selected.name == 'FLUME'">
+								<div class="row">
+									<div
+										class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+										<label class="control-label col-md-4 col-sm-4 col-xs-12"
+											style="padding-top: 6px;">Flume Agent Name <!-- <span class="required">*</span> -->
+										</label>
+
+										<div class="col-md-8 col-sm-8 col-xs-12">
+											<input type="string" id="flumeagentName" class="form-control"
+												ng-model="flumeagentName" placeholder="eg. a1">
+
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div
+										class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+										<label class="control-label col-md-4 col-sm-4 col-xs-12"
+											style="padding-top: 6px;">Flume Source Name <!-- <span class="required">*</span> -->
+										</label>
+
+										<div class="col-md-8 col-sm-8 col-xs-12">
+											<input type="string" id="flumesourceName"
+												class="form-control" ng-model="flumesourceName"
+												placeholder="eg. r1">
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div
+										class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+										<label class="control-label col-md-4 col-sm-4 col-xs-12"
+											style="padding-top: 6px;">Flume Source Properties <!-- <span class="required">*</span> -->
+										</label>
+
+										<div class="col-md-8 col-sm-8 col-xs-12">
+											<input type="string" id="flumesourceProp"
+												class="form-control" ng-model="flumesourceProp"
+												placeholder="eg. a1.sources.r1.type=exec">
+
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div
+										class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+										<label class="control-label col-md-4 col-sm-4 col-xs-12"
+											style="padding-top: 6px;">Flume Monitor Port <!-- <span class="required">*</span> -->
+										</label>
+
+										<div class="col-md-8 col-sm-8 col-xs-12">
+											<input type="string" id="flumeport" class="form-control"
+												ng-model="flumeport" placeholder="eg. 41414">
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div
+										class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+										<label class="control-label col-md-4 col-sm-4 col-xs-12"
+											style="padding-top: 6px;">Channel Capacity <!-- <span class="required">*</span> -->
+										</label>
+
+										<div class="col-md-8 col-sm-8 col-xs-12">
+											<input type="string" id="flumechannelCap"
+												class="form-control" ng-model="flumechannelCap"
+												placeholder="eg. 100">
+
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+						</div>
+
+						<!--  <div class="ln_solid"></div> -->
+						<div class="form-group">
+							<div class="col-md-11 col-sm-11 col-xs-12">
+								<div class="pull-right">
+
+									<!-- <button type="submit" class="btn btn-primary"
+										style="margin-right: 0px !important">Save</button> -->
+									<button type="submit" class="btn btn-primary btn-md pull-right"
+										ng-click="saveConfig('source')">Save</button>
+								</div>
+							</div>
+						</div>
+
+					</form>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+
+
+
+
+</div>

@@ -1,0 +1,115 @@
+<!--
+  ~ Copyright 2019 Infosys Ltd.
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+-->
+<!DOCTYPE html>
+<html lang="en" ng-app="LoginAPP" style="height: 100%">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Meta, title, CSS, favicons, etc. -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Realtime Streams</title>
+
+<!-- Bootstrap core CSS -->
+
+<link href="css/bootstrap.min.css" rel="stylesheet">
+
+<link href="fonts/css/font-awesome.min.css" rel="stylesheet">
+<link href="css/animate.min.css" rel="stylesheet">
+
+<!-- Custom styling plus plugins -->
+<link href="css/custom.css" rel="stylesheet">
+<link href="css/login-styles.css" rel="stylesheet">
+<link href="css/icheck/flat/green.css" rel="stylesheet">
+<link href="css/animate.min.css" rel="stylesheet">
+<script src="js/jquery.min.js"></script>
+</head>
+
+<body class="bg-img" ng-controller="LoginCtrl" style="height: 100%">
+	<div class="wrapper">
+		<div class="row">
+			<div class="col-md-6 col-sm-6 col-xs-12" style="float: right;">
+				<div class="login">
+					<form id="loginform" data-parsley-validate
+						ng-submit="userLogin() && loginform.$valid">
+						<p class="title" style="margin: 29px 0;">Log in</p>
+						<input type="text" ng-model="userName" placeholder="Username"
+							autofocus ng-required="true" /> <i class="fa fa-user"></i> <input
+							type="password" placeholder="Password" ng-model="password"
+							ng-required="true" /> <i class="fa fa-key"></i>
+						<div class="row">
+							<div class="col-md-12 col-sm-12 col-xs-12">
+								<div style="color: red;" ng-cloak>{{loginError}}</div>
+							</div>
+						</div>
+						<button type="submit">
+							<span class="state">Log in</span>
+						</button>
+					</form>
+				</div>
+
+			</div>
+
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="login"
+					style="max-width: 650px; background: none; box-shadow: none; width: 100%;">
+					<form>
+						<p class="title" style="padding-bottom: 0; text-align: center;margin: 20px 0px 5px 0px;">
+							<img src="img/img01.png" alt="..">
+						<p
+							style="color: #fff; margin-left: 10px; text-align: center; font-weight: bold; font-family: monospace; font-size: 15px;">
+							<span style="color: #6c7ac7;">IDEATE</span> | <span
+								style="color: #f9ba3a;">INNOVATE</span> | <span
+								style="color: #ff7b59;">IMPLEMENT</span>
+						</p>
+						</p>
+						<div>
+							<img src="img/login-image5.png" alt="flow-chart"
+								style="float: left;">
+							<p style="color: #fff; text-align: justify; padding-top: 30px;">
+								<span style="font-weight: bold; color: #4dcbff;">Realtime Streams,</span>
+								the horizontal framework, makes management, monitoring,
+								real-time analytics and visualization of live streaming data a
+								cinch and provides a visual code free interface, allowing the
+								user to create pipelines of real time streams at ease and also
+								depict their visualizations as a presentation layer.
+							</p>
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/angular.js"></script>
+	<script src="js/angular-animate.js"></script>
+	<script src="js/angular-sanitize.js"></script>
+
+	<!-- Modules/Controllers/Services JS Files -->
+	<script src="app/app.js"></script>
+	<script src="app/ui-properties.js"></script>
+
+	<script src="app/controllers/stream-login.js"></script>
+	<script src="app/services/login.js"></script>
+
+</body>
+</html>

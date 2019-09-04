@@ -1,0 +1,124 @@
+<!--
+  ~ Copyright 2019 Infosys Ltd.
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+-->
+<div id="source">
+	<!-- <div class="poppanel templates"> -->
+	<h3 id="heading3">
+		<div style="padding: 7px">
+			<span class="glyphicon glyphicon-list-alt"></span> Source
+		</div>
+		<!-- <button type="button" class="close" onclick="closePopUp('source')">�</button> -->
+
+	</h3>
+	<!-- <form class="form-horizontal form-label-left"
+		style="margin-left: -25px; overflow-y: auto; height: 80%;"> -->
+		<form class="form-horizontal form-label-left">
+
+		<div class="wf-popup container-fluid">
+			<div class="row">
+				<div class="form-group">
+					<label
+						class="control-label col-md-3  col-md-offset-1 col-sm-3 col-sm-offset-1 col-xs-12"
+						for="source-name" style="text-align: left;"> Source
+						Configuration Name <span class="required">*</span>
+					</label>
+
+					<!-- Changes to happen -->
+					<div class="col-md-6 col-sm-6 col-xs-11">
+
+						<ui-select ng-model="existingSources.selected" theme="selectize"
+							style="width: 100%;" id="child_inline" ng-required="true"
+							on-select="typeOnSelection($select.selected)"> <ui-select-match
+							placeholder="Select or search Source name...">{{$select.selected.name}}</ui-select-match>
+						<ui-select-choices
+							repeat="source in existingSources | filter: $select.search">
+						<span ng-bind-html="source.name | highlight: $select.search"></span>
+						</ui-select-choices> </ui-select>
+					</div>
+
+					<!-- end of source drop down -->
+				</div>
+
+				<div class="form-group">
+					<label
+						class="control-label col-md-3  col-md-offset-1 col-sm-3 col-sm-offset-1 col-xs-12"
+						for="" style="text-align: left;"> Initial Table Name </label>
+
+					<!-- Changes to happen -->
+					<div class="col-md-6 col-sm-6 col-xs-11">
+
+						<input type="text" id="initialTableName"
+							ng-model="initialTableName"
+							class="form-control col-md-7 col-xs-12">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label
+						class="control-label col-md-3  col-md-offset-1 col-sm-3 col-sm-offset-1 col-xs-12"
+						for="source-name" style="text-align: left;"> Upload Schema
+						file </label>
+
+					<!-- Changes to happen -->
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type='file' accept='text/plain' onchange='openFile(event)'>
+					</div>
+
+					<input id="selectedSourceType" type="hidden" value="" />
+					<!-- end of source drop down -->
+				</div>
+				<div class="form-group" ng-show="showSchemaGrid">
+					<label
+						class="control-label col-md-3  col-md-offset-1 col-sm-3 col-sm-offset-1 col-xs-12"
+						for="source-name" style="text-align: left;"> Uploaded
+						Schema details </label>
+					<div class="col-md-7 col-sm-7 col-xs-12">
+
+						<!-- <div id="gridOptions" ui-grid="gridOptions" class="grid"></div> -->
+					</div>
+				</div>
+
+				<!-- end of source connection -->
+				<footer class="">
+					<div id="stepMessageSection" style="float: left; padding: 10px;">{{stepMessage}}</div>
+					<button type="button" class="btn btn-success btn-sm pull-right"
+						ng-click="savePopUp('source')" style="margin-left: 3px;"
+						ng-show="pipelineAction=='add' || pipelineAction=='edit'">
+						<i class="fa fa-download"></i> {{stepAddEdit}}
+					</button>
+					<button type="button" class="btn btn-success btn-sm pull-right"
+						ng-show="pipelineAction=='add' || pipelineAction=='edit'"
+						onclick="closePopUp('source')">
+						<i class="fa fa-times"></i> Cancel
+					</button>
+					<button type="button" class="btn btn-success btn-sm pull-right"
+						ng-show="pipelineAction=='view'" onclick="closePopUp('source')">
+						<i class="fa fa-times"></i> Close
+					</button>
+					<button type="button" class="btn btn-success btn-sm pull-right"
+						ng-show="pipelineAction=='add' || pipelineAction=='edit'"
+						ng-click="clearPopUp('source')" style="margin-right: 3px;">
+						<i class="fa fa-minus-circle"></i> Clear
+					</button>
+				</footer>
+
+				<input id="stepId" type="hidden" value="" /> <br> <br> <br>
+			</div>
+		</div>
+
+	</form>
+</div>

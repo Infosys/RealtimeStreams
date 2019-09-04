@@ -1,0 +1,194 @@
+<!--
+  ~ Copyright 2019 Infosys Ltd.
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+-->
+<!-- Begin page content -->
+<div class="">
+	<div>
+		<div class="modal-header headerStyle"
+			style="border-bottom: 1px solid #000000; color: white; background-color: rgba(21, 31, 42, 0.89);">
+			<h4 class="modal-title" id="modal-title">
+				<i class="fa fa-share-alt" style="font-size: 25px;"></i> <span
+					ng-show="configAction=='view'">View Category Configuration</span> <span
+					ng-show="configAction=='edit'">Update Category Configuration</span><i
+					class="fa fa-times pull-right"
+					ng-click="cancel(editCategoryPopUp,'category')"
+					style="cursor: pointer;"></i>
+			</h4>
+			<!-- <h4 class="modal-title" id="modal-title" style="text-align: left;">
+				Category Configuration</h4> -->
+		</div>
+		<div class="modal-body-small" id="modal-body" style="font-size: 13px;">
+
+			<div class="clearfix"></div>
+			</br>
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+
+					<form id="editform" name="editform" data-parsley-validate
+						class="form-horizontal"
+						ng-submit="editform.$valid && saveEditConfig('category',categoryRecord)">
+						<div
+							style="height: 450px; overflow-y: scroll; overflow-x: hidden;">
+							<div class="row">
+								<div
+									class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+									<label class="control-label col-md-3 col-sm-3 col-xs-12"
+										style="padding-top: 6px; text-align: left;">Category
+										Name <span class="required">*</span>
+									</label>
+
+									<div class="col-md-8 col-sm-8 col-xs-12">
+										<input type="string" id="catname" name="catname"
+											class="form-control"
+											ng-class="{inputView : configAction === 'view'}"
+											ng-model="categoryRecord.strCategoryName"
+											placeholder="eg. CategoryName" ng-required="true"
+											maxlength=100 ng-pattern="/^[a-zA-Z0-9-_\s]*$/"
+											ng-trim="false"><span class="error"
+											ng-messages="editform.catname.$error" style="color: red">
+											<span ng-message="required"
+											ng-show="editform.catname.$error.required && editform.catname.$dirty">
+												Name cannot be empty</span> <span ng-message="pattern"
+											ng-show="editform.catname.$error.pattern">Special
+												characters are not allowed</span>
+										</span>
+									</div>
+								</div>
+							</div>
+							<br>
+							<div class="row">
+								<div
+									class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+									<label class="control-label col-md-3 col-sm-3 col-xs-12"
+										style="padding-top: 6px; text-align: left;">Category
+										Description </label>
+
+									<div class="col-md-8 col-sm-8 col-xs-12">
+										<input type="string" id="CatDes" class="form-control"
+											ng-class="{inputView : configAction === 'view'}"
+											ng-model="categoryRecord.strCategoryDesc"
+											placeholder="eg.Description" maxlength=100>
+									</div>
+								</div>
+							</div>
+							<br>
+							<div class="row">
+								<div
+									class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+									<label class="control-label col-md-3 col-sm-3 col-xs-12"
+										style="padding-top: 6px; text-align: left;">Access
+										Duration <span class="required">*</span>
+									</label>
+
+									<div class="col-md-8 col-sm-8 col-xs-12"
+										ng-class="{inputView : configAction === 'view'}"
+										style="padding: 0px; padding-top: 6px;">
+										<div class="col-md-6 col-sm-6 col-xs-6" id="border">
+											<label for="dateFromId">From Date</label>
+											<p class="input-group changeFont" id="dateFromId">
+												<input type="text" readonly class="form-control" id="dateFrom"
+													uib-datepicker-popup="{{format}}"
+													ng-model="categoryRecord.dateFrom"
+													is-open="dateFromState.opened" on-open-focus="false"
+													min-date="minDate" show-button-bar="false"
+													datepicker-options="dateOptions" ng-required="true"
+													ng-change="fromDateChange('edit',categoryRecord)" /> <span
+													class="input-group-btn">
+													<button type="button" class="btn btn-default"
+														ng-click="opendateFromPicker()">
+														<i class="glyphicon glyphicon-calendar"></i>
+													</button>
+												</span>
+											</p>
+
+										</div>
+										<div class="col-md-6 col-sm-6 col-xs-6" id="border">
+											<label for="dateToId">To Date</label>
+											<p class="input-group changeFont" id="dateToId">
+												<input type="text" readonly class="form-control" id="dateTo"
+													uib-datepicker-popup="{{format}}"
+													ng-model="categoryRecord.dateTo"
+													is-open="dateToState.opened" on-open-focus="false"
+													min-date="minToDate" show-button-bar="false"
+													datepicker-options="dateOptions" ng-required="true" /> <span
+													class="input-group-btn">
+													<button type="button" class="btn btn-default"
+														ng-click="opendateToPicker()">
+														<i class="glyphicon glyphicon-calendar"></i>
+													</button>
+												</span>
+											</p>
+
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+						<!--  <div class="ln_solid"></div> -->
+						<div class="form-group"
+							style="background-color: #f7f7f7; margin-bottom: 1px;">
+							<div class="col-md-12 col-xs-12 col-sm-12"
+								style="margin-top: 7px;">
+								<div ng-if="success == true" id="saveSuccessRes"
+									class="col-md-6 col-lg-6 col-sm-6 pull-left" " ng-show="saved">
+									<span ng-if=id="connresponse" ><i
+										class="fa fa-check-square-o" aria-hidden="true"></i>
+										{{saveMessage}}</span>
+								</div>
+								<div ng-if="success != true" id="saveErrorRes"
+									class="col-md-6 col-lg-6 col-sm-6 pull-left" " ng-show="saved">
+									<span ng-if=id="connresponse" ><i class="fa fa-times"
+										aria-hidden="true"></i> {{saveMessage}}</span>
+								</div>
+								<div class="col-md-6 col-lg-6 col-sm-6 pull-right">
+									<div ng-show="configAction=='view'">
+										<br>
+									</div>
+									<!-- <button type="submit" class="btn btn-primary"
+										style="margin-right: 0px !important">Save</button> -->
+									<button ng-show="configAction=='edit'" type="submit"
+										class="btn btn-success btn-md pull-right">
+										<i class="fa fa-check-square-o"></i> Update
+									</button>
+									<button ng-show="configAction=='edit'" type="button"
+										class="btn btn-success btn-md pull-right"
+										ng-click="clearConfig('category','edit',categoryRecord)">
+										<i class="fa fa-minus-circle"></i> Clear
+									</button>
+								</div>
+							</div>
+						</div>
+
+					</form>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+
+
+
+
+</div>

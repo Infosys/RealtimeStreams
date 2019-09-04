@@ -1,0 +1,75 @@
+<!--
+  ~ Copyright 2019 Infosys Ltd.
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+-->
+<div style="width: 100%;">
+	<div class="page-title" style="padding: 0;height: 0;">
+		<div class="title_left">
+			<h3>
+				Operational UI Wizard<small> </small>
+			</h3>
+		</div>
+	</div>
+	<div style="height: 550px;">
+		<div class="x_panel" style="padding: 0px;margin-bottom: 0px;">
+                  <div class="x_content" style="padding: 0px;">
+                    <a id="wizardButton" ng-href={{url}} class="btn btn-app" ng-class="{selectedEntity : activeMenu === 'YRManager'}" ng-click = "changeEntity('YRManager')" target="_blank">
+                      <i class="fa fa-clipboard" style="color: #ec9a1a;"></i> <p style="font-size: 11px;">Yarn-Resource <br> Manager</p>
+                    </a>
+                    <a id="wizardButton" ng-href={{url}} class="btn btn-app" ng-class="{selectedEntity : activeMenu === 'HDFS'}" ng-click = "changeEntity('HDFS')" target="_blank">
+                      <i class="fa fa-book" style="color: #1dc351;"></i> <p style="font-size: 15px;">HDFS</p>
+                    </a>
+                    <a id="wizardButton" ng-href={{url}} class="btn btn-app" ng-class="{selectedEntity : activeMenu === 'StreamExecutor'}" ng-click = "changeEntity('StreamExecutor')" target="_blank">
+                      <i class="fa fa-bullseye" style="color: #0e83ca;"></i> <p style="font-size: 11px;">Stream <br>Executor</p>
+                    </a>
+                   	<a id="wizardButton" ng-href={{url}} class="btn btn-app" ng-class="{selectedEntity : activeMenu === 'Spark'}" ng-click = "changeEntity('Spark')" target="_blank">
+                      <i class="fa fa-cog" style="color: #ca5959;"></i> <p style="font-size: 15px;">Spark</p>
+                    </a>
+                    <a id="wizardButton" ng-href={{url}} class="btn btn-app" ng-class="{selectedEntity : activeMenu === 'Grafana'}" ng-click = "changeEntity('Grafana')" target="_blank">
+                      <i class="fa fa-adjust" style="color: #23d0c1;"></i> <p style="font-size: 15px;">Grafana</p>
+                    </a>
+                  </div>
+        </div>
+		<!-- <div class="x_panel" style="width: 20%; margin-right:20px;height:100%;">
+			<div class="x_title">
+			  <h2>Entities List </h2>
+			  <div class="clearfix"></div>
+			</div>
+			<div class="x_content">
+			      <div ng-repeat="entity in operationalEntities">
+			      		<a href="" ng-click="changeEntity(entity)"><div ng-class="{selectedEntity : activeMenu === entity}" style="font-size: 17px; padding-left: 3px;"> {{entity.name}}</div></a>
+			      </div>
+			</div>
+		
+		</div> -->
+		
+		<div id="wizardURL" class="x_panel" style="width: 100%;height:85%;">
+			<!-- <div class="x_title" style="margin-bottom: 0px;">
+			  <h2>{{entityName}} </h2>
+			  <div class="clearfix"></div>
+			</div> -->
+			
+			<div class="x_content" style="height: 100%;padding: 0px;margin: 0px;">
+			      <div style="height:100%">
+                   	<!--<iframe id="wizardFrame" width="100%" height="100%" ng-src="{{trustSrc(url)}}" fullscreen;>
+						  <p>Your browser does not support iframes.</p>
+					</iframe>-->
+	              </div>
+			</div>
+		
+		</div>
+	</div>
+</div>

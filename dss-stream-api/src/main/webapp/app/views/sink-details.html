@@ -1,0 +1,277 @@
+<!--
+  ~ Copyright 2019 Infosys Ltd.
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+-->
+<!-- Begin page content -->
+<div class="">
+	<div>
+		<div class="modal-header headerStyle"
+			style="border-bottom: 1px solid #000000; color: white; background-color: rgba(21, 31, 42, 0.89);">
+			<h4 class="modal-title" id="modal-title">
+				<i class="fa fa-archive" style="font-size: 25px;"></i> New Sink
+				Adapter Configuration<i class="fa fa-times pull-right"
+					ng-click="cancel(openSinkPopUp,'sink')" style="cursor: pointer;"></i>
+			</h4>
+			<!-- <h4 class="modal-title" id="modal-title" style="text-align: left;">
+				Source Configuration</h4> -->
+		</div>
+		<div class="modal-body-small" id="modal-body" style="font-size: 13px;">
+
+			<div class="clearfix"></div>
+			<div role="tabpanel">
+				<ul class="nav nav-tabs" style="background-color: #f7f7f7;">
+					<li class="active" style="padding-left: 2px"><a
+						data-target="#basic" name="basic" data-toggle="tab">Basic
+							Configuration</a></li>
+					<li><a data-target="#advanced" name="advanced"
+						data-toggle="tab">Advanced Options</a></li>
+				</ul>
+				
+				<div class="row">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<form id="editform" name="editform" class="form-horizontal "
+							data-parsley-validate
+							ng-submit="editform.$valid && saveConfig('sink')">
+							<div class="tab-content">
+								<div role="tabpanel" class="tab-pane active" id="basic">
+									<div
+										style="height: 450px; overflow-y: scroll; overflow-x: hidden;padding-top:20px;">
+
+
+										<!-- <h3>Page1</h3>   -->
+										<div class="row">
+											<div
+												class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+												<label class="control-label col-md-3 col-sm-3 col-xs-12"
+													style="padding-top: 6px; text-align: left;">Sink
+													Config Name <span class="required">*</span>
+												</label>
+
+												<div class="col-md-8 col-sm-8 col-xs-12">
+													<input type="string" id="sinkName" class="form-control"
+														name="sinkName" ng-model="sinkName"
+														placeholder="eg. ElassandraSink" ng-required="true"
+														maxlength=100
+														ng-pattern="/^[a-zA-Z0-9-_\s]*$/" ng-trim="false"><span
+														class="error" ng-messages="editform.sinkName.$error"
+														style="color: red"> <span ng-message="required"
+														ng-show="editform.sinkName.$error.required && editform.sinkName.$dirty">
+															Name cannot be empty</span> <span ng-message="pattern"
+														ng-show="editform.sinkName.$error.pattern">Special
+															characters are not allowed</span>
+													</span>
+												</div>
+											</div>
+										</div>
+										<br>
+										<div class="row">
+											<div
+												class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+
+												<label class="control-label col-md-3 col-sm-3 col-xs-12"
+													style="padding-top: 6px; text-align: left;">Sink
+													Type <span class="required">*</span>
+												</label>
+
+												<div class="col-md-8 col-sm-8 col-xs-12">
+													<select class="form-control " ng-model="sinkTypes.selected"
+														ng-options="sinks as sinks.name for sinks in
+											sinkTypes"
+														ng-change="select('sink',sinkTypes.selected)" ng-required="true">
+														<option value="" disabled selected hidden>Select
+															Sink</option>
+													</select>
+
+												</div>
+
+											</div>
+										</div>
+										<br>
+										<div ng-show="sinkTypes.selected.name == 'Elassandra'">
+											<div class="row">
+												<div
+													class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+													<label class="control-label col-md-3 col-sm-3 col-xs-12"
+														style="padding-top: 6px; text-align: left;">Nodes
+														<span class="required">*</span>
+													</label>
+
+													<div class="col-md-8 col-sm-8 col-xs-12">
+														<input type="string" id="node" name="node"
+															class="form-control" ng-model="node"
+															placeholder="eg: 10.99.0.100,10.99.0.101,10.99.0,102"
+															ng-required="sinkTypes.selected.name == 'Elassandra'"
+															maxlength=100 ng-pattern="/^[a-zA-Z0-9-_,.\s]*$/"><span
+															class="error" ng-messages="editform.node.$error"
+															style="color: red"> <span ng-message="required"
+															ng-show="editform.node.$error.required && editform.node.$dirty">
+																Value cannot be empty</span> <span ng-message="pattern"
+															ng-show="editform.node.$error.pattern">Special
+																characters are not allowed </span>
+														</span>
+													</div>
+												</div>
+											</div>
+										</div>
+										<br>
+										<div ng-show="sinkTypes.selected.name == 'Elassandra'">
+											<div class="row">
+												<div
+													class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+													<label class="control-label col-md-3 col-sm-3 col-xs-12"
+														style="padding-top: 6px; text-align: left;">Topology
+														<span class="required">*</span>
+													</label>
+
+													<div class="col-md-8 col-sm-8 col-xs-12">
+														<select class="form-control "
+															ng-model="topologies.selected"
+															ng-options="topology as topology.name for topology in topologies"
+															ng-required="sinkTypes.selected.name == 'Elassandra'">
+															<option value="" disabled selected hidden>Select
+																Topology</option>
+														</select>
+													</div>
+												</div>
+											</div>
+										</div>
+										<br>
+										<div ng-show="sinkTypes.selected.name == 'Elassandra'">
+											<div class="row">
+												<div
+													class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+													<label class="control-label col-md-3 col-sm-3 col-xs-12"
+														style="padding-top: 6px; text-align: left;">Replication
+														<span class="required">*</span>
+													</label>
+
+													<div class="col-md-8 col-sm-8 col-xs-12">
+														<input type="string" id="replication" name="replication" class="form-control"
+															ng-model="replication" placeholder="eg: 2"
+															ng-required="sinkTypes.selected.name == 'Elassandra'"
+															maxlength=100 ng-pattern="/^[0-9]*$/"><span
+															class="error" ng-messages="editform.replication.$error"
+															style="color: red"> <span ng-message="required"
+															ng-show="editform.replication.$error.required && editform.replication.$dirty">
+																Value cannot be empty</span> <span ng-message="pattern"
+															ng-show="editform.replication.$error.pattern">Only
+																digits allowed </span>
+														</span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div role="tabpanel" class="tab-pane" id="advanced">
+									<div
+										style="height: 450px; overflow-y: scroll; overflow-x: hidden;padding-top:20px;">
+										<div class="row">
+											<div
+												class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+												<br> <label
+													class="control-label col-md-3 col-sm-3 col-xs-12"
+													style="padding-top: 6px; text-align: left; text-align: left; text-align: left;">Additional
+													Params</label>
+												<div class="col-md-8 col-sm-8 col-xs-12">
+													<div>
+														<table class="table table-striped table-bordered">
+															<tbody>
+																<tr ng-repeat="paramRec in addnParamsSink">
+																	<td><input type="text" class="form-control"
+																		ng-model="paramRec.key" placeholder="Param Name" maxlength=100/></td>
+																	<td><input type="text" class="form-control"
+																		ng-model="paramRec.value"
+																		placeholder="Param Value" maxlength=100/></td>
+																	<td>
+																		<!-- <a class="btn" ng-click="addNewParam()"> <i
+																				class="fa fa-plus"></i>
+																		</a> -->
+																		<button type="button" class="btn"
+																			ng-click="addNewParam('sink')">
+																			<i class="fa fa-plus"></i>
+																		</button>
+																		<button type="button" class="btn"
+																			ng-click="removeParam('sink',$index)"
+																			ng-show="addnParamsSink.length>1">
+																			<i class="fa fa-minus"></i>
+																		</button>
+																	</td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+
+							</div>
+
+
+
+							<!--  <div class="ln_solid"></div> -->
+							<div class="form-group"
+								style="background-color: #f7f7f7; margin-bottom: 1px;">
+								<div class="col-md-12 col-xs-12 col-sm-12"
+									style="margin-top: 7px;">
+									<div ng-if="success == true" id="saveSuccessRes"
+										class="col-md-6 col-lg-6 col-sm-6 pull-left" " ng-show="saved">
+										<span ng-if=id="connresponse" ><i
+											class="fa fa-check-square-o" aria-hidden="true"></i>
+											{{saveMessage}}</span>
+									</div>
+									<div ng-if="success != true" id="saveErrorRes"
+										class="col-md-6 col-lg-6 col-sm-6 pull-left" " ng-show="saved">
+										<span ng-if=id="connresponse" ><i class="fa fa-times"
+											aria-hidden="true"></i> {{saveMessage}}</span>
+									</div>
+									<div class="col-md-6 col-lg-6 col-sm-6 pull-right">
+
+										<button type="submit"
+											class="btn btn-success btn-md pull-right">
+											<i class="fa fa-download"></i> Save
+										</button>
+										<button type="button"
+											class="btn btn-success btn-md pull-right"
+											ng-click="clearConfig('sink','new')" ng-disabled="editform.$pristine">
+											<i class="fa fa-minus-circle"></i> Clear
+										</button>
+									</div>
+								</div>
+							</div>
+					</form>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+
+
+
+
+
+
+</div>

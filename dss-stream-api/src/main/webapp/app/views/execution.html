@@ -1,0 +1,193 @@
+<!--
+  ~ Copyright 2019 Infosys Ltd.
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+-->
+<!--
+ - @desc  Pipeline Execution page
+ -->
+<div>
+	<div class="page-title">
+		<div class="title_left">
+			<h3>
+				Pipeline Execution<small> </small>
+			</h3>
+		</div>
+		<a class="btn btn-success btn-md pull-right"
+		   ng-click="getPipelineDetails()"><i class="fa fa-refresh"></i>
+			Refresh </a>
+		<div class="title_right"></div>
+	</div>
+	<table class="table table-bordered table-striped projects">
+		<thead>
+		<tr>
+
+			<th style="width: 20%">Pipeline Name</th>
+			<th style="width: 15%">Created Date</th>
+			<th style="width: 28%">Category - KPI</th>
+			<th style="width: 7%">Status</th>
+			<th style="width: 12%">Monitoring</th>
+			<th style="width: 18%">Actions</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr ng-repeat="pipeline in existingPipelines | filter : paginate">
+
+			<td>{{pipeline.strPipelineName}}</td>
+			<td>{{pipeline.strDateCreated}}</td>
+			<td>
+				<ul>
+					<li ng-repeat="category in pipeline.categorySet">{{
+						category.strCategoryName }}
+						<ul ng-if="category.kpiList">
+							<li ng-repeat="kpi in category.kpiList">{{ kpi.name }}</li>
+						</ul>
+					</li>
+				</ul>
+			</td>
+			<td>
+				<div
+						ng-show="pipeline.strPplStatus=='Stopped / Killed / Finished' || pipeline.strPplStatus=='dead' || pipeline.strPplStatus==''">
+					<img src="img/stop.png" alt="Stopped" style="height: 35px">
+				</div>
+				<div
+						ng-show="pipeline.strPplStatus=='in progress' || pipeline.strPplStatus=='running' || pipeline.strPplStatus=='starting'">
+					<img src="img/Flickr.gif" alt="in progress" style="height: 45px">
+				</div>
+			</td>
+			<td><a class="btn btn-info btn-md"
+				   ng-click="showSummary(pipeline)"
+				   ng-show="modulesMain.execution.editEnabled"><i
+					class="fa fa-film"></i> Stream Audit</a></td>
+			<td><a class="btn btn-success btn-md"
+				   ng-click="confirmExecute(pipeline)"
+				   ng-class="getClassForExecute(pipeline)"
+				   ng-show="modulesMain.execution.editEnabled"><i
+					class="fa fa-sign-in"></i> Execute </a> <a
+					class="btn btn-danger btn-md"
+					ng-click="confirmStopExecute(pipeline)"
+					ng-class="getClassForStop(pipeline)"
+					ng-show="modulesMain.execution.deleteEnabled"><i
+					class="fa fa-stop-circle"></i> Stop </a></td>
+		</tr>
+
+		</tbody>
+	</table>
+	<div class="row">
+		<div class="col-md-12 col-sm-12 colxs-12 pull-right">
+			<pagination class="dataTables_paginate paging_simple_numbers"
+						id="datatable_paginate" total-items="totalItems"
+						ng-model="currentPage" max-size="5" boundary-links="true"
+						items-per-page="numPerPage" class="pagination-sm"
+						style="margin-top:0px;"> </pagination>
+		</div>
+	</div>
+	<div ng-if="monitoring">
+		<div class="page-title">
+			<div class="title_left">
+				<h3>Pipeline Graphical Monitoring</h3>
+			</div>
+		</div>
+		<div class="row top_tiles">
+			<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+				<div class="embed-responsive embed-responsive-16by9">
+					<iframe class="embed-responsive-item" ng-src="{{trustSrc(transmittedSummaryDetails)}}"fullscreen></iframe>
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+				<div class="embed-responsive embed-responsive-16by9">
+					<iframe class="embed-responsive-item" ng-src="{{trustSrc(rejectedSummaryDetails)}}"fullscreen></iframe>
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+				<div class="embed-responsive embed-responsive-16by9">
+					<iframe class="embed-responsive-item" ng-src="{{trustSrc(processedSummaryDetails)}}"fullscreen></iframe>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="page-title">
+			<div class="title_left">
+				<h3>Workflow</h3>
+			</div>
+			<div class="title_right">
+				<button class="btn btn-success btn-md pull-right"
+						ng-click="openSparklint()">
+					<i class="fa fa-paper-plane-o"></i> Sparklint
+				</button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="innerBoxShadow col-md-12 col-sm-12 col-xs-12"
+				 style="padding: 0px;">
+				<div class="">
+					<div
+							class="embed-responsive embed-responsive-16by9 holds-the-iframe"
+							style="padding-bottom: 0%; height: 350px;">
+
+						<iframe id="workflow" class="embed-responsive-item"
+								style="height: 350px;" src="PGM/index.html" fullscreen
+								onLoad="loadedIframe();"></iframe>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+				<div class="embed-responsive embed-responsive-16by9">
+					<iframe class="embed-responsive-item"
+							ng-src="{{trustSrc(graphana1)}}"fullscreen></iframe>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+				<div class="embed-responsive embed-responsive-16by9">
+					<iframe class="embed-responsive-item"
+							ng-src="{{trustSrc(graphana2)}}"fullscreen></iframe>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+				<div class="embed-responsive embed-responsive-16by9">
+					<iframe class="embed-responsive-item"
+							ng-src="{{trustSrc(graphana3)}}"fullscreen></iframe>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/ng-template" id="process-Node-Details.html">
+	<div>
+		<div class="">
+			<div class="modal-header">
+				<button type="button" class="close"
+						ng-click="cancelPopup(processNodePopup)">&times;</button>
+				<h4 class="modal-title">{{ processNodeDetails.name }}</h4>
+			</div>
+			<div class="modal-body"
+				 style="font-size: 13px; height: calc(100vh - 300px); pointer-events:none; overflow-y: scroll;">
+				<div class="form-group">
+					<label class="control-label col-md-4 col-sm-4  col-xs-12"
+						   style="text-align: left;"> Table Name </label> <input
+						class="col-md-8 col-sm-8 col-xs-12" type="text"
+						value="{{ processNodeDetails.name }}"> <br>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default"
+						ng-click="cancelPopup(processNodePopup)">Close</button>
+			</div>
+		</div>
+	</div>
+</script>

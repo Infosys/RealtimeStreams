@@ -1,0 +1,302 @@
+<!--
+  ~ Copyright 2019 Infosys Ltd.
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+-->
+<!--
+ - @desc  User Access page
+ -->
+<div>
+	<div class="page-title">
+		<div class="title_left">
+			<h3>User Access Management</h3>
+		</div>
+
+		<div class="title_right"></div>
+	</div>
+	<div class="clearfix"></div>
+	<div role="tabpanel">
+		<ul class="nav nav-tabs" style="background-color: #f7f7f7;">
+			<li class="active" style="padding-left: 2px"><a
+				data-target="#roleManager" data-toggle="tab"
+				ng-click="tabOnClick('role')"><i class="fa fa-users"></i> Role
+					Management</a></li>
+			<li><a data-target="#userRoleManager" data-toggle="tab"
+				ng-click="tabOnClick('roleUser')"><i class="fa fa-user"
+					aria-hidden="true"></i> User Role Management</a></li>
+			<li><a data-target="#accessManager" data-toggle="tab"
+				ng-click="tabOnClick('roleAccess')"><i class="fa fa-random"
+					aria-hidden="true"></i> Role Access Management</a></li>
+		</ul>
+		</br>
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<form id="editform" data-parsley-validate class="form-horizontal ">
+					<div class="tab-content">
+						<div role="tabpanel" class="tab-pane active" id="roleManager">
+							<div class="title_right">
+								<div class="col-md-4 col-sm-4 col-xs-12 form-group pull-right ">
+									<button type="button" class="btn btn-success btn-lg"
+										ng-click="addNewRole()" ng-show="modulesMain.access.editEnabled" style="float: right;">
+										<i class="fa fa-plus-square-o"></i> Add Role
+									</button>
+								</div>
+							</div>
+
+							<table class="table table-striped projects">
+								<thead>
+									<tr>
+										<th style="width: 15%">Role Name</th>
+										<th style="width: 15%">Role Description</th>
+										<th style="width: 15%">Created Date</th>
+										<th style="width: 20%">Created User</th>
+										<th style="width: 15%" ng-show="modulesMain.access.editEnabled || modulesMain.access.deleteEnabled">Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									<div>
+										<tr ng-repeat="role in existingRoles">
+											<td>{{role.strRoleName}}</td>
+											<td>{{role.strRoleDesc}}</td>
+											<td>{{role.strDateCreated}}</td>
+											<td>{{role.strCreatedUser}}</td>
+											<td><a class="btn btn-info btn-xs"
+												ng-click="editRole(role)" ng-show="modulesMain.access.editEnabled"><i class="fa fa-pencil"></i>
+													Edit </a> <a class="btn btn-danger btn-xs"
+												ng-click="openConfirm(role,deleteRole)" ng-show="modulesMain.access.deleteEnabled"><i
+													class="fa fa-trash-o"></i> Delete </a></td>
+										</tr>
+									</div>
+								</tbody>
+							</table>
+						</div>
+						<div role="tabpanel" class="tab-pane" id="userRoleManager">
+							<div class="title_right">
+								<div class="col-md-4 col-sm-4 col-xs-12 form-group pull-right ">
+									<button type="button" class="btn btn-success btn-lg"
+										ng-click="addUserRoleMap()" ng-show="modulesMain.access.editEnabled" style="float: right;">
+										<i class="fa fa-plus-square-o"></i> Create User-Role Mapping
+									</button>
+								</div>
+							</div>
+
+							<table class="table table-striped projects">
+								<thead>
+									<tr>
+										<th style="width: 15%">User Name</th>
+										<th style="width: 15%">Role Name</th>
+										<th style="width: 15%">Created Date</th>
+										<th style="width: 20%">Created User</th>
+										<th style="width: 15%" ng-show="modulesMain.access.editEnabled || modulesMain.access.deleteEnabled">Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									<div>
+										<tr ng-repeat="user in existingUserRoleMap">
+											<td>{{user.strUserName}}</td>
+											<td><div ng-repeat="role in user.roles">{{role.strRoleName}}{{{true:
+													'', false: ', '}[$last]}}</div></td>
+											<td><div ng-repeat="role in user.roles">{{role.strDateCreated}}</div></td>
+											<td><div ng-repeat="role in user.roles">{{user.strMappedUser}}</div></td>
+											<td><a class="btn btn-info btn-xs"
+												ng-click="editUserRoleMapping(user)" ng-show="modulesMain.access.editEnabled"><i
+													class="fa fa-pencil"></i> Edit </a> <a
+												class="btn btn-danger btn-xs"
+												ng-click="openConfirm(user,deleteUserRoleMapping)"  ng-show="modulesMain.access.deleteEnabled"><i
+													class="fa fa-trash-o"></i> Delete </a></td>
+										</tr>
+									</div>
+								</tbody>
+							</table>
+						</div>
+						<div role="tabpanel" class="tab-pane" id="accessManager">
+							<div class="title_right"></div>
+							<div class="form-group">
+								<div class="col-md-8 col-sm-8 col-xs-12" style="padding: 0px;">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12"
+										style="padding-top: 6px; text-align: left;">Select
+										Role </label>
+
+									<div class="col-md-7 col-sm-7 col-xs-12">
+										<select class="form-control" ng-model="existingRoles.selected"
+											ng-options="role as role.strRoleName for role in existingRoles"
+											ng-change="selectRoleInAccess(existingRoles.selected)"
+											ng-required="true">
+											<option value="" disabled selected hidden>Select
+												Role</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div ng-if="isRoleSelectedinAccess">
+								<div
+									class="col-md-12 col-sm-12 col-xs-12 form-group col-md-offset-1" ng-class="{inputView : !modulesMain.access.editEnabled}"
+									style="border: 2px solid #dddddd;">
+
+									<table class="table table-striped projects">
+										<thead>
+											<tr>
+												<th>Module Level Access</th>
+											</tr>
+										</thead>
+										<tbody>
+											<table class="table table-striped projects">
+												<thead>
+													<tr>
+														<th style="width: 45%">Modules</th>
+														<th style="width: 55%">Access Permissions</th>
+													</tr>
+												</thead>
+												<tbody>
+													<div>
+														<tr ng-repeat="module in modulesWithAccessForRole">
+															<td>{{module.strFeatureName}}</td>
+															<td ng-if="module.strFeatureName != 'Execution'"><span><input type="checkbox"
+																ng-model="module.featureViewEnabled" class="flat" />
+																View </span><span ng-if="module.strFeatureName != 'Visualization' && module.strFeatureName != 'Operational UI Wizard'"><input type="checkbox"
+																ng-model="module.featureEditEnabled" class="flat" />
+																Edit </span><span ng-if="module.strFeatureName != 'Visualization' && module.strFeatureName != 'Operational UI Wizard'"><input type="checkbox"
+																ng-model="module.featureDeleteEnabled" class="flat" />
+																Delete</span>
+															</td>
+															<td ng-if="module.strFeatureName == 'Execution'">
+															<span><input type="checkbox"
+																ng-model="module.featureEditEnabled" class="flat" />
+																Execute </span><span><input type="checkbox"
+																ng-model="module.featureDeleteEnabled" class="flat" />
+																Stop </span>
+															</td>
+														</tr>
+													</div>
+												</tbody>
+											</table>
+										</tbody>
+									</table>
+								</div>
+								<div class="col-md-12 col-sm-12 col-xs-12 form-group pull-right"
+									style="border: 2px solid #dddddd;">
+									<div class="x_title" style="font-weight: bold;">Portal
+										Access</div>
+							<div class="row" ng-if="showTreeinAccess">
+								<div class="col-md-12 col-sm-12 col-xs-12">
+									<div class="col-md-6 col-sm-6 col-xs-11" ng-show="modulesMain.access.editEnabled || modulesMain.access.deleteEnabled">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12"
+											style="padding-top: 6px; text-align: left;">Entities
+										</label>
+									</div>
+									<div class="col-md-6 col-sm-6 col-xs-11" >
+										<label class="control-label col-md-12 col-sm-12 col-xs-12"
+											style="padding-top: 6px; text-align: left;">Selected Access Matrices
+										</label>
+									</div>
+								</div>
+							</div>
+									<div class="row" ng-if="showTreeinAccess">
+										<div class="col-md-12 col-sm-12 col-xs-12">
+											<div
+												style="overflow-y: auto; height: 250px; border: 2px solid #dddddd;"
+												class="col-md-6 col-sm-6 col-xs-11" ng-show="modulesMain.access.editEnabled || modulesMain.access.deleteEnabled">
+
+												<table class="table table-striped projects">
+													<thead>
+														<tr>
+															<th>Portal-Dashboard-Visualizations</th>
+														</tr>
+													</thead>
+													<tbody>
+														<hierarchy-search dataset="list"></hierarchy-search>
+													</tbody>
+												</table>
+
+											</div>
+
+											<div class="col-md-6 col-sm-6 col-xs-11" style="padding-right: 0px;">
+												<div
+													style="overflow-y: auto; height: 250px; border: 2px solid #dddddd;">
+													<table class="table table-striped projects">
+														<thead>
+															<tr>
+																<!-- <th><input type="checkbox" ng-model="selectedAll"
+																	ng-click="checkAll()" /></th> -->
+																<th>Portal</th>
+																<th>Dashboard</th>
+																<th>Category</th>
+																<th>KPI</th>
+																<th>Visualization</th>
+															</tr>
+														</thead>
+														<tbody>
+															<div>
+																<tr
+																	ng-repeat="portal in selectedPortalAccessList | filter: visualizeViewEnabled = true">
+																	<!-- <td><input type="checkbox"
+																		ng-change="deselectVisualizationAccess($index)"
+																		ng-model="portal.selected" /></td> -->
+																	<td>{{portal.strPortalName}}</td>
+																	<td>{{portal.strDashboardName}}</td>
+																	<td>{{portal.strCategoryName}}</td>
+																	<td>{{portal.strKpiName}}</td>
+																	<td>{{portal.strVisualizeName}}</td>
+																</tr>
+															</div>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+									<br>
+
+								</div>
+
+								<div class="form-group" style="margin-bottom: 1px;">
+									<div class="col-md-12 col-xs-12 col-sm-12"
+										style="margin-top: 7px;">
+										<!-- <div ng-if="success == true" id="saveSuccessRes"
+											class="col-md-6 col-lg-6 col-sm-6 pull-left"
+											" ng-show="saved">
+											<span ng-if=id="connresponse" ><i
+												class="fa fa-check-square-o" aria-hidden="true"></i>
+												{{saveMessage}}</span>
+										</div> -->
+										<div ng-if="success != true" id="saveErrorRes"
+											class="col-md-6 col-lg-6 col-sm-6 pull-left"
+											" ng-show="saved">
+											<span ng-if=id="connresponse" ><i class="fa fa-times"
+												aria-hidden="true"></i> {{saveMessage}}</span>
+										</div>
+										<div class="col-md-6 col-lg-6 col-sm-6 pull-right">
+											<button type="submit" ng-show="modulesMain.access.editEnabled"
+												class="btn btn-success btn-md pull-right"
+												ng-click="updateRoleAccess(dashboardRecord)">
+												<i class="fa fa-download"></i> Save Access
+											</button>
+											<!-- 	<button type="button" class="btn btn-success btn-md pull-right"
+										ng-click="clearDetails('dashboard','edit',dashboardRecord)"><i class="fa fa-minus-circle"></i> Clear</button> -->
+										</div>
+									</div>
+								</div>
+
+							</div>
+
+
+
+						</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>

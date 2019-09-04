@@ -1,0 +1,445 @@
+<!--
+  ~ Copyright 2019 Infosys Ltd.
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+-->
+<!-- Begin page content -->
+<div style="min-height: calc(100vh - 62px);">
+
+	<div class="modal-header headerStyle"
+		style="border-bottom: 1px solid #000000; color: rgba(21, 31, 42, 0.89); background-color: #f7f7f7;">
+		<h4 class="modal-title" id="modal-title">
+			<span class="glyphicon glyphicon-stats"></span> <span>
+				Visualize</span><i class="fa fa-times pull-right"
+				ng-click="cancelWFPopup(visPopUp)" style="cursor: pointer;"></i>
+		</h4>
+	</div>
+	<div class="modal-body" id="modal-body"
+		style="font-size: 13px; padding-top: 0px; padding-bottom: 0px; height: calc(100vh - 170px); overflow-y: scroll;">
+		<div class="clearfix"></div>
+		</br>
+		<form id="visform" name="visform" data-parsley-validate
+			class="form-horizontal form-label-left" data-parsley-validate
+			ng-submit="visform.$valid && saveVisualization()">
+
+			<!-- <form class="form-horizontal form-label-left"> -->
+			<div class="container-fluid">
+				<div class="row" ng-show="visDetails">
+					<fieldset class="col-md-12 col-sm-12 col-xs-12"
+						style="background-color: #f9f9f9;">
+						<legend
+							style="background-color: #f9f9f9; border: 1px solid #f6f2f2;">Realtime
+							Visualization Sink</legend>
+						<div class="form-group col-md-6 col-sm-6 col-xs-12">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12"
+								for="source-name" style="text-align: left;"> Entity Name
+								<span class="required">*</span>
+							</label>
+							<div class="col-md-9 col-sm-9 col-xs-11">
+								<input type="text" id="entityName"
+									ng-class="{inputView : pipelineAction === 'view'}"
+									ng-model="entityName" ng-required="true"
+									class="form-control col-md-6 col-sm-6 col-xs-12" maxlength=100>
+							</div>
+						</div>
+						<div class="form-group col-md-6 col-sm-6 col-xs-12">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12"
+								for="source-name" style="text-align: left;"> Entity
+								Description </label>
+							<div class="col-md-9 col-sm-9 col-xs-11">
+								<input type="text" id="entityDesc"
+									ng-class="{inputView : pipelineAction === 'view'}"
+									ng-model="entityDesc" class="form-control col-md-7 col-xs-12"
+									maxlength=100>
+							</div>
+						</div>
+						<div class="form-group col-md-6 col-sm-6 col-xs-12">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12"
+								for="source-name" style="text-align: left;"> KPI <span
+								class="required">*</span></label>
+							<!-- Changes to happen -->
+							<div class="col-md-9 col-sm-9 col-xs-11" ng-class="{inputView : pipelineAction === 'view'}">
+								<ui-select class="downArrow" multiple id="kpi"
+									ng-model="existingKPI.selected" ng-required="true"
+									close-on-select="false" on-select="kpiChange()" on-remove="kpiChange()"> <ui-select-match
+									placeholder="Select KPIs...">{{$item.name}}</ui-select-match> <ui-select-choices
+									repeat="kpi in existingKPI | filter:$select.search">
+								{{kpi.name}} </ui-select-choices> </ui-select>
+                                <span class="required" ng-show="kpiError">Please
+									select at least one KPI from the dropdown</span>
+							</div>
+						</div>
+						<div class="form-group col-md-6 col-sm-6 col-xs-12">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12"
+								for="source-name" style="text-align: left;"> Sink Type <span
+								class="required">*</span></label>
+							<div class="col-md-9 col-sm-9 col-xs-11">
+								<select class="form-control " id="visSinkTypesID"
+									ng-required="true" ng-model="visSinkTypes.selected"
+									ng-class="{inputView : pipelineAction === 'view'}"
+									ng-options="sinks as sinks.name for sinks in
+										visSinkTypes"
+									ng-change="selectSinkInVisualize(visSinkTypes.selected)">
+									<option value="" disabled selected hidden>Select Sink</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group col-md-6 col-sm-6 col-xs-12"
+							ng-show="visSinkTypes.selected.name =='Elassandra'">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12"
+								for="keyspace" style="text-align: left;"> Keyspace <span
+								class="required">*</span></label>
+							<div class="col-md-9 col-sm-9 col-xs-11">
+								<input type="text" id="visKeyspace" name="visKeyspace"
+									ng-class="{inputView : pipelineAction === 'view'}"
+									ng-model="visKeyspace"
+									ng-required="visSinkTypes.selected.name =='Elassandra'"
+									class="form-control col-md-7 col-xs-12"
+									ng-pattern="/^[a-zA-Z0-9-_]*$/"><span class="error"
+									ng-messages="visform.visKeyspace.$error"
+									style="color: red"> <span ng-message="pattern"
+									ng-show="visform.visKeyspace.$error.pattern">Special
+										characters and spaces are not allowed</span>
+								</span>
+							</div>
+						</div>
+						<div class="form-group col-md-6 col-sm-6 col-xs-12">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12"
+								for="source-name" style="text-align: left; padding-right: 0;">
+								Sink Target Table <span class="required">*</span>
+							</label>
+							<div class="col-md-9 col-sm-9 col-xs-11">
+								<input type="text" id="strSinkTable" name="strSinkTable"
+									ng-class="{inputView : pipelineAction === 'view'}"
+									ng-model="strSinkTable" ng-required="true"
+									class="form-control col-md-7 col-xs-12" maxlength=100
+									ng-pattern="/^[a-zA-Z0-9-_\s]*$/"><span class="error"
+									ng-messages="visform.strSinkTable.$error" style="color: red">
+									<span ng-message="pattern"
+									ng-show="visform.strSinkTable.$error.pattern">Special
+										characters are not allowed </span>
+								</span>
+							</div>
+						</div>
+					</fieldset>
+					<fieldset class="col-md-12 col-sm-12 col-xs-12"
+						style="background-color: #f9f9f9;">
+						<legend
+							style="background-color: #f9f9f9; border: 1px solid #f6f2f2;">Configure
+							Chart</legend>
+						<div class="form-group col-md-6 col-sm-6 col-xs-12">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12"
+								for="source-name" style="text-align: left; padding-right: 0;">
+								Visualization type <span class="required">*</span>
+							</label>
+							<div class="col-md-9 col-sm-9 col-xs-11">
+								<select class="form-control "
+									ng-class="{inputView : pipelineAction === 'view'}"
+									id="graphTypes" ng-required="true"
+									ng-model="graphTypes.selected"
+									ng-options="type as type.name for type in
+										graphTypes"
+									ng-change="graphTypeOnSelection(graphTypes.selected)">
+									<option value="" disabled selected hidden>Select Visualization Type</option>
+								</select>
+								<!-- <ui-select ng-model="graphTypes.selected" theme="selectize"
+									style="width: 100%;" id="child_inline" ng-required="true"
+									on-select="graphTypeOnSelection($select.selected)">
+								<ui-select-match placeholder="Select or search type...">{{$select.selected.name}}</ui-select-match>
+								<ui-select-choices
+									repeat="type in graphTypes | filter: $select.search">
+								<span ng-bind-html="type.name | highlight: $select.search"></span>
+								</ui-select-choices> </ui-select> -->
+							</div>
+						</div>
+						<div ng-show="(graphTypes.selected.name | lowercase) === 'd3js'">
+							<div class="form-group col-md-6 col-sm-6 col-xs-12">
+								<label class="control-label col-md-3 col-sm-3 col-xs-12"
+									for="source-name" style="text-align: left;">
+									Visualization Sub-Type <span class="required">*</span>
+								</label>
+								<div class="col-md-9 col-sm-9 col-xs-11">
+									<select class="form-control "
+										ng-class="{inputView : pipelineAction === 'view'}"
+										id="graphSubTypes"
+										ng-required="(graphTypes.selected.name | lowercase) === 'd3js'"
+										ng-model="graphSubTypes.selected"
+										ng-options="subType as subType.name for subType in
+										graphSubTypes"
+										ng-change="graphSubTypeOnSelection(graphSubTypes.selected)">
+										<option value="" disabled selected hidden>Select graph Type</option>
+									</select>
+
+
+
+									<!-- <ui-select ng-model="graphSubTypes.selected" theme="selectize"
+										style="width: 100%;" id="child_inline" ng-required="(graphTypes.selected.name | lowercase) === 'd3js'"
+										on-select="graphSubTypeOnSelection($select.selected)">
+									<ui-select-match placeholder="Select or search sub type...">{{$select.selected.name}}</ui-select-match>
+									<ui-select-choices
+										repeat="subType in graphSubTypes | filter: $select.search">
+									<span ng-bind-html="subType.name | highlight: $select.search"></span>
+									</ui-select-choices> </ui-select> -->
+								</div>
+							</div>
+
+							<div class="form-group col-md-6 col-sm-6 col-xs-12">
+								<label class="control-label col-md-3 col-sm-3 col-xs-12"
+									for="source-name" style="text-align: left;"> Title Name
+									<span class="required">*</span>
+								</label>
+								<div class="col-md-9 col-sm-9 col-xs-11">
+									<input type="text" id="titleName"
+										ng-class="{inputView : pipelineAction === 'view'}"
+										ng-model="titleName"
+										ng-required="(graphTypes.selected.name | lowercase) === 'd3js'"
+										class="form-control col-md-7 col-xs-12" maxlength=100>
+								</div>
+							</div>
+							<div class="form-group col-md-6 col-sm-6 col-xs-12">
+								<label class="control-label col-md-3 col-sm-3 col-xs-12"
+									for="source-name" style="text-align: left;">
+									Dimension-1 title <span class="required">*</span>
+								</label>
+								<div class="col-md-9 col-sm-9 col-xs-11">
+									<input type="text" id="dim1TitleName"
+										ng-class="{inputView : pipelineAction === 'view'}"
+										ng-model="dim1TitleName"
+										ng-required="(graphTypes.selected.name | lowercase) === 'd3js'"
+										class="form-control col-md-7 col-xs-12" maxlength=100>
+								</div>
+							</div>
+							<div class="form-group col-md-6 col-sm-6 col-xs-12">
+								<label class="control-label col-md-3 col-sm-3 col-xs-12"
+									for="source-name" style="text-align: left;">
+									Dimension-2 title <span class="required">*</span>
+								</label>
+								<div class="col-md-9 col-sm-9 col-xs-11">
+									<input type="text" id="dim2TitleName"
+										ng-class="{inputView : pipelineAction === 'view'}"
+										ng-model="dim2TitleName"
+										ng-required="(graphTypes.selected.name | lowercase) === 'd3js'"
+										class="form-control col-md-7 col-xs-12" maxlength=100>
+								</div>
+							</div>
+						</div>
+						<div class="form-group col-md-12 col-sm-12 col-xs-12">
+							<label class="control-label col-md-2 col-sm-2 col-xs-12"
+								for="queryOrUrl" style="text-align: left; margin-right: -48px;">
+								Query/URL <span class="required">*</span>
+							</label>
+							<div class="col-md-10 col-sm-10 col-xs-11">
+								<textarea type="text" id="queryOrUrl"
+									ng-class="{inputView : pipelineAction === 'view'}"
+									ng-model="queryOrUrl" ng-required="true"
+									class="form-control col-md-7 col-xs-12"
+									style="resize: vertical;"></textarea>
+							</div>
+						</div>
+					</fieldset>
+
+					<!-- end of source connection -->
+					<input id="stepId" type="hidden" value="" /> <br> <br> <br>
+				</div>
+
+				<div class="row" ng-show="visDetails" style="margin-top: 10px;">
+					<button type="submit" class="btn btn-success btn-sm "
+						ng-show="pipelineAction=='add' || pipelineAction=='edit' || pipelineAction !== 'view'"
+						style="float: right; margin-bottom: 8px;">
+						<i class="fa fa-download"></i> {{viSaveBtn}}
+					</button>
+					<button type="button" class="btn btn-success btn-sm "
+						ng-click="cancelVisualization()"
+						style="float: right; margin-bottom: 8px;">
+						<i class="fa fa-times"></i> Cancel
+					</button>
+					<button type="button" class="btn btn-success btn-sm "
+						ng-click="clearVisualization()"
+						ng-hide="pipelineAction === 'view'"
+						style="float: right; margin-bottom: 8px;">
+						<i class="fa fa-minus-circle"></i> Clear
+					</button>
+				</div>
+
+				<div class="row" ng-show="!visDetails">
+					<div class="pull-right">
+						<button type="button" class="btn btn-success btn-sm"
+							ng-click="addVisulization()" ng-hide="pipelineAction === 'view'"
+							style="margin: 10px 0px 5px 0px;">
+							<i class="fa fa-plus"></i> Add Visualization
+						</button>
+					</div>
+				</div>
+
+				<div class="form-group col-md-12 col-sm-12 col-xs-12"
+					ng-show="visAdded" style="margin-top: 5px; padding: 0px">
+					<div class="row">
+						<div style="overflow-x: auto !important;" id="process-table">
+							<table class="table table-bordered table-striped"
+								style="text-align: left; overflow-x: auto; width: 100%;">
+								<thead style="background: #818992; color: white">
+									<tr>
+										<th>Entity ID</th>
+										<th>Entity Name</th>
+										<th>KPI</th>
+										<th>Sink Details</th>
+										<th>Visualization Type</th>
+										<th>Visualization Details</th>
+										<th>Actions</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									<tr ng-repeat="vis in visList track by vis.inVisualizeEntityId">
+										<td>{{vis.inVisualizeEntityId}}</td>
+										<td>{{vis.strVisualizeName}}</td>
+										<td>
+											<p ng-repeat="kpi in vis.kpiList">
+												{{kpi.strKpiName}}<br>
+											</p>
+										</td>
+										<td>Type: {{vis.strVisualizeConfigDetails.strSinkType}}<br>
+											Sink Target Table
+											:{{vis.strVisualizeConfigDetails.strSinkTable}}<br>
+											<p ng-if="vis.strKeySpace">Keyspace : {{vis.strKeySpace}}</p>
+										</td>
+										<td>{{vis.strVisualizeParentType}}</td>
+										<td>
+											<button type="button" class="btn btn-info btn-xs"
+												ng-click="openVisBox(vis)">
+												<i class="fa fa-search-plus"></i> View Details
+											</button>
+										</td>
+										<td>
+											<button class="btn btn-info btn-xs" type="button"
+												ng-click="editVisRow(vis)">
+												<i class="glyphicon glyphicon-edit"></i><span
+													style="line-height: 0px;" ng-if="pipelineAction !== 'view'">
+													<i class="glyphicon glyphicon-edit"></i> Edit
+												</span> <span style="line-height: 0px;"
+													ng-if="pipelineAction === 'view'"> <i
+													class="glyphicon glyphicon-folder-open"></i> View
+												</span>
+											</button>
+											<button class="btn btn-danger btn-xs" type="button"
+												ng-click="removeVisRow($index)"
+												ng-hide="pipelineAction === 'view'">
+												<i class="glyphicon glyphicon-trash"></i> Delete
+											</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div>
+							<div class="col-md-1 col-sm-1 col-xs-1" style=""></div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</form>
+
+	</div>
+	<div class="modal-footer"
+		style="background-color: #f7f7f7; padding: 0px;">
+		<div class="row">
+			<div class="col-md-12 col-xs-12 col-sm-12" style="margin-top: 7px;">
+				<!-- <div class="col-md-6 col-lg-6 col-sm-6 pull-left">
+					<div id="stepMessageSection"
+						style="padding: 3px; font-weight: bold; visibility: hidden">
+					</div>
+				</div> -->
+				<div ng-if="success == false" id="saveErrorRes"
+					class="col-md-6 col-lg-6 col-sm-6 pull-left">
+					<span><i class="fa fa-times" aria-hidden="true"></i>
+						{{errorMessageVis}}</span>
+				</div>
+				<div class="col-md-6 col-lg-6 col-sm-6 pull-right"
+					id="savePipelineBtn">
+
+					<!-- <button type="submit" class="btn btn-primary"
+										style="margin-right: 0px !important">Save</button> -->
+					<button type="button" class="btn btn-success btn-sm pull-right"
+						ng-click="savePopUpPipeline('visualize')"
+						style="margin-left: 3px;" ng-disabled="disableSave"
+						ng-show="pipelineAction=='add' || pipelineAction=='edit'">
+						<i class="fa fa-download"></i> {{stepAddEdit}}
+					</button>
+					<button type="button" class="btn btn-success btn-sm pull-right"
+						ng-show="pipelineAction=='add' || pipelineAction=='edit'"
+						ng-click="closeWFPopUp('visualize')">
+						<i class="fa fa-times"></i> Cancel
+					</button>
+					<button type="button" class="btn btn-success btn-sm pull-right"
+						ng-show="pipelineAction=='view'"
+						ng-click="closeWFPopUp('visualize')">
+						<i class="fa fa-times"></i> Close
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/ng-template" id="workflow-vis-modal.html">
+<div>
+	<div class="">
+		<div class="modal-header">
+			<button type="button" class="close"  ng-click="cancelPopup(visDataPopup)">&times;</button>
+			<h4 class="modal-title">Visualization Details</h4>
+		</div>
+		<div class="modal-body" style="pointer-events:none;">
+			<div class="form-group" ng-if="visData.strVisualizeSubType">
+				<label class="control-label col-md-4 col-sm-4  col-xs-12"
+					style="text-align: left;">Visualization Sub-Type: </label> 
+				<input class="col-md-8 col-sm-8 col-xs-12" type="text" value="{{visData.strVisualizeSubType}}">
+			<br>
+			</div>
+			<div class="form-group" ng-if="visData.strVisualizeConfigDetails.strTitle">
+				<label class="control-label col-md-4 col-sm-4  col-xs-12"
+					style="text-align: left;">Title Name: </label> 
+				<input class="col-md-8 col-sm-8 col-xs-12" type="text" value="{{visData.strVisualizeConfigDetails.strTitle}}">
+			<br>
+			</div>
+			<div class="form-group" ng-if="visData.strVisualizeConfigDetails.strDimension1Title">
+				<label class="control-label col-md-4 col-sm-4  col-xs-12"
+					style="text-align: left;">Dimension-1 title: </label> 
+				<input class="col-md-8 col-sm-8 col-xs-12" type="text" value="{{visData.strVisualizeConfigDetails.strDimension1Title}}">
+			<br>
+			</div>
+			<div class="form-group" ng-if="visData.strVisualizeConfigDetails.strDimension2Title">
+				<label class="control-label col-md-4 col-sm-4  col-xs-12"
+					style="text-align: left;">Dimension-2 title: </label> 
+				<input class="col-md-8 col-sm-8 col-xs-12" type="text" value="{{visData.strVisualizeConfigDetails.strDimension2Title}}">
+			<br>
+			</div>
+			<div class="form-group" ng-if="visData.strVisualizeConfigDetails.strSinkQuery" style="padding: 0 10px;">
+				<div class="row">
+					<label class="control-label col-md-4 col-sm-4  col-xs-12"
+						style="text-align: left;">Query/URL: </label> 
+					<textarea type="text" class="col-md-8 col-sm-8 col-xs-12" value="" style="resize: none;">{{visData.strVisualizeConfigDetails.strSinkQuery}}</textarea>
+				</div>
+			<br>
+			</div>
+			
+		</div>
+		<div class="modal-footer" style="padding: 5px 10px 0 0;">
+			<button type="button" class="btn btn-default" ng-click="cancelPopup(visDataPopup)">Close</button>
+		</div>
+	</div>
+</div>
+
+</script>

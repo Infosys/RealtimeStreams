@@ -1,0 +1,84 @@
+<!--
+  ~ Copyright 2019 Infosys Ltd.
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+-->
+<!--
+ - @desc  Pipeline Listing page
+ -->
+<div>
+	<div class="page-title">
+		<div class="title_left">
+			<h3>
+				Pipeline Details<small> </small>
+			</h3>
+		</div>
+
+		<div class="title_right">
+			<br>
+			<div class="col-md-4 col-sm-4 col-xs-12 form-group pull-right ">
+				<button type="button" class="btn btn-success btn-lg"
+					ng-click="openNewPipeline()" ng-show="modulesMain.pipeline.editEnabled">
+					<i class="fa fa-file-text-o"></i> Create Pipeline
+				</button>
+			</div>
+
+		</div>
+	</div>
+	<table class="table table-striped projects">
+		<thead>
+			<tr>
+				<th style="width: 30%">Pipeline Name</th>
+				<th style="width: 30%">Category - KPI</th>
+				<th style="width: 20%">Status</th>
+				<th style="width: 20%">Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+				<tr ng-repeat="pipeline in existingPipelines">
+					<td>{{pipeline.strPipelineName}} <br /> <small>Created
+							{{pipeline.strDateCreated}}</small>
+					</td>
+					<td>
+						<ul>
+							<li ng-repeat="category in pipeline.categorySet">{{
+								category.strCategoryName }}
+								<ul ng-if="category.kpiList">
+									<li ng-repeat="kpi in category.kpiList">{{ kpi.name }}</li>
+								</ul>
+							</li>
+						</ul>
+					</td>
+				<td>{{pipeline.strPplStatus}}</td>
+					<td><a class="btn btn-primary btn-xs"
+					ng-click="editSelectedPipeline(pipeline,'view')"
+					ng-show="modulesMain.pipeline.viewEnabled"><i
+						class="fa fa-folder"></i> View </a> <a class="btn btn-info btn-xs"
+					ng-click="editSelectedPipeline(pipeline,'edit')"
+					ng-show="modulesMain.pipeline.editEnabled"><i
+						class="fa fa-pencil"></i> Edit </a> <a class="btn btn-danger btn-xs"
+					ng-click="openConfirm(pipeline,deleteSelectedPipeline)"
+					ng-show="modulesMain.pipeline.deleteEnabled"><i
+							class="fa fa-trash-o"></i> Delete </a></td>
+				</tr>
+			<tr ng-if="existingPipelines.length == 0 ">
+				<td></td>
+				<td>No Records Exists</td>
+				<td></td>
+
+			</tr>
+		</tbody>
+	</table>
+</div>

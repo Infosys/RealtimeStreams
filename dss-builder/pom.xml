@@ -1,0 +1,163 @@
+<!--
+  ~ Copyright 2019 Infosys Ltd.
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~ 
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~ 
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.streamconnect.dss</groupId>
+    <artifactId>dss-builder</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Stream Connect - Parent Project Builder</name>
+    <modules>
+        <module>../dss-common</module>
+		<module>../dss-exception</module>
+		<module>../dss-logging</module>
+        <module>../dss-metadata</module>
+        <module>../dss-engine</module>
+        <module>../dss-executor</module>
+        <module>../dss-visualizer</module>
+        <module>../dss-stream-api</module>
+        <module>../dss-portal-api</module>
+        <module>../dss-access-api</module>
+    </modules>    
+    <properties>
+        <log4j.version>1.2.17</log4j.version>
+        <gson.version>2.5</gson.version>
+        <json.version>20160810</json.version>
+        <hibernate.version>4.3.5.Final</hibernate.version>
+        <mysql-connector-java.version>5.1.30</mysql-connector-java.version>
+        <org.springframework.version>4.2.5.RELEASE</org.springframework.version>
+        <javassist.version>3.18.1-GA</javassist.version>
+        <commons.dbcp.connection>1.4</commons.dbcp.connection>
+        <junit.4.9>4.9</junit.4.9>
+        <junit.4.12>4.12</junit.4.12>
+        <ojdbc7.driver>12.1.0.1</ojdbc7.driver>
+        <jersey.version>1.8</jersey.version>
+        <javax.persistence.version>1.0.2</javax.persistence.version>
+        <jackson.version>2.6.3</jackson.version>
+        <javax.transaction.version>1.1</javax.transaction.version>
+        <javax.ws.version>2.0</javax.ws.version>
+        <org.codehaus.jackson.version>1.5.0</org.codehaus.jackson.version>
+        <ganymed-ssh2.version>build210</ganymed-ssh2.version>
+        <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
+        <hazelcast.version>3.9</hazelcast.version>
+    </properties>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.17</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <!-- Plugin that gives ability to generate your projects site -->
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.0-beta-2</version>
+                <configuration>
+                    <!-- Reports that will be displayed on a generated site -->
+                    <reportPlugins>
+                        <!-- Produces a cross-reference of the project's sources. This is useful
+                           for other reports like PMD or Checkstyle. When this plugin is used with
+                           checkstyle you can see code that produces style warning/error in the report. -->
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-jxr-plugin</artifactId>
+                            <version>2.1</version>
+                            <configuration>
+                                <aggregate>true</aggregate>
+                            </configuration>
+                        </plugin>
+                        <!-- Checks projects code conventions -->
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-checkstyle-plugin</artifactId>
+                            <version>2.6</version>
+                          <configuration>
+                                <configLocation>check-style.xml</configLocation>
+                            </configuration>
+                        </plugin>
+                    </reportPlugins>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>3.7</version>
+                <configuration>
+                    <rulesets>
+                        <!-- Two rule sets that come bundled with PMD -->
+                        <!--<ruleset>/rulesets/java/braces.xml</ruleset>-->
+                        <!--<ruleset>/rulesets/java/naming.xml</ruleset> -->
+                        <!-- Custom local file system rule set -->
+                        <!--<ruleset>D:\Projects-2\SDK\sdk-builder\sdk-rule.xml</ruleset>-->
+                        <!-- Custom remote rule set accessed via a URL -->
+                        <!--<ruleset>http://localhost/design.xml</ruleset>-->
+                    </rulesets>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <packagingExcludes>%regex[WEB-INF/lib/(?!dss-).*.jar]</packagingExcludes>
+                </configuration>
+            </plugin>
+
+
+        </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>2.17</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+    <!-- To use the report goals in your POM or parent POM -->
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.17</version>
+            </plugin>
+        </plugins>
+    </reporting>
+</project>

@@ -1,0 +1,278 @@
+<!--
+  ~ Copyright 2019 Infosys Ltd.
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+-->
+<!-- Begin page content -->
+<div class="">
+	<div>
+		<div class="modal-header headerStyle"
+			style="border-bottom: 1px solid #000000; color: white; background-color: rgba(21, 31, 42, 0.89);">
+			<h4 class="modal-title" id="modal-title">
+				<i class="fa fa-archive" style="font-size: 25px;"></i> New User Function Configuration<i class="fa fa-times pull-right"
+					ng-click="cancel(openUdfPopUp,'udf')" style="cursor: pointer;"></i>
+			</h4>
+			<!-- <h4 class="modal-title" id="modal-title" style="text-align: left;">
+				Source Configuration</h4> -->
+		</div>
+		<div class="modal-body-small" id="modal-body" style="font-size: 13px;">
+
+			<div class="clearfix"></div>
+			<!-- <div role="tabpanel">
+				<ul class="nav nav-tabs" style="background-color: #f7f7f7;">
+					<li class="active" style="padding-left: 2px"><a
+						data-target="#basic" name="basic" data-toggle="tab">Basic
+							Configuration</a></li>
+					
+				</ul> -->
+				</br>
+				<div class="row">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<!-- <form id="editform" name="editform" data-parsley-validate class="form-horizontal"
+						ng-submit="editform.$valid && saveConfig('udf')"> -->
+						<form id="editform" name="editform" class="form-horizontal" data-parsley-validate"
+						ng-submit="editform.$valid && saveConfig('udf')">
+							<div class="tab-content">
+								<div role="tabpanel" class="tab-pane active" id="basic">
+									<div
+										style="height: 450px; overflow-y: scroll; overflow-x: hidden;padding-top:20px;">
+
+
+										<!-- <h3>Page1</h3>   -->
+										<div class="row">
+											<div
+												class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+												<label class="control-label col-md-3 col-sm-3 col-xs-12"
+													style="padding-top: 6px; text-align: left;">Configuration Name <span class="required">*</span>
+												</label>
+
+												<div class="col-md-8 col-sm-8 col-xs-12">
+													<input type="string" id="configurationName" class="form-control"
+														name="configurationName" ng-model="configurationName"
+														ng-required="true"
+														maxlength=100 ng-pattern="/^[a-zA-Z0-9-_\s]*$/" ng-trim="false"><span
+														class="error" ng-messages="editform.configurationName.$error"
+														style="color: red"> <span ng-message="required"
+														ng-show="editform.configurationName.$error.required && editform.configurationName.$dirty">
+															Name cannot be empty</span> <span ng-message="pattern"
+														ng-show="editform.configurationName.$error.pattern">Special
+															characters are not allowed</span> <span
+														ng-show="editform.configurationName.$dirty && editform.configurationName.$error.unique">Name
+															already Exists</span>
+													</span>
+												</div>
+											</div>
+										</div>
+										<br>
+										<div class="row">
+											<div
+												class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+												<label class="control-label col-md-3 col-sm-3 col-xs-12"
+													style="padding-top: 6px; text-align: left;">Function Name <span class="required">*</span>
+												</label>
+
+												<div class="col-md-8 col-sm-8 col-xs-12">
+													<input type="string" id="functionName" class="form-control"
+														name="functionName" ng-model="functionName"
+														ng-required="true"
+														maxlength=100 
+														ng-pattern="/^[a-zA-Z0-9-_\s]*$/"><span
+														class="error" ng-messages="editform.functionName.$error"
+														style="color: red"> <span ng-message="required"
+														ng-show="editform.functionName.$error.required && editform.functionName.$dirty">
+															Name cannot be empty</span> <span ng-message="pattern"
+														ng-show="editform.functionName.$error.pattern">Special
+															characters are not allowed</span> 
+													</span>
+												</div>
+											</div>
+										</div>
+										<br>
+										<!-- <div class="row">
+											<div
+												class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+												<label class="control-label col-md-3 col-sm-3 col-xs-12"
+													style="padding-top: 6px; text-align: left;">Class Name <span class="required">*</span>
+												</label>
+
+												<div class="col-md-8 col-sm-8 col-xs-12">
+													<input type="string" id="className" class="form-control"
+														name="className" ng-model="className"
+														ng-required="true"
+														maxlength=100 ng-pattern="/^([a-zA-Z_][a-zA-Z\d_]*\.)*[a-zA-Z_][a-zA-Z\d_]*$/" ng-trim="false"><span
+														class="error" ng-messages="editform.className.$error"
+														style="color: red"> <span ng-message="required"
+														ng-show="editform.className.$error.required && editform.className.$dirty">
+															Name cannot be empty</span> <span ng-message="pattern"
+														ng-show="editform.className.$error.pattern">Special
+															characters are not allowed</span> <span
+														ng-show="editform.className.$dirty && editform.className.$error.unique">Name
+															already Exists</span>
+													</span>
+												</div>
+											</div>
+										</div> -->
+										
+										
+										
+										
+										<div class="row">
+											<div
+												class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+												<label class="control-label col-md-3 col-sm-3 col-xs-12"
+													style="padding-top: 6px; text-align: left;">Register Method <span class="required">*</span>
+												</label>
+
+												<div class="col-md-8 col-sm-8 col-xs-12">
+													<input type="string" id="registerMethod" class="form-control"
+														name="registerMethod" ng-model="registerMethod"
+														ng-required="true"
+														maxlength=100 >
+												</div>
+											</div>
+										</div>
+										
+										<br>
+										
+										<div class="row">
+											<div
+												class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+												<label class="control-label col-md-3 col-sm-3 col-xs-12"
+													style="padding-top: 6px; text-align: left;">Description
+												</label>
+
+												<div class="col-md-8 col-sm-8 col-xs-12">
+													<input type="string" id="description" class="form-control"
+														name="description" ng-model="description"
+														maxlength=100 >
+												</div>
+											</div>
+										</div>
+										<br>
+										<!-- <div class="row">
+										<div class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+											<label class="control-label col-md-3 col-sm-3 col-xs-12"
+												for="udf-name" style="text-align: left;"> Upload Jar
+												file <span class="required">*</span></label>
+							
+											Changes to happen
+											<div class="col-md-8 col-sm-8 col-xs-12">
+												
+												 <input id="logo" type="file" file-model="logoFile" class="file form-control"> 
+												 <input id="jarFile" type="file" file-model="jarFile" class="file form-control" ng-required="true" custom-on-change="uploadJarFile" file-reader="fileContent">
+												  <span ng-show="fileTypeError"
+									style="color: red;"> File Upload Error! <br> Please
+									upload a jar file 
+								</span> 
+								</span> class="file form-control">
+												 <input id="css" type="file" file-model="cssFile" class="file form-control">
+												
+											</div>
+							
+											<input id="selectedUDFType" type="hidden" value="" />
+											end of source drop down
+										</div>
+										<br>
+									</div> -->
+									
+									
+									
+									
+									
+									
+									
+									<div class="row">
+											<div
+												class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+
+												<label class="control-label col-md-3 col-sm-3 col-xs-12"
+													style="padding-top: 6px; text-align: left;">Code Base
+												<span class="required">*</span></label>
+
+												<div class="col-md-8 col-sm-8 col-xs-12">
+													<textarea type="text" id="codeBase" class="form-control"
+														name="codeBase" ng-model="codeBase" ng-required="true"
+														style="resize: vertical;" ></textarea>
+												</div>
+											</div>
+										</div>
+										
+										
+										
+										
+										
+										
+									<!-- <div class="row">
+									<div class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12"
+								for="codeBase" style="text-align: left; margin-right: -48px;">
+								Code Base <span class="required">*</span></label>
+							<div class="col-md-8 col-sm-8 col-xs-12">
+								<textarea type="text" id="codeBase" class="form-control" ng-model="codeBase" ng-required="true"
+									style="resize: vertical;" ></textarea>
+							</div>
+						</div>
+						</div> -->
+								</div>	
+								</div>
+							</div>
+
+
+
+							<!--  <div class="ln_solid"></div> -->
+							<div class="form-group"
+								style="background-color: #f7f7f7; margin-bottom: 1px;">
+								<div class="col-md-12 col-xs-12 col-sm-12"
+									style="margin-top: 7px;">
+									<div ng-if="success == true" id="saveSuccessRes"
+										class="col-md-6 col-lg-6 col-sm-6 pull-left" ng-show="saved">
+										<span ng-if=id="connresponse" ><i
+											class="fa fa-check-square-o" aria-hidden="true"></i>
+											{{saveMessage}}</span>
+									</div>
+									<div ng-if="success != true" id="saveErrorRes"
+										class="col-md-6 col-lg-6 col-sm-6 pull-left" ng-show="saved">
+										<span ng-if=id="connresponse" ><i class="fa fa-times"
+											aria-hidden="true"></i> {{saveMessage}}</span>
+									</div>
+									<div class="col-md-6 col-lg-6 col-sm-6 pull-right">
+
+										<button type="submit"
+											class="btn btn-success btn-md pull-right" >
+											<i class="fa fa-download"></i> Save
+										</button>
+										<button type="button"
+											class="btn btn-success btn-md pull-right"
+											ng-click="clearConfig('udf','new')" ng-disabled="editform.$pristine">
+											<i class="fa fa-minus-circle"></i> Clear
+										</button>
+										
+									</div>
+								</div>
+							</div>
+							
+					</form>
+				<!-- </div> -->
+				</div>
+			</div>
+		
+	</div>
+
+</div>

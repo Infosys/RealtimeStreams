@@ -1,0 +1,47 @@
+<!--
+  ~ Copyright 2019 Infosys Ltd.
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+-->
+<div>
+    <div class="hierarchy-wrap">
+        <div class="hierarchy-header">
+          <!--   <div class="noselect">
+                <label for="pastUsersFilter" class=" past-users-filter">
+                    <input type="checkbox"  ng-model="pastUsersFilter" id="pastUsersFilter"/>
+                    <span style="margin-left:5px">Include Past Users</span>
+                </label>
+                <div class="pull-right">
+                  <strong>{{numSelected}} selected</strong>
+                </div>
+            </div> -->
+            <div class="input-group search-wrap">
+                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                <input type="text" class="form-control" ng-model="searchValue" placeholder="Search..."  maxlength=100/>
+            </div>
+        </div>
+        <div class="no-results" ng-show="emptyData"><strong>No Results Found</strong></div>
+        <div ng-show="!emptyData" ui-tree="options" data-drag-enabled="false">
+            <ul id="demoTree" ui-tree-nodes="" ng-model="list">
+              <li ng-repeat="item in list" ui-tree-node collapsed="true" ng-include="'items_renderer.html'"></li>
+            </ul>
+        </div>
+    </div>
+    <!-- <hr>
+    <h2>Selected Ids</h2>
+    <pre class="code">{{ selected }}</pre>
+    <h2>Search Results</h2>
+    <pre class="code">{{ list | json }}</pre> -->
+</div>

@@ -1,0 +1,131 @@
+<!--
+  ~ Copyright 2019 Infosys Ltd.
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+-->
+<div class="container" style="text-align: center;">
+	<div class="row" ng-if="mappedRoles.length==0 || mappedRoles==null"> No roles assigned to this user. Please contact administrator</div>
+	<ul class="nav nav-pills nav-justified">
+		<div class="row" id="homeBoxes">
+		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 " ng-show="modulesMain.configuration.showBlock"><a href="#config" > 
+				<div id="configBox" class="boxes">
+					<i class="fa fa-gears fa-5x" style="color: #28bf88; padding: 25px;"></i><span
+						style="font-size: 15px; font-weight: bold; color: #2a3f54;">Configuration</span>
+					<br /> <span style="font-size: 15px;">Configure the Data
+						Pipeline components like Source,Process,Sink.. </span>
+				</div>
+			</a> 
+		</div>
+		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 " ng-show="modulesMain.pipeline.showBlock">
+			<a href="#pipeline" >
+				<div id="pipelineBox"
+					class="boxes">
+					<i id="pipelineIcon" class="fa fa-object-group fa-5x"
+						style="color: #14bfda; padding: 25px;"></i><span
+						style="font-size: 15px; font-weight: bold; color: #2a3f54;">Pipeline</span>
+					<br /> <span style="font-size: 15px;">Create a Data Pipeline
+						for the movement and transformation of data</span>
+				</div>
+			</a> 
+			</div>
+			<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" ng-show="modulesMain.execution.showBlock">
+			<a href="#execute">
+				<div id="executeBox" class="boxes">
+					<i class="fa fa-sign-in fa-5x"
+						style="color: #f7cc55;  padding-right: 10px; padding-top: 25px; padding-bottom: 10px;"></i><span
+						style="font-size: 14px; font-weight: bold; color: #2a3f54;">Execution
+						& Scheduling</span> <br /> <span style="font-size: 15px;">Execute
+						and Schedule the created pipelines </span>
+				</div>
+			</a>
+			</div>
+			<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" ng-show="modulesMain.visualization.showBlock">
+			<a href="#visualize">
+				<div id="visBox" class="boxes">
+					<i class="fa fa-bar-chart fa-5x"
+						style="color: #f17933; padding-right: 10px; padding-top: 25px; padding-bottom: 10px;"></i><span
+						style="font-size: 15px; font-weight: bold; color: #2a3f54;">Visualization</span>
+					<br /> <span style="font-size: 15px;">View the graphical
+						illustrations for the executed Pipelines</span>
+				</div>
+			</a>
+			</div>
+			<!-- <div style="margin-bottom:30px;"> -->
+			<!-- <a href="#visualizeManager">
+				<div id="visManagerBox" class="col-lg-2 col-md-3 col-sm-6 col-xs-12 boxes" style="margin-bottom: 30px;">
+					<i class="fa fa-cubes fa-5x"
+						style="color: #823d28; padding-right: 5px; padding-top: 25px; padding-bottom: 10px;"></i><span
+						style="font-size: 14px; font-weight: bold; color: #2a3f54;">Visualization Manager</span>
+					<br /> <span style="font-size: 15px;">View the graphical
+						illustrations for the executed Pipelines</span>
+				</div>
+			</a> -->
+			<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" ng-show="modulesMain.studio.showBlock">
+			 <a href="#visualizemanager">
+				<div id="executeBox" class="boxes">
+					<i class="fa fa-calendar-check-o fa-5x"
+						style="color: #823d28;  padding-right: 10px; padding-top: 25px; padding-bottom: 10px;"></i><span
+						style="font-size: 14px; font-weight: bold; color: #2a3f54;">Stream Studio
+						</span> <br /> <span style="font-size: 15px;">Manage 
+						all the created Visualizations </span>
+				</div>
+			</a>
+</div>
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" ng-show="modulesMain.ml.showBlock">
+			 <a href="#ml">
+				<div id="mlBox" class="boxes">
+					<i class="fa fa-server fa-5x"
+						style="color: #cc5753; padding-right: 10px; padding-top: 25px; padding-bottom: 10px;"></i><span
+						style="font-size: 15px; font-weight: bold; color: #2a3f54;">Stream Analytics
+						</span> <br /> <span style="font-size: 15px;">Automate
+						Machine Learning Workflows with Pipelines </span>
+				</div>
+			</a> 
+			</div>
+			<!-- <a href="#stream">
+				<div id="streamingBox" class="col-lg-2 col-md-3 col-sm-6 col-xs-12 boxes">
+					<i class="fa fa-sliders fa-5x"
+						style="color: #8991f3; padding: 25px;"></i><span
+						style="font-size: 15px; font-weight: bold; color: #2a3f54;">Streaming
+						ML</span> <br /> <span style="font-size: 15px;">Developing
+						real-time ML pipelines from streaming </span>
+				</div>
+			</a> -->
+			<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" ng-show="modulesMain.access.showBlock">
+			<a href="#usermanager">
+				<div id="userAccess" class="boxes">
+					<i class="fa fa-user fa-5x"
+						style="color: #287582;  padding-right: 10px; padding-top: 25px; padding-bottom: 10px;"></i><span
+						style="font-size: 14px; font-weight: bold; color: #2a3f54;">User Access Manager
+						</span> <br /> <span style="font-size: 15px;">Grant exceptional
+						access to users</span>
+				</div>
+			</a>
+			</div>
+			<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" ng-show="modulesMain.wizard.showBlock">
+			<a href="#uiwizard">
+				<div id="uiwizard" class="boxes">
+					<i class="fa fa-map fa-5x" 
+						style="color: #0e469c;  padding-right: 10px; padding-top: 25px; padding-bottom: 10px;"></i><span
+						style="font-size: 14px; font-weight: bold; color: #2a3f54;">Operational UI Wizard
+						</span> <br /> <span style="font-size: 15px;">View and Manage all the running operational entities 
+						</span>
+				</div>
+			</a>
+			</div>
+		</div>
+	</ul>
+</div>
+

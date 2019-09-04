@@ -1,0 +1,15 @@
+.fc-canvas {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.fc-canvas svg {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.bg-img {
+	background-image: url("g1.jpg");
+	
+}

@@ -1,0 +1,167 @@
+<!--
+  ~ Copyright 2019 Infosys Ltd.
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+-->
+<div>
+
+	<div class="page-title">
+		<div class="title_left">
+			<h3>
+				Visualization <small> </small>
+			</h3>
+		</div>
+	</div>
+	<div class="container">
+		<br/>
+		<div class="panel panel-default" ng-repeat="category in categories">
+					<div class="panel-heading" style="color: #73879c;font-weight: bold;">Category: {{category.strCategoryName}}</div>
+					<div class="panel-body">
+		            
+		            <fieldset ng-if="category.kpis.length != 0" class="col-md-5" ng-repeat="kpi in category.kpis" style="margin:20px;margin-left: 50px;">    	
+							<legend>{{kpi.strKpiName}}</legend>
+							
+							<div class="panel panel-default">
+								<div class="panel-body" style="overflow-y: auto;height: 163px; padding: 5px;">
+									<div id="visual" class="tile-stats col-md-5 " ng-if="kpi.visualizations.length != 0" ng-repeat="visualization in kpi.visualizations | filter: name" style="margin-left:15px; margin-top:5px;">
+										<a data-toggle="pill" ng-click="openGraph(visualization)">
+											<div style="font-size: 20px;word-break: break-word;">{{visualization.strVisualizeName}}</div>
+											<div ng-if="(visualization.strVisualizeSubType | lowercase) === 'area'">
+												<div style="color: #daa351";>
+													<i class="fa fa-area-chart fa-5x" aria-hidden="true"></i>
+												</div>
+											</div>
+											<div ng-if="(visualization.strVisualizeSubType | lowercase) === 'stacked area'">
+												<div style="color: #daa351";>
+													<i class="fa fa-area-chart fa-5x" aria-hidden="true"></i>
+												</div>
+											</div>
+											<div ng-if="(visualization.strVisualizeSubType | lowercase) === 'line'">
+												<div style="color: #da7272";>
+													<i class="fa fa-line-chart fa-5x" aria-hidden="true"></i>
+												</div>
+											</div>
+											<div ng-if="(visualization.strVisualizeSubType | lowercase) === 'bar'">
+												<div style="color: #139c50";>
+													<i class="fa fa-bar-chart fa-5x" aria-hidden="true"></i>
+												</div>
+											</div>
+											<div ng-if="!visualization.strVisualizeSubType" style="padding-left: 5px;">
+												<div style="color: #62bfd4";>
+													<i class="fa fa-signal fa-5x fa-flip-horizontal" aria-hidden="true"></i>
+												</div>
+											</div>
+										</a>
+									</div>
+									
+									<div ng-if="kpi.visualizations.length == 0 || !kpi.visualizations">
+										<div class="col-md-8 col-sm-12 col-xs-12"
+											style="font-size: 15px;">No Visualization Records found
+											under {{kpi.strKpiName}}</div>
+									</div>
+								</div>
+							</div>
+						</fieldset>
+						
+						<fieldset ng-if="category.kpis.length == 0 || !category.kpis">
+							<p>No KPI Records found under {{category.strCategoryName}}</p>
+						</fieldset>				
+						
+						<div class="clearfix"></div>
+		            </div>
+		                
+		</div>
+	</div>
+	
+	<!-- <div class="row">
+		<div class="panel-body" id="sourceDetails">
+			<form class="form-horizontal form-label-left">
+				<div class="form-group" ng-repeat="category in categories">
+					<hr style="margin: 5px; border: 1px solid rgba(42, 63, 84, 0.11);">
+					<label class="control-label col-md-1 col-sm-1 col-xs-12"
+						style="padding: 0px; text-align: left; font-size: 15px">Category
+						: </label>
+					<div class="col-md-8 col-sm-12 col-xs-12"
+						style="font-size: 15px; font-weight: bold;">{{category.strCategoryName}}
+					</div>
+					<br>
+					<hr style="margin: 5px; border: 1px solid rgba(42, 63, 84, 0.11);">
+					<div ng-if="category.kpis.length != 0" class="form-group"
+						ng-repeat="kpi in category.kpis">
+						<div class="col-md-8 col-sm-12 col-xs-12"
+							style="font-size: 15px; font-weight: bold;">{{kpi.strKpiName}}
+						</div>
+
+
+						<div ng-repeat="kpi in category.kpis">
+						<div class="">{{kpi.name}}
+						</div>
+						<br>
+						<div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div ng-if="kpi.visualizations.length != 0"
+								class="col-lg-2 col-md-3 col-sm-6 col-xs-12"
+								ng-repeat="visualization in kpi.visualizations | filter: name">
+								<div id="visual" class="tile-stats">
+									<a data-toggle="pill" ng-click="openGraph(visualization)">
+										<div style="font-size: 20px;">{{visualization.strVisualizeName}}</div>
+										<div
+											ng-if="(visualization.strVisualizeSubType | lowercase) === 'area'">
+											<div style="color: #daa351";>
+												<i class="fa fa-area-chart fa-5x" aria-hidden="true"></i>
+											</div>
+										</div>
+										<div
+											ng-if="(visualization.strVisualizeSubType | lowercase) === 'stacked area'">
+											<div style="color: #daa351";>
+												<i class="fa fa-area-chart fa-5x" aria-hidden="true"></i>
+											</div>
+										</div>
+										<div
+											ng-if="(visualization.strVisualizeSubType | lowercase) === 'line'">
+											<div style="color: #da7272";>
+												<i class="fa fa-line-chart fa-5x" aria-hidden="true"></i>
+											</div>
+										</div>
+										<div
+											ng-if="(visualization.strVisualizeSubType | lowercase) === 'bar'">
+											<div style="color: #62bfd4";>
+												<i class="fa fa-bar-chart fa-5x" aria-hidden="true"></i>
+											</div>
+										</div>
+									</a>
+								</div>
+							</div>
+							<div ng-if="kpi.visualizations.length == 0">
+								<div class="col-md-8 col-sm-12 col-xs-12"
+									style="font-size: 15px;">No Visualization Records found
+									under {{kpi.strKpiName}}</div>
+							</div>
+						</div>
+					</div>
+					<div ng-if="category.kpis.length == 0">
+						<div class="col-md-8 col-sm-12 col-xs-12" style="font-size: 15px;">No
+							KPI Records found under {{category.strCategoryName}}</div>
+					</div>
+
+				</div>
+
+				
+			</form>
+			</br>
+
+		</div>
+
+	</div> -->
+</div>

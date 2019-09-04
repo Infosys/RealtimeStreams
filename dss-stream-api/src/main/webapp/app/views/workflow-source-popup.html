@@ -1,0 +1,326 @@
+<!--
+  ~ Copyright 2019 Infosys Ltd.
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+-->
+<!--
+ - @desc  Source popup page
+ -->
+<div id="sourceParent" style="min-height: calc(100vh - 62px);">
+	<div class="modal-header headerStyle"
+		style="border-bottom: 1px solid #000000; color: rgba(21, 31, 42, 0.89); background-color: #f7f7f7;">
+		<h4 class="modal-title" id="modal-title">
+			<span class="glyphicon glyphicon-list-alt"></span> <span>
+				Source</span><i class="fa fa-times pull-right"
+				ng-click="cancelWFPopup(sourcePopUp)" style="cursor: pointer;"></i>
+		</h4>
+	</div>
+	<form id="sourceform" name="sourceform" data-parsley-validate
+		class="form-horizontal form-label-left" data-parsley-validate
+		ng-submit="sourceform.$valid && savePopUpPipeline('source',fileContent)">
+
+		<div class="modal-body" id="modal-body"
+			style="font-size: 13px; padding-top: 0px; padding-bottom: 0px; height: calc(100vh - 170px); overflow-y: scroll;">
+			</br>
+
+			<div class="container-fluid">
+				<div class="row">
+					<div class="form-group">
+						<fieldset class="col-md-12 col-sm-12 col-xs-12">
+							<legend
+								style="background-color: #f9f9f9; border: 1px solid #f6f2f2;">Select
+								created source configuration</legend>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<label class="control-label col-md-4 col-sm-4 col-xs-12 "
+									for="source-name" style="text-align: left;"> Source
+									Configuration Type <span class="required">*</span>
+								</label>
+								<div class="col-md-8 col-sm-8 col-xs-11">
+									<select id="selectedConfigType" class="form-control"
+										ng-class="{inputView : pipelineAction === 'view'}"
+										style="width: 100%;" ng-model="sourceTypes.selected"
+										ng-options="type as type.name for type in sourceTypes"
+										ng-change="sourceTypeOnSelect(sourceTypes.selected)"
+										ng-required="true">
+										<option value="" disabled selected hidden>Select Configuration
+									Type</option>
+									</select>
+
+									<!-- <ui-select ng-model="sourceTypes.selected" theme="selectize"
+										style="width: 100%;" id="child_inline"
+										on-select="sourceTypeOnSelect($select.selected)" ng-required="true">
+									<ui-select-match placeholder="Select or search Source Type...">{{$select.selected.name}}</ui-select-match>
+									<ui-select-choices
+										repeat="type in sourceTypes | filter: $select.search">
+									<span ng-bind-html="type.name | highlight: $select.search"></span>
+									</ui-select-choices> </ui-select> -->
+								</div>
+							</div>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<label class="control-label col-md-4 col-sm-4 col-xs-12 "
+									for="source-name" style="text-align: left;"> Source
+									Configuration Name <span class="required">*</span>
+								</label>
+								<div class="col-md-8 col-sm-8 col-xs-11">
+									<select id="selectedConfig" class="form-control"
+										ng-class="{inputView : pipelineAction === 'view'}"
+										style="width: 100%;" ng-model="existingSources.selected"
+										ng-options="source as source.name for source in existingSources | filter:{type:sourceTypes.selected.name}"
+										ng-change="typeOnSelection(existingSources.selected)"
+										ng-required="true">
+										<option value="" disabled selected hidden>Select Source Configuraton</option>
+									</select>
+
+									<!-- <ui-select ng-model="existingSources.selected"
+										theme="selectize" style="width: 100%;" id="child_inline"
+										on-select="typeOnSelection($select.selected)" ng-required="true"> <ui-select-match
+										placeholder="Select or search Source name...">{{$select.selected.name}}</ui-select-match>
+									<ui-select-choices
+										repeat="source in existingSources | filter: type = sourceTypes.selected.name | filter: $select.search">
+									<ui-select-choices
+										repeat="source in existingSources | filter: {type:'kafka'}">
+									<span ng-bind-html="source.name | highlight: $select.search"></span>
+									</ui-select-choices> </ui-select> -->
+								</div>
+							</div>
+						</fieldset>
+					</div>
+					<div class="form-group col-md-12 col-sm-12 col-xs-12">
+						<label class="control-label col-md-3 col-sm-3 col-xs-12" for=""
+							style="text-align: left;"> Initial Table Name <span
+							class="required">*</span></label>
+						<div class="col-md-9 col-sm-9 col-xs-11">
+							<input type="text" id="initialTableName" ng-required="true"
+								ng-class="{inputView : pipelineAction === 'view'}"
+								ng-model="initialTableName" class="form-control"
+								style="width: 50%;">
+						</div>
+					</div>
+					<div class="form-group col-md-12 col-sm-12 col-xs-12">
+						<label class="control-label col-md-3 col-sm-3 col-xs-12" for=""
+							style="text-align: left;"> Select File Type <span
+							class="required">*</span></label>
+						<div class="col-md-9 col-sm-9 col-xs-11">
+							<select id="selectedFileType" class="form-control"
+								ng-class="{inputView : pipelineAction === 'view'}"
+								style="width: 50%;" ng-model="sourcefileTypes.selected"
+								ng-options="fileType as fileType.name for fileType in sourcefileTypes"
+								ng-change="select(sourcefileTypes.selected)" ng-required="true">
+								<option value="" disabled selected hidden>Select File
+									Type</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group col-md-12 col-sm-12 col-xs-12"
+						ng-show="sourcefileTypes.selected.name == 'Delimited'">
+						<label class="control-label col-md-3 col-sm-3 col-xs-12" for=""
+							style="text-align: left;"> Delimiter <span
+							class="required">*</span></label>
+						<div class="col-md-9 col-sm-9 col-xs-11">
+							<input type="text" id="delimiter" name="delimiter"
+								ng-model="delimiter"
+								ng-class="{inputView : pipelineAction === 'view'}"
+								ng-required="sourcefileTypes.selected.name == 'Delimited'"
+								class="form-control" style="width: 50%;"
+								ng-pattern="/^[\\,|~$#]{1}[a-z]*$/"><span class="error"
+								ng-messages="sourceform.delimiter.$error" style="color: red">
+								<span ng-message="required"
+								ng-show="sourceform.delimiter.$error.required && sourceform.delimiter.$dirty">
+									Value cannot be empty</span> <span ng-message="pattern"
+								ng-show="sourceform.delimiter.$error.pattern"> Invalid
+									Delimiter </span>
+							</span>
+						</div>
+					</div>
+					<div class="form-group col-md-12 col-sm-12 col-xs-12"
+						ng-show="sourcefileTypes.selected.name == 'Delimited'">
+						<label class="control-label col-md-3 col-sm-3 col-xs-12" for=""
+							style="text-align: left;"> Header Exists </label>
+						<div class="col-md-9 col-sm-9 col-xs-11">
+							<input type="checkbox" id="headerExists"
+								ng-class="{inputView : pipelineAction === 'view'}"
+								ng-model="headerExists">
+						</div>
+					</div>
+					<div class="form-group col-md-12 col-sm-12 col-xs-12"
+						ng-show="sourcefileTypes.selected.name == 'Unstructured'">
+						<label class="control-label col-md-3 col-sm-3 col-xs-12" for=""
+							style="text-align: left;"> Initial Column Name <span
+							class="required">*</span></label>
+						<div class="col-md-9 col-sm-9 col-xs-11">
+							<input type="text" id="initialColumnName"
+								ng-class="{inputView : pipelineAction === 'view'}"
+								ng-required="sourcefileTypes.selected.name == 'Unstructured'"
+								ng-model="initialColumnName" class="form-control"
+								style="width: 50%;">
+						</div>
+					</div>
+					<div>
+						<div class="form-group col-md-12 col-sm-12 col-xs-12"
+							ng-show="sourcefileTypes.selected.name != 'Unstructured'">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12"
+								for="source-name" style="text-align: left;"> Upload
+								Sample data <span class="required">*</span>
+							</label>
+
+							<div ng-show="uploadSchema" class="col-md-9 col-sm-9 col-xs-11">
+								<input id="schemaFile" type='file' accept='text/plain'
+									ng-class="{inputView : pipelineAction === 'view'}"
+									ng-required="sourcefileTypes.selected.name != 'Unstructured'"
+									custom-on-change="uploadSchemaFile" file-reader="fileContent"
+									disabled="disabled"> <span ng-show="fileTypeError"
+									style="color: red;"> File Upload Error! <br> Please
+									upload a {{sourcefileTypes.selected.name}} file or change the
+									File type
+								</span> <span ng-show="delimiterError" style="color: red;"> File
+									Upload Error! <br> Please upload a file with the selected
+									delimiter or change the delimiter.
+								</span>
+							</div>
+							<div ng-show="schemaName" class="col-md-9 col-sm-9 col-xs-11">
+								<div class="col-md-5 col-sm-5 col-xs-5" style="padding: 0px;">
+									<input type="string" disabled="disabled" class="form-control"
+										ng-class="{inputView : pipelineAction === 'view'}"
+										value="{{schemaFileName}}">
+
+								</div>
+								<div class="col-md-2 col-sm-2 col-xs-2 "
+									style="padding-top: 4px;">
+									<h3 style="margin: 0px;">
+										<a ng-click="enableSchemaUpload()"
+											ng-class="{inputView : pipelineAction === 'view'}"
+											class="glyphicon glyphicon-upload"></a>
+									</h3>
+								</div>
+							</div>
+						</div>
+						<div class="form-group col-md-12 col-sm-12 col-xs-12"
+							ng-show="sourcefileTypes.selected.name != 'Unstructured' && showSchemaGrid">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12"
+								for="source-name" style="text-align: left;"> Sample data
+								preview </label>
+
+
+							<div class="col-md-9 col-sm-9 col-xs-11">
+								<button type="button" class="btn btn-success btn-sm"
+									ng-click="schemaPreview(fileContent)">
+									<i class="fa fa-search-plus"></i> Preview
+								</button>
+							</div>
+							<input id="selectedSourceType" type="hidden" value="" />
+						</div>
+
+						<div class="form-group col-md-12 col-sm-12 col-xs-12"
+							ng-show="showSchemaGrid && sourcefileTypes.selected.name != 'Unstructured'">
+							<div>
+								<label class="control-label col-md-3 col-sm-3 col-xs-12"
+									for="source-name" style="text-align: left;"> Uploaded
+									Schema details </label>
+								<div class="col-md-9 col-sm-9 col-xs-11">
+									<!-- <div id="gridOptions" ui-grid="gridOptions" class="grid"></div> -->
+									<table id="datatable"
+										class="table table-striped table-bordered">
+										<thead style="background: #818992; color: white">
+											<tr>
+												<th>Column Name</th>
+												<th>Column Type</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="schema in sourceSchemaData">
+												<td>{{schema.columnName}}</td>
+												<td>{{schema.columnDataType}}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<input id="stepId" type="hidden" value="" /> <br> <br> <br>
+				</div>
+			</div>
+
+		</div>
+		<div class="modal-footer"
+			style="background-color: #f7f7f7; padding: 0px;">
+			<div class="row">
+				<div class="col-md-12 col-xs-12 col-sm-12" style="margin-top: 7px;">
+					<div class="col-md-6 col-lg-6 col-sm-6 pull-left">
+						<div id="stepMessageSection"
+							style="padding: 3px; font-weight: bold; visibility: hidden">
+						</div>
+					</div>
+					<div class="col-md-6 col-lg-6 col-sm-6 pull-right"
+						id="savePipelineBtn">
+						<button type="submit" class="btn btn-success btn-sm pull-right"
+							style="margin-left: 3px;"
+							ng-show="pipelineAction=='add' || pipelineAction=='edit'">
+							<i class="fa fa-download"></i> {{stepAddEdit}}
+						</button>
+						<button type="button" class="btn btn-success btn-sm pull-right"
+							ng-show="pipelineAction=='add' || pipelineAction=='edit'"
+							ng-click="closeWFPopUp('source')">
+							<i class="fa fa-times"></i> Cancel
+						</button>
+						<button type="button" class="btn btn-success btn-sm pull-right"
+							ng-show="pipelineAction=='view'"
+							ng-click="closeWFPopUp('source')">
+							<i class="fa fa-times"></i> Close
+						</button>
+						<button type="button" class="btn btn-success btn-sm pull-right"
+							ng-show="pipelineAction=='add' || pipelineAction=='edit'"
+							ng-click="clearWFPopUp('source')" style="margin-right: 3px;">
+							<i class="fa fa-minus-circle"></i> Clear
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/ng-template" id="schema-preview-modal.html">
+<div>
+	<div class="">
+		<div class="modal-header">
+			<button type="button" class="close"  ng-click="cancelPopup(schemaPreviewPopup)">&times;</button>
+			<h4 class="modal-title">Data Preview</h4>
+		</div>
+		<div class="modal-body" style="height: 200px;overflow-x: auto;">
+			<div ng-if="fileExtn != 'Delimited'"><p id="querySection">{{fileData}}</p></div>
+			<div ng-if="fileExtn == 'Delimited'">
+				<table>
+				    <tr style="border:1px solid;" ng-repeat="x in data">
+				      <td style="border:1px solid;" ng-repeat="y in x">{{ y }}</td>
+				    </tr>
+				</table>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" ng-click="cancelPopup(schemaPreviewPopup)">Close</button>
+		</div>
+	</div>
+</div>
+</script>
+<script type="text/ng-template" id="sourceUpdate">
+		<div class="ngdialog-message">
+			<p>Source update will reset all other steps in the Pipeline</p>
+			<p>Confirm to continue</p>
+		</div>
+		<div class="ngdialog-buttons">
+			<button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog('button')" style="background: #4689b1;color: white;">Cancel</button>
+			<button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(true)" style="background: #d9534f;">Confirm</button>
+		</div>
+	</script>

@@ -1,0 +1,381 @@
+<!--
+  ~ Copyright 2019 Infosys Ltd.
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+-->
+<!DOCTYPE html>
+<html lang="en" ng-app="LogisticsAPP">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Meta, title, CSS, favicons, etc. -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Main html page for Stream Connect">
+<meta name="author" content="Realtime Streams Team">
+
+<title>Realtime Streams</title>
+
+<!-- Bootstrap core CSS -->
+
+<link href="css/bootstrap.min.css" rel="stylesheet">
+
+<link href="fonts/css/font-awesome.min.css" rel="stylesheet">
+<link href="css/animate.min.css" rel="stylesheet">
+
+<!-- Custom styling plus plugins -->
+<link href="css/custom.css" rel="stylesheet">
+<link href="css/icheck/flat/green.css" rel="stylesheet">
+
+<link href="css/ui-grid.min.css" rel="stylesheet">
+<link href="css/ngDialog-theme-default.css" rel="stylesheet">
+<link href="css/ngDialog.css" rel="stylesheet">
+<link href="css/ngDialog.min.css" rel="stylesheet">
+<link href="css/ngDialog-theme-success.css" rel="stylesheet">
+<link href="css/ngDialog-theme-error.css" rel="stylesheet">
+<link href="css/ngDialog-theme-custom.css" rel="stylesheet">
+<link href="css/fileinput.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="css/select.css">
+<link rel="stylesheet" href="css/selectize.default.css">
+
+<link rel="stylesheet" href="css/highlight.default.css">
+
+
+
+<!-- JQuery Script -->
+<script src="js/jquery.min.js"></script>
+<link href="enjoyhint/enjoyhint.css" rel="stylesheet">
+<script src="enjoyhint/enjoyhint.min.js"></script>
+
+<!--[if lt IE 9]>
+        <script src="../assets/js/ie8-responsive-file-warning.js"></script>
+        <![endif]-->
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+</head>
+
+
+<body class="nav-sm" ng-controller="MainCtrl">
+
+	<div class="container body">
+
+
+		<div class="main_container">
+
+			<div class="col-md-3 left_col">
+				<!-- <div class="left_col scroll-view"> -->
+				<div class="left_col">
+
+					<div class="clearfix"></div>
+
+					<!-- menu prile quick info -->
+					<div class="profile">
+						<!-- <div class="profile_pic">
+							<img src="images/img.jpg" alt="..."
+								class="img-circle profile_img">
+						</div> -->
+						<div class="profile_info">
+							<span>Welcome,</span>
+							<h2>Admin</h2>
+						</div>
+					</div>
+					<!-- /menu prile quick info -->
+
+					<br />
+
+					<!-- sidebar menu -->
+					<div id="sidebar-menu"
+						class="main_menu_side hidden-print main_menu"
+						style="margin-top: 35px;">
+
+						<div class="menu_section">
+							<h3>General</h3>
+							<ul class="nav side-menu">
+								<li ng-show="modulesMain.configuration.showBlock"><a href="#config"><i
+										class="fa fa-gears"></i> Configuration </span></a></li>
+								<li ng-show="modulesMain.pipeline.showBlock"><a href="#pipeline"><i
+										class="fa fa-object-group"></i> Pipeline </span></a></li>
+								<li ng-show="modulesMain.execution.showBlock"><a href="#execute"><i
+										class="fa fa-sign-in"></i> Execution</span></a></li>
+								<li ng-show="modulesMain.visualization.showBlock"><a
+									href="#visualize"><i class="fa fa-bar-chart"></i>
+										Visualization </span></a></li>
+								<li ng-show="modulesMain.studio.showBlock"><a
+									href="#visualizemanager"><i class="fa fa-calendar-check-o"></i>
+										Stream Studio</span></a></li>
+								<li ng-show="modulesMain.ml.showBlock"><a href="#ml"><i
+										class="fa fa-server"></i> Stream Analytics </span></a></li>
+								<!-- <li><a href="#stream"><i class="fa fa-sliders"></i>
+										Streaming ML </span></a></li> -->
+								<li ng-show="modulesMain.access.showBlock"><a href="#usermanager"><i
+										class="fa fa-user"></i> User Access Manager </span></a></li>
+								<li ng-show="modulesMain.wizard.showBlock"><a href="#uiwizard"><i
+										class="fa fa-map"></i> Operational UI Wizard </span></a></li>
+
+
+							</ul>
+						</div>
+
+					</div>
+					<!-- /sidebar menu -->
+
+					<!-- /menu footer buttons -->
+					<div class="sidebar-footer hidden-small">
+						<a data-toggle="tooltip" data-placement="top" title="Settings">
+							<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+						</a> <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+							<span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+						</a> <a data-toggle="tooltip" data-placement="top" title="Lock"> <span
+							class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+						</a> <a data-toggle="tooltip" data-placement="top" title="Logout">
+							<span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+						</a>
+					</div>
+					<!-- /menu footer buttons -->
+				</div>
+			</div>
+
+			<!-- top navigation -->
+			<div class="top_nav">
+
+				<div class="nav_menu" style="paddin-bottom: 10px;">
+					<nav class="" role="navigation">
+						<div class="nav toggle" style="width: 300px; padding: 3px;">
+							<a id="home" href="#home" style="padding-left: 2px;"><img
+								src="img/img02.png" alt="logo"></a>
+						</div>
+
+						<ul class="nav navbar-nav navbar-right">
+							<li class="" ><a href="javascript:;"
+								class="user-profile dropdown-toggle" data-toggle="dropdown"
+								aria-expanded="false"> <!-- <img src="images/img.jpg" alt=""> -->
+									<i class="fa fa-user" style="padding-right: 5px;"></i>Welcome {{userName}} <span class=" fa fa-angle-down"
+									style="display: inline !important"></span>
+							</a>
+								<ul
+									class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">
+									<li><a ng-click="userLogout()"><i
+											class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+								</ul></li>
+							<li class=""><a href="javascript:;"
+								class="user-profile dropdown-toggle" data-toggle="dropdown"
+								aria-expanded="false"> <!-- <img src="images/img.jpg" alt=""> -->
+									<i class="fa fa-user-circle"></i>
+									{{selectedMappedRole.strRoleName}} <span
+									class=" fa fa-angle-down" style="display: inline !important"></span>
+							</a>
+								<ul
+									class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">
+									<!-- <li><a href="javascript:;"> Profile</a></li>
+									<li><a href="javascript:;"> <span
+											class="badge bg-red pull-right">50%</span> <span>Settings</span>
+									</a></li>
+									<li><a href="javascript:;">Help</a></li> -->
+									<li ng-repeat="mappedRole in mappedRoles"><a href="#home"
+										ng-click="roleChange(mappedRole)"><i class="fa fa-user-o"></i>
+											{{mappedRole.strRoleName}}</a></li>
+								</ul></li>
+
+
+						</ul>
+					</nav>
+				</div>
+
+			</div>
+			<!-- /top navigation -->
+			<div class="loading-dialog" loading></div>
+			<!-- page content -->
+			<div id="sidebar" class="right_col" role="main"
+				style="background: #fff;">
+
+				<div class="">
+					<!-- <div class="page-title">
+						<div class="title_left">
+							<h3>
+								Media Gallery <small> gallery design</small>
+							</h3>
+						</div>
+
+						<div class="title_right">
+							<div
+								class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+								<div class="input-group">
+									<input type="text" class="form-control"
+										placeholder="Search for..."> <span
+										class="input-group-btn">
+										<button class="btn btn-default" type="button">Go!</button>
+									</span>
+								</div>
+							</div>
+						</div>-->
+					<div class="clearfix"></div>
+
+					<div class="row">
+
+						<div class="col-md-12">
+							<!-- <div class="x_panel"> -->
+							<div ng-view></div>
+							<!-- </div> -->
+							<br>
+							<br>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<!-- /page content -->
+		</div>
+
+	</div>
+
+	<script src="js/bootstrap.min.js"></script>
+
+	<!-- bootstrap progress js -->
+	<script src="js/progressbar/bootstrap-progressbar.min.js"></script>
+	<script src="js/nicescroll/jquery.nicescroll.min.js"></script>
+	<!-- icheck -->
+	<script src="js/icheck/icheck.min.js"></script>
+
+	<script src="js/custom.js"></script>
+
+	<!-- Guided messages -->
+	<script src="enjoyhint/dss-guide.js"></script>
+
+	<!-- pace -->
+	<script src="js/pace/pace.min.js"></script>
+	<script src="js/underscore-min.js"></script>
+	<script src="js/angular.js"></script>
+	<script src="js/angular-route.js"></script>
+	<script src="js/angular-animate.js"></script>
+	<script src="js/angular-sanitize.js"></script>
+	<script src="js/ui-grid.js"></script>
+	<script src="js/ngDialog.min.js"></script>
+	<script src="js/ngDialog.js"></script>
+
+
+
+	<script src="js/bootstrap-select.min.js"></script>
+	<script src="js/select.js"></script>
+	<script src="js/ui-bootstrap-tpls-0.14.3.js"></script>
+	<script src="js/ui-tree.js"></script>
+
+	<script src="js/highlight.pack.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+
+	<!-- Modules/Controllers/Services JS Files -->
+	<script src="app/app.js"></script>
+	<script src="app/app-config.js"></script>
+	<script src="app/ui-properties.js"></script>
+	<script src="app/config-properties.json"></script>
+    <script src="app/services/hierarchyNodeService.js"></script>
+    <script src="app/directives/hierarchySearch.js"></script>
+    <script src="app/controllers/access-hierarchy.js"></script>
+
+	<script src="app/workflow-popup-custom.js"></script>
+
+	<script src="app/controllers/main.js"></script>
+	<script src="app/controllers/configuration.js"></script>
+	<script src="app/controllers/data-pipeline.js"></script>
+	<script src="app/controllers/visualization.js"></script>
+	<script src="app/controllers/visualization-manager.js"></script>
+	<script src="app/controllers/access-manager.js"></script>
+	<script src="app/controllers/workflow-popup.js"></script>
+	<script src="app/controllers/wizard.js"></script>
+
+	<script src="app/services/main-service.js"></script>
+	<script src="app/services/configure.js"></script>
+	<script src="app/services/pipeline.js"></script>
+	<script src="app/services/visualize.js"></script>
+	<script src="app/services/visualize-manager.js"></script>
+	<script src="app/services/access.js"></script>
+	<script src="app/services/file-upload-service.js"></script>
+
+
+	<script src="app/directives/preloader-directive.js"></script>
+	<script src="app/directives/file-upload.js"></script>
+	<script src="app/directives/file-reader.js"></script>
+	<!-- Template for confirm dialog box -->
+	<script type="text/ng-template" id="modalDialogId">
+		<div class="ngdialog-message">
+			<p>Are you sure want to delete?</p>
+		</div>
+		<div class="ngdialog-buttons">
+			<button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog('button')" style="background: #4689b1;color: white;">Cancel</button>
+			<button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(true)" style="background: #d9534f;">Confirm</button>
+		</div>
+	</script>
+
+	<!-- Template for confirm dialog box -->
+	<script type="text/ng-template" id="executeModalDialog">
+		<div class="ngdialog-message">
+			<p>Pipeline successfully saved</p>
+			<p>Do you want to execute</p>
+		</div>
+		<div class="ngdialog-buttons">
+			<button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog('button')" style="background: #4689b1;color: white;">Cancel</button>
+			<button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(true)" style="background: #376e37;color: white;">Execute</button>
+		</div>
+	</script>
+	<!-- Template for confirm execute dialog box -->
+	<script type="text/ng-template" id="confirmExecuteModalDialog">
+		<div class="ngdialog-message">
+			<p>You are about to execute Pipeline: <code style="background: inherit;color: inherit;font-size: inherit;">{{pipelineName}}</code></p>
+			<p>Click on Execute to proceed</p>
+		</div>
+		<div class="ngdialog-buttons">
+			<button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog('button')" style="background: #4689b1;color: white;">Cancel</button>
+			<button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(true)" style="background: #376e37;color: white;">Execute</button>
+		</div>
+	</script>
+	<!-- Template for confirm stop dialog box -->
+	<script type="text/ng-template" id="confirmStopModalDialog">
+		<div class="ngdialog-message">
+			<p>You are about to Stop Pipeline: <code style="background: inherit;color: inherit;font-size: inherit;">{{pipelineName}}</code></p>
+			<p>Click on Stop to proceed</p>
+		</div>
+		<div class="ngdialog-buttons">
+			<button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog('button')" style="background: #4689b1;color: white;">Cancel</button>
+			<button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(true)" style="background: #af3a36;color: white;">Stop</button>
+		</div>
+	</script>
+	<!-- Template for pipeline notify dialog box -->
+	<script type="text/ng-template" id="pipelineNotify">
+		<div class="ngdialog-message">
+			<p>Pipeline creation flow:</p>
+			<p> Source <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> process <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> sink <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> visualize</p>
+		</div>
+	</script>
+		<!-- Template for confirm dialog box for login -->
+	<script type="text/ng-template" id="modalDialogLogin">
+		<div class="ngdialog-message" style="font-size: 20px;">
+			<p>You are not logged in. Click <a ng-click="confirm(true)" style="color: #1287ec;cursor: pointer;">here</a>  to login again.</p>
+		</div>
+		<!--<div class="ngdialog-buttons">
+			<button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog('button')" style="background: #4689b1;color: white;">Cancel</button>
+			<button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(true)" style="background: #d9534f;">Confirm</button>
+		</div> -->
+	</script>
+
+</body>
+
+</html>
