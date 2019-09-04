@@ -1,2 +1,2 @@
-# Infosys Real time Streams Comminity Edition ( Lite Version ) Repository
+# Infosys Real time Streams Community Edition ( Lite Version ) Repository
 Infosys Realtime streams repo
