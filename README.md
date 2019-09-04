@@ -1,2 +1,2 @@
-# RealtimeStreams Comminity Edition ( Lite Version ) Repository
-Realtime streams repo
+# Infosys Real time Streams Comminity Edition ( Lite Version ) Repository
+Infosys Realtime streams repo
