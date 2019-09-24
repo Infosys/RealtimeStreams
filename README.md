@@ -9,35 +9,35 @@ The Realtime Streams visual code free interface can be classified into two.
 
 Using the Realtime Streams login page we can login to the Realtime pipeline Management user interface with the credentials realtimeuser/realtimeuser
 
-  <img src="https://github.com/Infosys/RealtimeStreams/blob/master/dss-wiki/images/login.jpg">
+<p align="center"> <img src="https://github.com/Infosys/RealtimeStreams/blob/master/dss-wiki/images/login.jpg"> </p>
   
 Realtime Streams core modules deals with creation of data pipeline, configuration of its components, its execution and visualization and granting exceptional access to users. 
 
 The landing page will have the pipeline management screens
 
-  <img src="https://github.com/Infosys/RealtimeStreams/blob/master/dss-wiki/images/landing.jpg">
+ <p align="center"> <img src="https://github.com/Infosys/RealtimeStreams/blob/master/dss-wiki/images/landing.jpg"> </p>
 
 Following are the core modules
 
-    a. User Access Manager
-    b. Configuration
-    c. Pipeline
-    d. Execution
-    e. Visualizations
-    f. Stream Studio
-    g. Operational UI Wizard
+    * User Access Manager
+    * Configuration
+    * Pipeline
+    * Execution
+    * Visualizations
+    * Stream Studio
+    * Operational UI Wizard
   
   The user interface has a guided wizard for the users to understand the process flow.
   
-  <img src="https://github.com/Infosys/RealtimeStreams/blob/master/dss-wiki/images/guidedlanding.jpg">
+ <p align="center"> <img src="https://github.com/Infosys/RealtimeStreams/blob/master/dss-wiki/images/guidedlanding.jpg">  </p>
   
   The configuration screen will have the configuration related functionalities
   
-  <img src="https://github.com/Infosys/RealtimeStreams/blob/master/dss-wiki/images/configuration.jpg">
+  <p align="center"> <img src="https://github.com/Infosys/RealtimeStreams/blob/master/dss-wiki/images/configuration.jpg">  </p>
 
   Using the pipeline creation screen we can create the realtime pipelines
   
-  <img src="https://github.com/Infosys/RealtimeStreams/blob/master/dss-wiki/images/pipelinecreation.jpg">
+  <p align="center"> <img src="https://github.com/Infosys/RealtimeStreams/blob/master/dss-wiki/images/pipelinecreation.jpg">  </p>
 
 **Realtime Streams Installation and deployment**
 
@@ -70,11 +70,16 @@ Following are the setup steps that needs to be followed for Realtime Streams Ins
           Realtime Streams URL  : http://<ip>:<port>/realtimestreams/login.html  (OR http://<ip>:<port>/dss-stream-api/login.html)
           Stream Portal URL     : http://<ip>:<port>/streamportal/login.html   ( OR  http://<ip>:<port>/dss-portal-api/login.html) 
 
+**Overview on the Community and Enterprise versions of Realtime Streams** 
 
-**Know More on Realtime Streams**
+<p align="center"> <img src="https://github.com/Infosys/RealtimeStreams/blob/master/dss-wiki/images/versiondifference01.jpg">  </p>
 
-More on Realtime Streams -  https://www.infosys.com/data-analytics/insights/Documents/realtime-streams.pdf
+<p align="center"> <img src="https://github.com/Infosys/RealtimeStreams/blob/master/dss-wiki/images/versiondifference02.jpg">  </p>
+
+<p align="center"> <img src="https://github.com/Infosys/RealtimeStreams/blob/master/dss-wiki/images/versiondifference03.jpg">  </p>
 
 
-
+**Eager to know more on Realtime Streams** 
+      
+Visit the official Page - https://www.infosys.com/data-analytics/insights/Documents/realtime-streams.pdf
 
