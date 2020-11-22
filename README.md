@@ -78,8 +78,11 @@ Following are the setup steps that needs to be followed for Realtime Streams Ins
 
 <p align="center"> <img src="https://github.com/Infosys/RealtimeStreams/blob/master/dss-wiki/images/versiondifference03.jpg">  </p>
 
+HortonWorks + Cloudera Link -
 
-**Eager to know more on Realtime Streams** 
+https://2xbbhjxc6wk3v21p62t8n4d4-wpengine.netdna-ssl.com/wp-content/uploads/2016/11/Infosys-Real-Time-Streams-Extract-your-business-value-in-real-time-from-data-in-motion.pdf
+
+**Eager to know more on Realtime Streams**
       
 Visit the official Page - https://www.infosys.com/data-analytics/insights/Documents/realtime-streams.pdf
 
